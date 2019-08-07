@@ -4,7 +4,8 @@ class Command extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			playAction: 'play'
+			playAction: 'play',
+			rubberDisplay: true
 		};
 
 		this.handleClick = this.handleClick.bind(this);
@@ -14,7 +15,11 @@ class Command extends Component {
 	{	
 		if (event.target.name === 'play' || event.target.name === 'pause') {
 			this.setState((prevState) => {
-			return {playAction: prevState.playAction === 'pause' ? 'play' : 'pause'}
+				return {playAction: prevState.playAction === 'pause' ? 'play' : 'pause'}
+			});
+		} else if (event.target.name === 'rubber') {
+			this.setState((prevState) => {
+				return {rubberDisplay: !prevState.rubberDisplay}
 			});
 		}
 		
@@ -24,8 +29,20 @@ class Command extends Component {
 	render() {
 		return (
 			<div>
-				<button name={this.state.playAction} onClick={this.handleClick}>{this.state.playAction}</button>
-				<button name="next" onClick={this.handleClick}>Next</button>
+				<div>
+					<button name={this.state.playAction} onClick={this.handleClick}>{this.state.playAction}</button>
+					<button name="next" onClick={this.handleClick}>Next</button>
+					<button name="rubber" onClick={this.handleClick}>{
+						this.state.rubberDisplay ?
+						'Rubber' :
+						'Pen'
+					}</button>
+				</div>
+				<div>
+					<button name="save" onClick={this.handleClick}>Enregistrer</button>
+					<button name="load" onClick={this.handleClick}>Charger</button>
+				</div>
+
 			</div>
 		);
 	}

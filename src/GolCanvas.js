@@ -10,6 +10,7 @@ class GolCanvas
 		this.rubber = false;
 		this.isPlaying = false;
 		this.countdown = setInterval(() => {}, 99999999);
+		this.saved = [];
 	}
 
 	/**
@@ -170,7 +171,7 @@ class GolCanvas
 	 * Charge une grille placée en paramètre.
 	 * @param {Array} coords Tableau de coordonnées.
 	 */
-	 load(coords)
+	 load(coords = this.saved)
 	 {
 	 	console.log("loading...");
 	 	this.clear();
@@ -195,6 +196,8 @@ class GolCanvas
 	 			coordsBlack.push([this.stringToArray(coord)[0]/this.squareSize, this.stringToArray(coord)[1]/this.squareSize]);
 	 		}
 	 	}
+
+	 	this.saved = coordsBlack;
 
 	 	return coordsBlack;
 	 }
@@ -265,6 +268,11 @@ class GolCanvas
 	{
 		this.isPlaying = false;
 		clearInterval(this.countdown);
+	}
+
+	switchColor()
+	{
+		this.rubber = !this.rubber;
 	}
 }
 

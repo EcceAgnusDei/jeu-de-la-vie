@@ -32,6 +32,15 @@ class Play extends Component {
 			case 'next':
 				this.gameGrid.next();
 				break;
+			case 'rubber':
+				this.gameGrid.switchColor();
+				break;
+			case 'save':
+				this.gameGrid.save();
+				break;
+			case 'load':
+				this.gameGrid.load();
+				break;
 		}
 	}
 
