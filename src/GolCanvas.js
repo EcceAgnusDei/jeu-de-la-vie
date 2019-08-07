@@ -173,7 +173,6 @@ class GolCanvas
 	 */
 	 load(coords = this.saved)
 	 {
-	 	console.log("loading...");
 	 	this.clear();
 	 	for (let coord of coords)
 	 	{

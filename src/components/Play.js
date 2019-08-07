@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import Grid from './Grid';
 import Command from './Command';
+import GridSizeForm from './GridSizeForm';
 import GolCanvas from '../GolCanvas';
 
 class Play extends Component {
@@ -12,6 +13,7 @@ class Play extends Component {
 		this.gameGrid = null;
 
 		this.handleCommand = this.handleCommand.bind(this);
+		this.handleSizing = this.handleSizing.bind(this);
 	}
 	
 	componentDidMount() {
@@ -44,11 +46,18 @@ class Play extends Component {
 		}
 	}
 
+	handleSizing(squareSize, cols, rows)
+	{
+		console.log(squareSize, cols, rows);
+		this.gameGrid.grid(squareSize, cols, rows);
+	}
+
 	render() {
 		return (
 			<main>
 				<Grid />
 				<Command handleCommand={this.handleCommand}/>
+				<GridSizeForm handleSizing={this.handleSizing}/>
 			</main>
 		);
 	}
