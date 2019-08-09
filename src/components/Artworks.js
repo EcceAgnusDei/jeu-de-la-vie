@@ -9,6 +9,12 @@ class Artworks extends Component {
 			allIds: [],
 			visibleIds: []
 		};
+
+		this.page = 0;
+		this.elementPerPage = 8;
+
+		this.next = this.next.bind(this);
+		this.prev = this.prev.bind(this);
 	}
 
 	componentDidMount()
@@ -16,26 +22,30 @@ class Artworks extends Component {
 		fetch('http://localhost/GolApi/getAllGridsId.php')
 			.then(response => response.text())
 			.then(text => {
-				this.setState({allIds: JSON.parse(text), visibleIds: JSON.parse(text).slice(0, 8)}) //gérer le cas ou il y a moins de 8 créations
+				this.setState({allIds: JSON.parse(text), visibleIds: JSON.parse(text).slice(0, this.elementPerPage)}) //gérer le cas ou il y a moins de 8 créations
 				}
 			)
 			.catch(error => console.error(error));
 	}
-
-	getVisibles()
-	{
-		const grids = [];
-		for (let id of this.state.visibleIds)
-		{
-			fetch(`http://localhost/GolApi/getGridById.php?id=${id}`)
-				.then(response => response.text())
-				.then(text => grids.push(JSON.parse(text)))
-				.catch(error => console.error(error));
-		}
-		console.log(grids);
-		return grids;
-	}
 	
+	next()
+	{
+		console.log('next');
+		this.page++;
+		this.setState((prevState) => {
+			return {visibleIds: prevState.allIds.slice(this.page * this.elementPerPage, (this.page + 1) * this.elementPerPage - 1)}
+		});
+	}
+
+	prev()
+	{
+		console.log('prev');
+		this.page--;
+		this.setState((prevState) => {
+			return {visibleIds: prevState.allIds.slice(this.page * this.elementPerPage, (this.page + 1) * this.elementPerPage - 1)}
+		});
+	}
+
 	render() {
 		const gridsJSX = this.state.visibleIds.map( id =>
 			 <ArtworkElement key={id} id={id} />
@@ -45,7 +55,7 @@ class Artworks extends Component {
 				<main>
 					{gridsJSX}
 				</main>
-				<ArtworksNav />
+				<ArtworksNav next={this.next} prev={this.prev}/>
 			</div>
 		);
 	}
