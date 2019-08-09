@@ -7,7 +7,7 @@ function Navbar(props) {
 			<NavConsumer>
 				{
 					(value) => {
-						return value.menu.map(item => <li onClick={() => value.nav(item)}>{item}</li>)
+						return value.menu.map(item => <li key={item} onClick={() => value.nav(item)}>{item}</li>)
 					}
 				}
 			</NavConsumer>
