@@ -21,6 +21,7 @@ class App extends Component {
     this.handleNav = this.handleNav.bind(this);
     this.artworkLoad = this.artworkLoad.bind(this);
     this.log = this.log.bind(this);
+    this.logout = this.logout.bind(this);
   }
 
   componentDidMount()
@@ -28,16 +29,18 @@ class App extends Component {
     if(sessionStorage.getItem('userId')) {
       this.setState({
         loggedId: sessionStorage.getItem('userId'),
-        menu: ['Accueil', 'Jouer', 'Créations']
+        menu: ['Accueil', 'Jouer', 'Créations', 'Déconnexion']
       });
     }
   }
 
   handleNav(link)
   {
+    link === 'Déconnexion' ?
+    this.logout() :
     this.setState({activePage: link}, () => console.log(this.state.activePage));
   }
-
+    
   artworkLoad(artwork)
   {
     this.setState({activePage: 'Jouer', artwork: artwork}, () => console.log(this.state.artwork));
@@ -51,13 +54,19 @@ class App extends Component {
         if(json) {
           this.setState({
             loggedId: json,
-            menu: ['Accueil', 'Jouer', 'Créations']
+            menu: ['Accueil', 'Jouer', 'Créations', 'Déconnexion']
           });
           sessionStorage.setItem('userId', json);
         } else {
           alert('Idenfiant ou mot de passe incorrect');
         }
       });
+  }
+
+  logout()
+  {
+    this.setState({loggedId: 0, menu: ['Accueil', 'Jouer', 'Créations', 'Inscription']});
+    sessionStorage.removeItem('userId');
   }
   
   render() {
