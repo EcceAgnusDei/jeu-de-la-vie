@@ -5,6 +5,7 @@ import Play from './components/Play';
 import Artworks from './components/Artworks';
 import SignIn from './components/SignIn';
 import LogForm from './components/LogForm';
+import UserSpace from './components/UserSpace';
 import { NavProvider } from './context/navContext';
 import { ArtworkProvider } from './context/artworkContext';
 
@@ -12,12 +13,12 @@ class App extends Component {
   constructor() {
     super();
     this.state = {
-      menu: ['Accueil', 'Jouer', 'Créations', 'Inscription'],
       activePage: 'Accueil',
       artwork: {},
       loggedId: 0
     };
 
+    this.menu = ['Accueil', 'Jouer', 'Créations', 'Inscription'];
     this.handleNav = this.handleNav.bind(this);
     this.artworkLoad = this.artworkLoad.bind(this);
     this.log = this.log.bind(this);
@@ -36,9 +37,7 @@ class App extends Component {
 
   handleNav(link)
   {
-    link === 'Déconnexion' ?
-    this.logout() :
-    this.setState({activePage: link}, () => console.log(this.state.activePage));
+    this.setState({activePage: link});
   }
     
   artworkLoad(artwork)
@@ -65,14 +64,20 @@ class App extends Component {
 
   logout()
   {
-    this.setState({loggedId: 0, menu: ['Accueil', 'Jouer', 'Créations', 'Inscription']});
+    this.setState({loggedId: 0, activePage: 'Accueil'});
     sessionStorage.removeItem('userId');
   }
   
   render() {
+    if(this.state.loggedId) {
+      this.menu[3] = 'Espace perso';
+    } else {
+      this.menu[3] = 'Inscription';
+    }
+    
     return (
       <div>
-        <NavProvider value={{menu: this.state.menu, nav: this.handleNav}}>
+        <NavProvider value={{menu: this.menu, nav: this.handleNav}}>
           <Header />
         </NavProvider>
         {!this.state.loggedId && <LogForm log={this.log}/>}
@@ -87,6 +92,8 @@ class App extends Component {
           </ArtworkProvider> :
           this.state.activePage === 'Inscription' ?
           <SignIn /> :
+          this.state.activePage === 'Espace perso' ?
+          <UserSpace logout={this.logout}/> :
           <Home />
         }
       </div>

@@ -3,6 +3,7 @@ import Grid from './Grid';
 import Command from './Command';
 import GridSizeForm from './GridSizeForm';
 import SpeedRange from './SpeedRange';
+import Comments from './Comments';
 import GolCanvas from '../GolCanvas';
 
 class Play extends Component {
@@ -103,6 +104,7 @@ class Play extends Component {
 				<Command handleCommand={this.handleCommand} />
 				<GridSizeForm handleSizing={this.handleSizing} />
 				<SpeedRange handleSpeed={this.handleSpeed} />
+				{this.props.artwork.name && <Comments gridId={this.props.artwork.id}/>}
 			</main>
 		);
 	}

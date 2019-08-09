@@ -6,6 +6,7 @@ class ArtworkElement extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
+			id: 0,
 			name: '',
 			author: '',
 			coords: []
@@ -17,8 +18,9 @@ class ArtworkElement extends Component {
 		fetch(`http://localhost/GolApi/getGridById.php?id=${this.props.id}`)
 				.then(response => response.text())
 				.then(text => {
-					const {name, author, json} = JSON.parse(text);
+					const {name, author, json, id} = JSON.parse(text);
 					this.setState({
+						id: id,
 						name: name,
 						author: author,
 						coords: JSON.parse(json)
