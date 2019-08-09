@@ -6,8 +6,8 @@ import SpeedRange from './SpeedRange';
 import GolCanvas from '../GolCanvas';
 
 class Play extends Component {
-	constructor() {
-		super();
+	constructor(props) {
+		super(props);
 		this.state = {
 
 		};
@@ -17,12 +17,16 @@ class Play extends Component {
 		this.handleCommand = this.handleCommand.bind(this);
 		this.handleSizing = this.handleSizing.bind(this);
 		this.handleSpeed = this.handleSpeed.bind(this);
+		this.load = this.load.bind(this);
 	}
 	
 	componentDidMount() {
 		this.gameGrid = new GolCanvas('game-grid');
-		this.gameGrid.grid(20, 70, 40);
 		this.gameGrid.addEvents();
+
+		this.props.artwork.name ?
+		this.load() :
+		this.gameGrid.grid(20, 70, 40);
 	}
 
 	handleCommand(command) {
@@ -64,9 +68,37 @@ class Play extends Component {
 		}
 	}
 
+	load()
+	{
+		let maxX = 0;
+		let maxY = 0;
+
+		for (let coord of this.props.artwork.coords)
+		{
+			if (coord[0] > maxX)
+			{
+				maxX = coord[0];
+			}
+			if (coord[1] > maxY)
+			{
+				maxY = coord[1];
+			}
+		}
+
+		this.gameGrid.grid(20, maxX +10, maxY +10);
+		this.gameGrid.saved = this.props.artwork.coords;
+		this.gameGrid.load();
+	}
+
 	render() {
+		console.log(this.props.artwork.length);
 		return (
 			<main>
+				{
+					this.props.artwork.name ?
+					<h1>{this.props.artwork.name} de {this.props.artwork.author}</h1> :
+					<h1>A vous de jouer au jeu de la vie !</h1>
+				}
 				<Grid />
 				<Command handleCommand={this.handleCommand} />
 				<GridSizeForm handleSizing={this.handleSizing} />

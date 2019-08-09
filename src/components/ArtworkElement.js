@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import GolCanvas from '../GolCanvas';
+import { ArtworkConsumer } from '../context/artworkContext'
 
 class ArtworkElement extends Component {
 	constructor(props) {
@@ -52,7 +53,13 @@ class ArtworkElement extends Component {
 		return (
 			<div>
 				<canvas id={`miniature${this.props.id}`} />
-				<h2>{this.state.name} de {this.state.author}</h2>
+				<ArtworkConsumer>
+				{
+					(value) => {
+						return <h2 onClick={() => value(this.state)}>{this.state.name} de {this.state.author}</h2>
+					}
+				}
+				</ArtworkConsumer>
 			</div>
 		);
 	}
