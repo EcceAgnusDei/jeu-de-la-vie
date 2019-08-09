@@ -42,7 +42,6 @@ class Command extends Component {
 					<button name="save" onClick={this.handleClick}>Enregistrer</button>
 					<button name="load" onClick={this.handleClick}>Charger</button>
 				</div>
-
 			</div>
 		);
 	}

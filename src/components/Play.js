@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import Grid from './Grid';
 import Command from './Command';
 import GridSizeForm from './GridSizeForm';
+import SpeedRange from './SpeedRange';
 import GolCanvas from '../GolCanvas';
 
 class Play extends Component {
@@ -11,14 +12,16 @@ class Play extends Component {
 
 		};
 		this.gameGrid = null;
+		this.interval = 1000;
 
 		this.handleCommand = this.handleCommand.bind(this);
 		this.handleSizing = this.handleSizing.bind(this);
+		this.handleSpeed = this.handleSpeed.bind(this);
 	}
 	
 	componentDidMount() {
 		this.gameGrid = new GolCanvas('game-grid');
-		this.gameGrid.grid(20, 10, 10);
+		this.gameGrid.grid(20, 70, 40);
 		this.gameGrid.addEvents();
 	}
 
@@ -26,7 +29,7 @@ class Play extends Component {
 		switch (command)
 		{
 			case 'play':
-				this.gameGrid.play(500);
+				this.gameGrid.play(this.interval);
 				break;
 			case 'pause':
 				this.gameGrid.stop();
@@ -48,16 +51,26 @@ class Play extends Component {
 
 	handleSizing(squareSize, cols, rows)
 	{
-		console.log(squareSize, cols, rows);
 		this.gameGrid.grid(squareSize, cols, rows);
+	}
+
+	handleSpeed(speed)
+	{
+		this.interval = 1000 / speed;
+		if(this.gameGrid.isPlaying)
+		{
+			this.gameGrid.stop();
+			this.gameGrid.play(this.interval);
+		}
 	}
 
 	render() {
 		return (
 			<main>
 				<Grid />
-				<Command handleCommand={this.handleCommand}/>
-				<GridSizeForm handleSizing={this.handleSizing}/>
+				<Command handleCommand={this.handleCommand} />
+				<GridSizeForm handleSizing={this.handleSizing} />
+				<SpeedRange handleSpeed={this.handleSpeed} />
 			</main>
 		);
 	}

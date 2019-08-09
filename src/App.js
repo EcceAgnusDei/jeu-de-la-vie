@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import Header from './components/Header';
 import Home from './components/Home';
 import Play from './components/Play';
+import Artworks from './components/Artworks';
 import { NavProvider } from './context/navContext';
 
 class App extends Component {
@@ -30,7 +31,9 @@ class App extends Component {
           this.state.activePage === 'Accueil' ?
           <Home /> :
           this.state.activePage === 'Jouer' ?
-          <Play /> : ''
+          <Play /> :
+          this.state.activePage === 'Créations' ?
+          <Artworks /> : ''
         }
       </div>
     );
