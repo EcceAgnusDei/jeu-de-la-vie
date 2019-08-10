@@ -148,7 +148,7 @@ class Play extends Component {
 				<Command handleCommand={this.handleCommand} />
 				<GridSizeForm handleSizing={this.handleSizing} />
 				<SpeedRange handleSpeed={this.handleSpeed} />
-				{this.props.artwork.name && <Comments gridId={this.props.artwork.id} />}
+				{this.props.artwork.name && <Comments gridId={this.props.artwork.id} userId={this.props.userId} />}
 			</main>
 		);
 	}

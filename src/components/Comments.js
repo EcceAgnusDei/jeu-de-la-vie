@@ -20,18 +20,18 @@ class Comments extends Component {
 
 	getComments()
 	{
-		fetch(`http://localhost/GolApi/getGridComments.php?gridId=${this.props.gridId}`)
+		fetch(`http://localhost/GolApi/getGridComments.php?gridId=${this.props.gridId}&currentUserId=${this.props.userId}`)
 			.then(response => response.json())
 			.then(json => {
 				this.setState({comments: json})
 			});
 	}
 
-	addComment(comment, userId)
+	addComment(comment)
 	{
 		fetch(`http://localhost/GolApi/addComment.php`, {
 			method: 'POST',
-			body: JSON.stringify([this.props.gridId, userId, comment])
+			body: JSON.stringify([this.props.gridId, this.props.userId, comment])
 		})
 			.then(response => response.json())
 			.then(json => {
@@ -40,8 +40,25 @@ class Comments extends Component {
 				} else {
 					alert('erreur');
 				}
+			});	
+	}
+
+	likeComment(commentId)
+	{
+		fetch(`http://localhost/GolApi/likeComment.php?commentId=${commentId}&userId=${this.props.userId}`)
+			.then(response => response.json())
+			.then(json => {
+				json ? this.getComments() : alert('Erreur');
 			});
-			
+	}
+
+	dislikeComment(commentId)
+	{
+		fetch(`http://localhost/GolApi/dislikeComment.php?commentId=${commentId}&userId=${this.props.userId}`)
+			.then(response => response.json())
+			.then(json => {
+				json ? this.getComments() : alert('Erreur');
+			});
 	}
 	
 	render() {
@@ -50,16 +67,25 @@ class Comments extends Component {
 			<div key={item.id}>
 				<p>{item.author} le {item.date}</p>
 				<p>{item.comment}</p>
-			</div>);
+				<div>
+					<button 
+						title={item.likeState === 'liked' ? 'Je n\'aime plus' : 'J\'aime'}
+						onClick={() => this.likeComment(item.id)}
+					>like
+					</button>
+					{item.nbLikes}
+					<button
+						title={item.likeState === 'disliked' ? 'Pas si mal finalement...' : 'Je n\'aime pas!'}
+						onClick={() => this.dislikeComment(item.id)}
+					>dislike
+					</button>
+					{item.nbDislikes}
+				</div>
+			</div>
+		);
 		return (
 			<section>
-				<CommentConsumer>
-				{
-					(value) => {
-						return value != 0 && <CommentForm addComment={this.addComment} userId={value}/>
-					}
-				}
-				</CommentConsumer>
+				{this.props.userId != 0 && <CommentForm addComment={this.addComment} userId={this.props.userId}/>}
 				{commentsJSX}
 			</section>
 		);

@@ -82,10 +82,7 @@ class App extends Component {
         </NavProvider>
         {!this.state.loggedId && <LogForm log={this.log}/>}
           {this.state.activePage === 'Accueil' && <Home />}
-          {this.state.activePage === 'Jouer' &&
-            <CommentProvider value={this.state.loggedId}> 
-              <Play artwork={this.state.artwork} userId={this.state.loggedId}/>
-            </CommentProvider>}
+          {this.state.activePage === 'Jouer' && <Play artwork={this.state.artwork} userId={this.state.loggedId}/>}
           {this.state.activePage === 'Créations' && 
             <ArtworkProvider value={this.artworkLoad}>
               <Artworks />

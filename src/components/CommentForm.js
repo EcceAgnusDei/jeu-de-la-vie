@@ -17,7 +17,7 @@ class CommentForm extends Component {
 
 	handleSubmit(event) {
 		event.preventDefault();
-		this.props.addComment(event.target.comment.value, this.props.userId);
+		this.props.addComment(event.target.comment.value);
 		this.setState({comment: ''});
 	}
 	
