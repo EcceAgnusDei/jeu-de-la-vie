@@ -18,7 +18,7 @@ class ArtworkElement extends Component {
 		fetch(`http://localhost/GolApi/getGridById.php?id=${this.props.id}`)
 				.then(response => response.text())
 				.then(text => {
-					const {name, author, json, id} = JSON.parse(text);
+					const {name, author, json, id, likes} = JSON.parse(text);
 					this.setState({
 						id: id,
 						name: name,

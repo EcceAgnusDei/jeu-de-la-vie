@@ -84,7 +84,7 @@ class App extends Component {
           {this.state.activePage === 'Accueil' && <Home />}
           {this.state.activePage === 'Jouer' &&
             <CommentProvider value={this.state.loggedId}> 
-              <Play artwork={this.state.artwork} />
+              <Play artwork={this.state.artwork} userId={this.state.loggedId}/>
             </CommentProvider>}
           {this.state.activePage === 'Créations' && 
             <ArtworkProvider value={this.artworkLoad}>

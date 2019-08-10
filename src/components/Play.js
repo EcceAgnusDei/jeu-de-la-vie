@@ -10,7 +10,8 @@ class Play extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-
+			likes: 0,
+			likers: []
 		};
 		this.gameGrid = null;
 		this.interval = 1000;
@@ -19,6 +20,9 @@ class Play extends Component {
 		this.handleSizing = this.handleSizing.bind(this);
 		this.handleSpeed = this.handleSpeed.bind(this);
 		this.load = this.load.bind(this);
+		this.loadLikes = this.loadLikes.bind(this);
+		this.like = this.like.bind(this);
+		this.isLiked = this.isLiked.bind(this);
 	}
 	
 	componentDidMount() {
@@ -28,6 +32,8 @@ class Play extends Component {
 		this.props.artwork.name ?
 		this.load() :
 		this.gameGrid.grid(20, 70, 40);
+
+		this.loadLikes();
 	}
 
 	handleCommand(command) {
@@ -91,19 +97,58 @@ class Play extends Component {
 		this.gameGrid.load();
 	}
 
+	like()
+	{
+		fetch(`http://localhost/GolApi/likeGrid.php?id=${this.props.artwork.id}&userId=${this.props.userId}`)
+			.then(response => response.json())
+			.then(json => {
+				if(json === true)
+				{
+					this.loadLikes();
+				} else {
+					alert('erreur');
+				}
+			});
+	}
+
+	loadLikes()
+	{
+		fetch(`http://localhost/GolApi/getGridLikes.php?id=${this.props.artwork.id}`)
+			.then(response => response.json())
+			.then(json => {
+				this.setState({likes: json.likes, likers: json.likers});
+			});
+	}
+
+	isLiked()
+	{
+		if(this.state.likers.indexOf(this.props.userId + '') === -1) {
+			return false;
+		} else {
+			return true;
+		}
+	}
+
 	render() {
+		console.log(this.isLiked());
 		return (
 			<main>
 				{
 					this.props.artwork.name ?
-					<h1>{this.props.artwork.name} de {this.props.artwork.author}</h1> :
+					<div>
+						<h1>{this.props.artwork.name} de {this.props.artwork.author}</h1> 
+						<div>
+							{this.isLiked() ? 'liked ' : <button onClick={this.like}>like</button>}
+							{this.state.likes}
+						</div>
+					</div> :
 					<h1>A vous de jouer au jeu de la vie !</h1>
 				}
 				<Grid />
 				<Command handleCommand={this.handleCommand} />
 				<GridSizeForm handleSizing={this.handleSizing} />
 				<SpeedRange handleSpeed={this.handleSpeed} />
-				{this.props.artwork.name && <Comments gridId={this.props.artwork.id}/>}
+				{this.props.artwork.name && <Comments gridId={this.props.artwork.id} />}
 			</main>
 		);
 	}
