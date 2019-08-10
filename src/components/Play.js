@@ -92,7 +92,6 @@ class Play extends Component {
 	}
 
 	render() {
-		console.log(this.props.artwork.length);
 		return (
 			<main>
 				{

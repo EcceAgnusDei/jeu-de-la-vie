@@ -8,6 +8,7 @@ import LogForm from './components/LogForm';
 import UserSpace from './components/UserSpace';
 import { NavProvider } from './context/navContext';
 import { ArtworkProvider } from './context/artworkContext';
+import { CommentProvider } from './context/commentContext';
 
 class App extends Component {
   constructor() {
@@ -29,15 +30,14 @@ class App extends Component {
   {
     if(sessionStorage.getItem('userId')) {
       this.setState({
-        loggedId: sessionStorage.getItem('userId'),
-        menu: ['Accueil', 'Jouer', 'Créations', 'Déconnexion']
+        loggedId: sessionStorage.getItem('userId')
       });
     }
   }
 
   handleNav(link)
   {
-    this.setState({activePage: link});
+    this.setState({activePage: link, artwork: {}});
   }
     
   artworkLoad(artwork)
@@ -81,21 +81,17 @@ class App extends Component {
           <Header />
         </NavProvider>
         {!this.state.loggedId && <LogForm log={this.log}/>}
-        {
-          this.state.activePage === 'Accueil' ?
-          <Home /> :
-          this.state.activePage === 'Jouer' ?
-          <Play artwork={this.state.artwork}/> :
-          this.state.activePage === 'Créations' ?
-          <ArtworkProvider value={this.artworkLoad}>
-            <Artworks />
-          </ArtworkProvider> :
-          this.state.activePage === 'Inscription' ?
-          <SignIn /> :
-          this.state.activePage === 'Espace perso' ?
-          <UserSpace logout={this.logout}/> :
-          <Home />
-        }
+          {this.state.activePage === 'Accueil' && <Home />}
+          {this.state.activePage === 'Jouer' &&
+            <CommentProvider value={this.state.loggedId}> 
+              <Play artwork={this.state.artwork} />
+            </CommentProvider>}
+          {this.state.activePage === 'Créations' && 
+            <ArtworkProvider value={this.artworkLoad}>
+              <Artworks />
+            </ArtworkProvider> }
+          {this.state.activePage === 'Inscription' && <SignIn />}
+          {this.state.activePage === 'Espace perso' && <UserSpace logout={this.logout}/>}
       </div>
     );
   }
