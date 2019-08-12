@@ -89,7 +89,7 @@ class App extends Component {
             </ArtworkProvider> }
           {this.state.activePage === 'Inscription' && <SignIn handleNav={this.handleNav} log={this.log}/>}
           {this.state.activePage === 'Espace perso' && <UserSpace logout={this.logout}/>}
-          <Footer userId={this.state.loggedId}/>
+          <Footer userId={this.state.loggedId} logout={this.logout}/>
       </div>
     );
   }
