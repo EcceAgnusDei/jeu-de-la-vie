@@ -67,17 +67,21 @@ class Comments extends Component {
 				<p>{item.author} le {item.date}</p>
 				<p>{item.comment}</p>
 				<div>
+					{this.props.userId != 0 ?
 					<button 
 						title={item.likeState === 'liked' ? 'Je n\'aime plus' : 'J\'aime'}
 						onClick={() => this.likeComment(item.id)}
 					>like
-					</button>
+					</button> :
+					' likes '}
 					{item.nbLikes}
+					{this.props.userId != 0 ?
 					<button
 						title={item.likeState === 'disliked' ? 'Pas si mal finalement...' : 'Je n\'aime pas!'}
 						onClick={() => this.dislikeComment(item.id)}
 					>dislike
-					</button>
+					</button> :
+					' dislikes '}
 					{item.nbDislikes}
 				</div>
 			</div>

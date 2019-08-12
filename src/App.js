@@ -6,6 +6,7 @@ import Artworks from './components/Artworks';
 import SignIn from './components/SignIn';
 import LogForm from './components/LogForm';
 import UserSpace from './components/UserSpace';
+import Footer from './components/Footer';
 import { NavProvider } from './context/navContext';
 import { ArtworkProvider } from './context/artworkContext';
 
@@ -86,8 +87,9 @@ class App extends Component {
             <ArtworkProvider value={this.artworkLoad}>
               <Artworks />
             </ArtworkProvider> }
-          {this.state.activePage === 'Inscription' && <SignIn />}
+          {this.state.activePage === 'Inscription' && <SignIn handleNav={this.handleNav} log={this.log}/>}
           {this.state.activePage === 'Espace perso' && <UserSpace logout={this.logout}/>}
+          <Footer userId={this.state.loggedId}/>
       </div>
     );
   }
