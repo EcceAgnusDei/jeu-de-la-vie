@@ -8,7 +8,6 @@ import LogForm from './components/LogForm';
 import UserSpace from './components/UserSpace';
 import { NavProvider } from './context/navContext';
 import { ArtworkProvider } from './context/artworkContext';
-import { CommentProvider } from './context/commentContext';
 
 class App extends Component {
   constructor() {

@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import CommentForm from './CommentForm'
-import { CommentConsumer } from '../context/commentContext'
 
 class Comments extends Component {
 	constructor(props) {

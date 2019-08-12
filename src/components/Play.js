@@ -99,7 +99,7 @@ class Play extends Component {
 
 	like()
 	{
-		fetch(`http://localhost/GolApi/likeGrid.php?id=${this.props.artwork.id}&userId=${this.props.userId}`)
+		fetch(`http://localhost/GolApi/likeGrid.php?gridId=${this.props.artwork.id}&userId=${this.props.userId}`)
 			.then(response => response.json())
 			.then(json => {
 				if(json === true)
@@ -138,7 +138,7 @@ class Play extends Component {
 					<div>
 						<h1>{this.props.artwork.name} de {this.props.artwork.author}</h1> 
 						<div>
-							{this.isLiked() ? 'liked ' : <button onClick={this.like}>like</button>}
+							{<button title={this.isLiked() ? "Je n'aime plus" : "J'aime"} onClick={this.like}>like</button>}
 							{this.state.likes}
 						</div>
 					</div> :
