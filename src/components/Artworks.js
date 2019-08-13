@@ -3,8 +3,8 @@ import ArtworksNav from './ArtworksNav';
 import ArtworkElement from './ArtworkElement';
 
 class Artworks extends Component {
-	constructor() {
-		super();
+	constructor(props) {
+		super(props);
 		this.state = {
 			allIds: [],
 			visibleIds: []
@@ -21,7 +21,17 @@ class Artworks extends Component {
 
 	componentDidMount()
 	{
-		fetch('http://localhost/GolApi/getAllGridsId.php')
+		let API = '';
+		let init = {};
+		if(this.props.userSpace)
+		{
+			API  = 'getUserGridsId';
+			init = {method: 'POST', body: this.props.userId};
+		} else {
+			API = 'getAllGridsId';
+		}
+
+		fetch(`http://localhost/GolApi/${API}.php`, init)
 			.then(response => response.text())
 			.then(text => {
 				this.setState({allIds: JSON.parse(text), visibleIds: JSON.parse(text).slice(0, this.elementPerPage)},
