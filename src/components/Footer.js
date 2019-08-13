@@ -6,7 +6,10 @@ function Footer(props) {
 	{
 		if(window.confirm("Êtes-vous sur de vouloir supprimer votre compte ?"))
 		{
-			fetch(`http://localhost/GolApi/delAccount.php?id=${props.userId}`)
+			fetch('http://localhost/GolApi/delAccount.php', {
+			method: 'post',
+			body: JSON.stringify(props.userId)
+		})
 				.then(response => response.json())
 				.then(json => {
 					if(json) {

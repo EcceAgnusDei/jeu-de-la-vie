@@ -30,7 +30,10 @@ class Comments extends Component {
 				this.setState({comments: json})
 			});
 		} else {
-			fetch(`http://localhost/GolApi/getGridComments.php?gridId=${this.props.gridId}&currentUserId=${this.props.userId}`)
+			fetch('http://localhost/GolApi/getGridComments.php', {
+				method: 'post',
+				body: JSON.stringify([this.props.gridId, this.props.userId])
+			})
 			.then(response => response.json())
 			.then(json => {
 				this.setState({comments: json})
@@ -40,7 +43,7 @@ class Comments extends Component {
 
 	addComment(comment)
 	{
-		fetch(`http://localhost/GolApi/addComment.php`, {
+		fetch('http://localhost/GolApi/addComment.php', {
 			method: 'POST',
 			body: JSON.stringify([this.props.gridId, this.props.userId, comment])
 		})
@@ -56,7 +59,10 @@ class Comments extends Component {
 
 	likeComment(commentId)
 	{
-		fetch(`http://localhost/GolApi/likeComment.php?commentId=${commentId}&userId=${this.props.userId}`)
+		fetch('http://localhost/GolApi/likeComment.php', {
+			method: 'post',
+			body: JSON.stringify([commentId, this.props.userId])
+		})
 			.then(response => response.json())
 			.then(json => {
 				json ? this.getComments() : alert('Erreur');
@@ -65,7 +71,10 @@ class Comments extends Component {
 
 	dislikeComment(commentId)
 	{
-		fetch(`http://localhost/GolApi/dislikeComment.php?commentId=${commentId}&userId=${this.props.userId}`)
+		fetch('http://localhost/GolApi/dislikeComment.php', {
+			method: 'post',
+			body: JSON.stringify([commentId, this.props.userId])
+		})
 			.then(response => response.json())
 			.then(json => {
 				json ? this.getComments() : alert('Erreur');

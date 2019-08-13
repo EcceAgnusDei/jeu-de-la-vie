@@ -47,7 +47,10 @@ class App extends Component {
 
   log(login, password)
   {
-    fetch(`http://localhost/GolApi/logging.php?login=${login}&password=${password}`)
+    fetch('http://localhost/GolApi/logging.php', {
+      method: 'post',
+      body: JSON.stringify([login, password])
+    })
       .then(response => response.json())
       .then(json => {
         if(json) {

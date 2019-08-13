@@ -102,7 +102,10 @@ class Play extends Component {
 
 	like()
 	{
-		fetch(`http://localhost/GolApi/likeGrid.php?gridId=${this.props.artwork.id}&userId=${this.props.userId}`)
+		fetch('http://localhost/GolApi/likeGrid.php', {
+			method: 'post',
+			body: JSON.stringify([this.props.artwork.id, this.props.userId])
+		})
 			.then(response => response.json())
 			.then(json => {
 				if(json === true)
@@ -116,7 +119,10 @@ class Play extends Component {
 
 	loadLikes()
 	{
-		fetch(`http://localhost/GolApi/getGridLikes.php?id=${this.props.artwork.id}`)
+		fetch('http://localhost/GolApi/getGridLikes.php', {
+			method: 'post',
+			body: JSON.stringify(this.props.artwork.id)
+		})
 			.then(response => response.json())
 			.then(json => {
 				this.setState({likes: json.likes, likers: json.likers});

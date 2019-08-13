@@ -16,19 +16,22 @@ class ArtworkElement extends Component {
 
 	componentDidMount()
 	{
-		fetch(`http://localhost/GolApi/getGridById.php?id=${this.props.id}`)
-				.then(response => response.json())
-				.then(respjson => {
-					const {name, author, json, id, likes} = respjson;
-					this.setState({
-						id: id,
-						name: name,
-						author: author,
-						coords: JSON.parse(json),
-						likes: likes
-					});
-				})
-				.catch(error => console.error(error));
+		fetch('http://localhost/GolApi/getGridById.php', {
+			method: 'post',
+			body: JSON.stringify(this.props.id)
+		})
+		.then(response => response.json())
+		.then(respjson => {
+			const {name, author, json, id, likes} = respjson;
+			this.setState({
+				id: id,
+				name: name,
+				author: author,
+				coords: JSON.parse(json),
+				likes: likes
+			});
+		})
+		.catch(error => console.error(error));
 	}
 
 	componentDidUpdate()
