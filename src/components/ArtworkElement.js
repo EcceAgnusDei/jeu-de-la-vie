@@ -9,21 +9,24 @@ class ArtworkElement extends Component {
 			id: 0,
 			name: '',
 			author: '',
-			coords: []
+			coords: [],
+			likes: 0
 		};
 	}
 
 	componentDidMount()
 	{
 		fetch(`http://localhost/GolApi/getGridById.php?id=${this.props.id}`)
-				.then(response => response.text())
-				.then(text => {
-					const {name, author, json, id, likes} = JSON.parse(text);
+				.then(response => response.json())
+				.then(respjson => {
+					const {name, author, json, id, likes} = respjson;
+					console.log(respjson)
 					this.setState({
 						id: id,
 						name: name,
 						author: author,
-						coords: JSON.parse(json)
+						coords: JSON.parse(json),
+						likes: likes
 					});
 				})
 				.catch(error => console.error(error));
@@ -58,7 +61,7 @@ class ArtworkElement extends Component {
 				<ArtworkConsumer>
 				{
 					(value) => {
-						return <h2 onClick={() => value(this.state)}>{this.state.name} de {this.state.author}</h2>
+						return <h2 onClick={() => value(this.state)}>{this.state.name} de {this.state.author} {this.state.likes} likes</h2>
 					}
 				}
 				</ArtworkConsumer>

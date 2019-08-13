@@ -14,9 +14,60 @@ class Artworks extends Component {
 		this.elementPerPage = 8;
 		this.navigationVisibility = {next: true, prev: false}
 		this.maxPage = 0;
+		this.menu = ['Les dernières création', 'Les plus populaires'];
 
 		this.next = this.next.bind(this);
 		this.prev = this.prev.bind(this);
+		this.sortByLikes = this.sortByLikes.bind(this);
+		this.sortByDate = this.sortByDate.bind(this);
+		this.handleNav = this.handleNav.bind(this);
+	}
+
+	sortByLikes()
+	{
+		function compare(a, b) {
+			let comparison = 0;
+			if(a.likes > b.likes) {
+				comparison = -1;
+			}
+			else if (a.likes < b.likes){
+				comparison = 1;
+			}
+			return comparison;
+		}
+
+		const array = [...this.state.allIds];
+		array.sort(compare);
+
+		this.setState({allIds: array, visibleIds: array.slice(0, this.elementPerPage)});
+	}
+
+	sortByDate()
+	{
+		function compare(a, b) {
+			let comparison = 0;
+			if(a.id > b.id) {
+				comparison = -1;
+			}
+			else if (a.id < b.id){
+				comparison = 1;
+			}
+			return comparison;
+		}
+
+		const array = [...this.state.allIds];
+		array.sort(compare);
+
+		this.setState({allIds: array, visibleIds: array.slice(0, this.elementPerPage)});
+	}
+
+	handleNav(link) {
+		if(link === this.menu[0]) {
+			this.sortByDate();
+		}
+		else if(link === this.menu[1]) {
+			this.sortByLikes();
+		}
 	}
 
 	componentDidMount()
@@ -32,9 +83,10 @@ class Artworks extends Component {
 		}
 
 		fetch(`http://localhost/GolApi/${API}.php`, init)
-			.then(response => response.text())
-			.then(text => {
-				this.setState({allIds: JSON.parse(text), visibleIds: JSON.parse(text).slice(0, this.elementPerPage)},
+			.then(response => response.json())
+			.then(json => {
+				console.log(json);
+				this.setState({allIds: json, visibleIds: json.slice(0, this.elementPerPage)},
 					() => {this.maxPage = Math.floor(this.state.allIds.length / this.elementPerPage)}
 				); //gérer le cas ou il y a moins de 8 créations
 			})
@@ -64,11 +116,19 @@ class Artworks extends Component {
 	}
 
 	render() {
-		const gridsJSX = this.state.visibleIds.map( id =>
-			 <ArtworkElement key={id} id={id} />
+		const gridsJSX = this.state.visibleIds.map( item =>
+			<ArtworkElement key={item.id} id={item.id} />
+		);
+		const menuJSX = this.menu.map(item =>
+			<li key={item} onClick={() => this.handleNav(item)}>{item}</li>
 		);
 		return (
 			<div>
+				<nav>
+					<ul>
+						{menuJSX}
+					</ul>
+				</nav>
 				<main>
 					{gridsJSX}
 				</main>
