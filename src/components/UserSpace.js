@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import Artworks from './Artworks'
+import Comments from './Comments'
 
 class UserSpace extends Component {
 	constructor(props) {
@@ -25,7 +26,8 @@ class UserSpace extends Component {
 					</ul>
 				</nav>
 				<button onClick={this.props.logout}>Déconnexion</button>
-				<Artworks userSpace={true} userId={this.props.userId}/>
+				{this.state.activePage === this.menu[0] && <Artworks userSpace={true} userId={this.props.userId}/>}
+				{this.state.activePage === this.menu[1] && <Comments userSpace={true} userId={this.props.userId}/>}
 			</div>
 		);
 	}

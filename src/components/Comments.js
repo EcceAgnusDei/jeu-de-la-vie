@@ -19,11 +19,23 @@ class Comments extends Component {
 
 	getComments()
 	{
-		fetch(`http://localhost/GolApi/getGridComments.php?gridId=${this.props.gridId}&currentUserId=${this.props.userId}`)
+		if(this.props.userSpace) {
+			fetch('http://localhost/GolApi/getUserComments.php', {
+				method: 'POST',
+				body: this.props.userId
+			})
+			.then(response => response.json())
+			.then(json => {
+				console.log(json);
+				this.setState({comments: json})
+			});
+		} else {
+			fetch(`http://localhost/GolApi/getGridComments.php?gridId=${this.props.gridId}&currentUserId=${this.props.userId}`)
 			.then(response => response.json())
 			.then(json => {
 				this.setState({comments: json})
 			});
+		}
 	}
 
 	addComment(comment)
@@ -64,7 +76,7 @@ class Comments extends Component {
 		const commentsJSX = this.state.comments.map(
 			item => 
 			<div key={item.id}>
-				<p>{item.author} le {item.date}</p>
+				<p>{!this.props.userSpace && item.author} le {item.date}</p>
 				<p>{item.comment}</p>
 				<div>
 					{this.props.userId != 0 ?
@@ -88,7 +100,7 @@ class Comments extends Component {
 		);
 		return (
 			<section>
-				{this.props.userId != 0 && <CommentForm addComment={this.addComment} userId={this.props.userId}/>}
+				{(this.props.userId != 0 && this.props.gridId) && <CommentForm addComment={this.addComment} userId={this.props.userId}/>}
 				{commentsJSX}
 			</section>
 		);

@@ -20,7 +20,6 @@ class ArtworkElement extends Component {
 				.then(response => response.json())
 				.then(respjson => {
 					const {name, author, json, id, likes} = respjson;
-					console.log(respjson)
 					this.setState({
 						id: id,
 						name: name,

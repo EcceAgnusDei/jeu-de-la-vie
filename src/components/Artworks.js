@@ -85,7 +85,7 @@ class Artworks extends Component {
 		fetch(`http://localhost/GolApi/${API}.php`, init)
 			.then(response => response.json())
 			.then(json => {
-				console.log(json);
+
 				this.setState({allIds: json, visibleIds: json.slice(0, this.elementPerPage)},
 					() => {this.maxPage = Math.floor(this.state.allIds.length / this.elementPerPage)}
 				); //gérer le cas ou il y a moins de 8 créations
@@ -95,7 +95,6 @@ class Artworks extends Component {
 	
 	next()
 	{
-		console.log(this.maxPage);
 		this.page++;
 		this.page === this.maxPage ? this.navigationVisibility.next = false : this.navigationVisibility.next = true;
 		this.navigationVisibility.prev = true;
@@ -106,7 +105,6 @@ class Artworks extends Component {
 
 	prev()
 	{
-		console.log('prev');
 		this.page--;
 		this.page === 0 ? this.navigationVisibility.prev = false : this.navigationVisibility.prev = true
 		this.navigationVisibility.next = true;
