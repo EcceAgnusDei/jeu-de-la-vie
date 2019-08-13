@@ -4,6 +4,7 @@ import Command from './Command';
 import GridSizeForm from './GridSizeForm';
 import SpeedRange from './SpeedRange';
 import Comments from './Comments';
+import SaveGridForm from './SaveGridForm';
 import GolCanvas from '../GolCanvas';
 
 class Play extends Component {
@@ -11,7 +12,8 @@ class Play extends Component {
 		super(props);
 		this.state = {
 			likes: 0,
-			likers: []
+			likers: [],
+			coords: []
 		};
 		this.gameGrid = null;
 		this.interval = 1000;
@@ -23,6 +25,7 @@ class Play extends Component {
 		this.loadLikes = this.loadLikes.bind(this);
 		this.like = this.like.bind(this);
 		this.isLiked = this.isLiked.bind(this);
+		this.dbSave = this.dbSave.bind(this);
 	}
 	
 	componentDidMount() {
@@ -129,6 +132,24 @@ class Play extends Component {
 		}
 	}
 
+	dbSave(title)
+	{
+		this.handleCommand('save');
+
+		fetch('http://localhost/GolApi/addGrid.php', {
+			method: 'POST',
+			body: JSON.stringify([this.gameGrid.saved, this.props.userId, title])
+		})
+		.then(response => response.json())
+		.then(json => {
+			if(json) {
+				this.props.handleNav('Espace perso');
+			} else {
+				alert('Erreur');
+			}
+		});
+	}
+
 	render() {
 		console.log(this.isLiked());
 		return (
@@ -148,6 +169,7 @@ class Play extends Component {
 				<Command handleCommand={this.handleCommand} />
 				<GridSizeForm handleSizing={this.handleSizing} />
 				<SpeedRange handleSpeed={this.handleSpeed} />
+				{!this.props.artwork.name && this.props.userId && <SaveGridForm save={this.dbSave}/>}
 				{this.props.artwork.name && <Comments gridId={this.props.artwork.id} userId={this.props.userId} />}
 			</main>
 		);
