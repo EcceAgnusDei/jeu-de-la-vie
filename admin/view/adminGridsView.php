@@ -13,9 +13,9 @@ $title = 'Administrez les créations';
 <?php
 while ($data = $grids->fetch())
 {
-	$author = $userManager->getLoginById($data['author_id']); ?>
+	$author = UserManager::getLoginById($data['author_id']); ?>
 	<div class="artwork"><canvas id="canvas<?= $data['id'] ?>"></canvas>
-		<p class="grids-title"><a href="index.php?action=load&amp;id=<?= $data['id'] ?>"><?= $data['name'] ?> de <?= $author?></a> <span class="blue"> <i class="fas fa-thumbs-up"></i> <?= $data['likes'] ?></span></p>
+		<p class="grids-title"><a href="index.php?action=load&amp;id=<?= $data['id'] ?>"><?= $data['name'] ?> de <?= $author?></a> <span class="blue"> <i class="fas fa-thumbs-up"></i> <?= GridManager::countLikes($data['id']) ?></span></p>
 		<div class="artwork-admin-btn">
 			<button class="btn grid-approval-btn" onclick='window.location.href="index.php?adminaction=gridapproval&id=<?= $data['id']  ?>"'>Retirer de la liste</button>
 			<button class="btn grid-delete-btn" onclick='window.location.href="index.php?adminaction=griddelete&id=<?= $data['id']  ?>"'>Supprimer</button>
@@ -32,4 +32,4 @@ while ($data = $grids->fetch())
 
 <?php $content = ob_get_clean(); ?>
 
-<?php require('view/backend/adminTemplate.php'); ?>
+<?php require('view/adminTemplate.php'); ?>

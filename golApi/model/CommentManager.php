@@ -15,7 +15,7 @@ class CommentManager extends Manager
 	static function getComments($gridId)
 	{
 		$dataBase = self::dbConnect();
-		$comments = $dataBase->prepare('SELECT id, likes, dislikes, author_id, comment, DATE_FORMAT(comment_date, \'%d/%m/%Y à %Hh%imin\') AS comment_date_fr FROM comments WHERE grid_id = ? ORDER BY id DESC');
+		$comments = $dataBase->prepare('SELECT id, author_id, comment, DATE_FORMAT(comment_date, \'%d/%m/%Y à %Hh%imin\') AS comment_date_fr FROM comments WHERE grid_id = ? ORDER BY id DESC');
 		$comments->execute(array($gridId));
 
 		return $comments;
@@ -29,7 +29,7 @@ class CommentManager extends Manager
 	static function getCommentById($id)
 	{
 		$dataBase = self::dbConnect();
-		$comment = $dataBase->prepare('SELECT id, likes, dislikes, author_id, comment, DATE_FORMAT(comment_date, \'%d/%m/%Y à %Hh%imin\') AS comment_date_fr FROM comments WHERE id = ?');
+		$comment = $dataBase->prepare('SELECT id, author_id, comment, DATE_FORMAT(comment_date, \'%d/%m/%Y à %Hh%imin\') AS comment_date_fr FROM comments WHERE id = ?');
 		$comment->execute(array($id));
 
 		return $comment;
@@ -43,7 +43,7 @@ class CommentManager extends Manager
 	static function getAllByDate()
 	{
 		$dataBase = self::dbConnect();
-		$comments = $dataBase->query('SELECT id, grid_id, author_id, comment, likes, dislikes, DATE_FORMAT(comment_date, \'%d/%m/%Y à %Hh%imin\') AS comment_date_fr FROM comments WHERE visibility = 1 ORDER BY comment_date DESC');
+		$comments = $dataBase->query('SELECT id, grid_id, author_id, comment, DATE_FORMAT(comment_date, \'%d/%m/%Y à %Hh%imin\') AS comment_date_fr FROM comments WHERE visibility = 1 ORDER BY comment_date DESC');
 
 		return $comments;
 	}
@@ -56,7 +56,7 @@ class CommentManager extends Manager
 	static function getAllByDislikes()
 	{
 		$dataBase = self::dbConnect();
-		$comments = $dataBase->query('SELECT id, grid_id, author_id, comment, likes, dislikes, DATE_FORMAT(comment_date, \'%d/%m/%Y à %Hh%imin\') AS comment_date_fr FROM comments WHERE dislikes > 0 AND visibility = 1 ORDER BY dislikes DESC');
+		$comments = $dataBase->query('SELECT id, grid_id, author_id, comment, DATE_FORMAT(comment_date, \'%d/%m/%Y à %Hh%imin\') AS comment_date_fr FROM comments WHERE dislikes > 0 AND visibility = 1 ORDER BY dislikes DESC');
 
 		return $comments;
 	}
@@ -180,7 +180,7 @@ class CommentManager extends Manager
 	static function getCommentsByUserId($userId)
 	{
 		$dataBase = self::dbConnect();
-		$comments = $dataBase->prepare('SELECT id, likes, author_id, dislikes, grid_id, comment, DATE_FORMAT(comment_date, \'%d/%m/%Y à %Hh%imin\') AS comment_date_fr FROM comments WHERE author_id = ? ORDER BY comment_date DESC');
+		$comments = $dataBase->prepare('SELECT id, author_id, grid_id, comment, DATE_FORMAT(comment_date, \'%d/%m/%Y à %Hh%imin\') AS comment_date_fr FROM comments WHERE author_id = ? ORDER BY comment_date DESC');
 		$comments->execute(array($userId));
 
 		return $comments;

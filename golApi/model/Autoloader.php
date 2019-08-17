@@ -18,6 +18,6 @@ class Autoloader
 	 */
 	static function autoload($className)
 	{
-		require './model/' . ucfirst($className) . '.php';
+		require '../golApi/model/' . ucfirst($className) . '.php';
 	}
 }

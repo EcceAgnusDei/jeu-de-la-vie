@@ -6,8 +6,7 @@
  */
 function admin($login, $password)
 {
-	$userManager = new UserManager;
-	$id = $userManager->userIdentifying($login, $password);
+	$id = UserManager::userIdentifying($login, $password);
 	if ($id == 1)
 	{
 		$_SESSION['admin'] = true;
@@ -28,7 +27,7 @@ function adminLogin()
 {
 	$error = '';
 
-	require('view/backend/adminLoginView.php');
+	require('view/adminLoginView.php');
 }
 
 /**
@@ -38,7 +37,7 @@ function adminLogingError()
 {
 	$error = "<p style='color: red'>Identifiant ou mot de passe incorrect</p>";
 
-	require('view/backend/adminLoginView.php');
+	require('view/adminLoginView.php');
 }
 
 /**
@@ -46,12 +45,9 @@ function adminLogingError()
  */
 function adminGridView()
 {
-	$gridManager = new GridManager();
-	$userManager = new userManager();
+	$grids = GridManager::getVisible();
 
-	$grids = $gridManager->getVisible();
-
-	require('view/backend/adminGridsView.php');
+	require('view/adminGridsView.php');
 }
 
 /**
@@ -59,12 +55,16 @@ function adminGridView()
  */
 function commentsByDateView()
 {
-	$commentManager = new CommentManager();
-	$userManager = new userManager();
 
-	$comments = $commentManager->getAllByDate();
+	$request = CommentManager::getAllByDate();
+	$comments = [];
 
-	require('view/backend/adminCommentsView.php');
+	while($data = $request->fetch())
+	{
+		array_push($comments, $data);
+	}
+
+	require('view/adminCommentsView.php');
 }
 
 /**
@@ -72,12 +72,30 @@ function commentsByDateView()
  */
 function commentsByDislikesView()
 {
-	$commentManager = new CommentManager();
-	$userManager = new userManager();
+	$request = CommentManager::getAllByDate();
+	$comments = [];
 
-	$comments = $commentManager->getAllByDislikes();
+	while($data = $request->fetch())
+	{
+		if (CommentManager::countDislikes($data['id']) > 0)
+		{
+			$data['dislikes'] = CommentManager::countDislikes($data['id']);
+			array_push($comments, $data);
+		}	
+	}
 
-	require('view/backend/adminCommentsView.php');
+	function compare($a, $b)
+	{
+		if ($a['dislikes'] == $b['dislikes'])
+		{
+			return 0;
+		}
+		return ($a['dislikes'] > $b['dislikes']) ? -1 : 1;
+	}
+
+	usort($comments, 'compare');
+
+	require('view/adminCommentsView.php');
 }
 
 /**
@@ -86,19 +104,14 @@ function commentsByDislikesView()
  */
 function adminGridDelete($id)
 {
-	$gridManager = new GridManager();
-	$likeManager = new LikeManager();
-	$commentManager = new CommentManager();
-
-	$ids = $commentManager->commentIdByGrid($id);
+	$ids = CommentManager::commentIdByGrid($id);
 
 	foreach ($ids as $commentId)
 	{
 		adminCommentDelete($commentId);
 	}
 
-	$succes = $gridManager->delete($id);
-	$likeManager->deleteGridLikes($id);
+	$succes = GridManager::delete($id);
 
 	if ($succes)
 	{
@@ -116,11 +129,9 @@ function adminGridDelete($id)
  */
 function adminCommentDelete($id)
 {
-	$commentManager = new CommentManager();
-	$likeManager = new LikeManager();
-	$likeManager->deleteCommentLikes($id);
-	$likeManager->deleteCommentDislikes($id);
-	$succes = $commentManager->delete($id);
+	LikeManager::deleteCommentLikes($id);
+	LikeManager::deleteCommentDislikes($id);
+	$succes = CommentManager::delete($id);
 
 	if ($succes)
 	{
@@ -138,8 +149,7 @@ function adminCommentDelete($id)
  */
 function commentInvisible($id)
 {
-	$commentManager = new CommentManager();
-	$commentManager->invisible($id);
+	CommentManager::invisible($id);
 
 	header('location: ' . $_SERVER['HTTP_REFERER']);
 }
@@ -150,8 +160,7 @@ function commentInvisible($id)
  */
 function gridApproval($id)
 {
-	$gridManager = new GridManager();
-	$gridManager->invisible($id);
+	GridManager::invisible($id);
 
 	header('location: ' . $_SERVER['HTTP_REFERER']);
 }

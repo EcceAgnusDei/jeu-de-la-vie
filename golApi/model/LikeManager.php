@@ -47,12 +47,9 @@ class LikeManager extends Manager
 	{
 		$dataBase = self::dbConnect();
 		$request = $dataBase->prepare('INSERT INTO comment_dislikes (comment_id, user_id) VALUES (?, ?)');
-		$succes1 = $request->execute(array($commentId, $userId));
+		$succes = $request->execute(array($commentId, $userId));
 
-		$request = $dataBase->prepare('UPDATE comments SET dislikes = dislikes + 1 WHERE id = ?');
-		$succes2 = $request->execute(array($commentId));
-
-		return $succes1 && $succes2;
+		return $succes;
 	}
 
 	/**

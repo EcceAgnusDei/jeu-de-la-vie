@@ -1,4 +1,7 @@
-<?php $head = ''; ?>
+<?php 
+$head = ''; 
+$title = 'Administration des commentaires';
+?>
 <?php ob_start(); ?>
 <section class="comment-section grid last-section">
 	<h3>La liste des commentaires</h3>
@@ -9,13 +12,13 @@
 		</ul>
 	</nav>
 	<?php
-	while($data = $comments->fetch())
+	foreach ($comments as $data)
 	{
 	?>
 	<div class="comment">
 		<div class="comment-body">
 			<p>
-				<strong class="orange"><?= $userManager->getLoginById($data['author_id']); ?></strong>
+				<strong class="orange"><?= UserManager::getLoginById($data['author_id']); ?></strong>
 				<em>le <?= $data['comment_date_fr'] ?> :</em>
 			</p>
 
@@ -25,7 +28,7 @@
 			<p class="show-post"><a href="index.php?action=load&amp;id=<?= $data['grid_id'] ?>&amp;commentid=<?= $data['id'] ?>">Afficher la création</a></p>
 		</div>
 		<div class="comment-btns">
-			<div><i class="fas fa-thumbs-down red"></i> <span class="red"> <?= $data['dislikes'] ?></div>
+			<div><i class="fas fa-thumbs-down red"></i> <span class="red"> <?= CommentManager::countDislikes($data['id']) ?></div>
 			<div>
 				<button class="btn del-btn" onclick='window.location.href="index.php?adminaction=commentdelete&id=<?= $data['id'] ?>"'>Supprimer</button>
 				<button class="btn" onclick='window.location.href="index.php?adminaction=commentinvisible&id=<?= $data['id'] ?>"'>Retirer de la liste</button>
@@ -38,4 +41,4 @@
 </section>
 <?php $content = ob_get_clean(); ?>
 
-<?php require('view/backend/adminTemplate.php'); ?>
+<?php require('view/adminTemplate.php'); ?>
