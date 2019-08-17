@@ -1,4 +1,5 @@
-import React from 'react'
+import React from 'react';
+import apiPath from '../apiPath';
 
 function Footer(props) {
 
@@ -6,7 +7,7 @@ function Footer(props) {
 	{
 		if(window.confirm("Êtes-vous sur de vouloir supprimer votre compte ?"))
 		{
-			fetch('http://localhost/GolApi/delAccount.php', {
+			fetch(`${apiPath}delAccount.php`, {
 			method: 'post',
 			body: JSON.stringify(props.userId)
 		})
@@ -24,7 +25,8 @@ function Footer(props) {
 
 	return (
 		<footer>
-			&copy; Antoine Mondoloni <a href="#">RGPD</a> <a href="#">Mentions légales</a>
+			<a>&copy; Antoine Mondoloni</a> <a href="http://mondoloni-dev.fr/legal/rgpd.html">RGPD</a>
+			<a href="http://mondoloni-dev.fr/legal/legalNotice.html">Mentions légales</a>
 			{props.userId !== 0 && <button onClick={delAccount}>Supprimer votre compte</button>}
 		</footer>
 	);

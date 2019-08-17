@@ -1,4 +1,4 @@
-class GolCanvas
+class Grid
 {
 	constructor (canvasID)
 	{
@@ -8,9 +8,6 @@ class GolCanvas
 		this.squareStatus = {};
 		this.squareSize = 0;
 		this.rubber = false;
-		this.isPlaying = false;
-		this.countdown = setInterval(() => {}, 99999999);
-		this.saved = [];
 	}
 
 	/**
@@ -47,7 +44,7 @@ class GolCanvas
 		this.ctx.fillStyle = 'white';
   		this.ctx.fill();
 
-		for (let x = 0 ; x <= this.canvas.width ; x += squareSize)
+		for (let x = 0 ; x < this.canvas.width ; x += squareSize)
 		{
 			this.ctx.beginPath();
 			this.ctx.strokeStyle = "black";
@@ -62,7 +59,7 @@ class GolCanvas
         	}
 		}
 
-		for (let y = 0 ; y <= this.canvas.height ; y += squareSize)
+		for (let y = 0 ; y < this.canvas.height ; y += squareSize)
 		{
 			this.ctx.beginPath();
 			this.ctx.strokeStyle = "black";
@@ -171,8 +168,9 @@ class GolCanvas
 	 * Charge une grille placée en paramètre.
 	 * @param {Array} coords Tableau de coordonnées.
 	 */
-	 load(coords = this.saved)
+	 load(coords)
 	 {
+	 	console.log("loading...");
 	 	this.clear();
 	 	for (let coord of coords)
 	 	{
@@ -195,8 +193,6 @@ class GolCanvas
 	 			coordsBlack.push([this.stringToArray(coord)[0]/this.squareSize, this.stringToArray(coord)[1]/this.squareSize]);
 	 		}
 	 	}
-
-	 	this.saved = coordsBlack;
 
 	 	return coordsBlack;
 	 }
@@ -257,22 +253,14 @@ class GolCanvas
 
 	play(interval)
 	{
-		if (!this.isPlaying) {
-			this.countdown = setInterval(() => this.next(), interval);
-			this.isPlaying = true;
-		}
+		isPlaying = true;
+		countdown = setInterval(function(){
+			grid.next() }, interval);
 	}
 
 	stop()
 	{
-		this.isPlaying = false;
-		clearInterval(this.countdown);
-	}
-
-	switchColor()
-	{
-		this.rubber = !this.rubber;
+		isPlaying = false;
+		clearInterval(countdown);
 	}
 }
-
-export default GolCanvas;

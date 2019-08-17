@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import GolCanvas from '../GolCanvas';
 import { ArtworkConsumer } from '../context/artworkContext'
+import apiPath from '../apiPath';
 
 class ArtworkElement extends Component {
 	constructor(props) {
@@ -16,7 +17,7 @@ class ArtworkElement extends Component {
 
 	componentDidMount()
 	{
-		fetch('http://localhost/GolApi/getGridById.php', {
+		fetch(`${apiPath}getGridById.php`, {
 			method: 'post',
 			body: JSON.stringify(this.props.id)
 		})

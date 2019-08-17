@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import CommentForm from './CommentForm'
+import CommentForm from './CommentForm';
+import apiPath from '../apiPath';
 
 class Comments extends Component {
 	constructor(props) {
@@ -20,7 +21,7 @@ class Comments extends Component {
 	getComments()
 	{
 		if(this.props.userSpace) {
-			fetch('http://localhost/GolApi/getUserComments.php', {
+			fetch(`${apiPath}getUserComments.php`, {
 				method: 'POST',
 				body: this.props.userId
 			})
@@ -30,7 +31,7 @@ class Comments extends Component {
 				this.setState({comments: json})
 			});
 		} else {
-			fetch('http://localhost/GolApi/getGridComments.php', {
+			fetch(`${apiPath}getGridComments.php`, {
 				method: 'post',
 				body: JSON.stringify([this.props.gridId, this.props.userId])
 			})
@@ -43,7 +44,7 @@ class Comments extends Component {
 
 	addComment(comment)
 	{
-		fetch('http://localhost/GolApi/addComment.php', {
+		fetch(`${apiPath}addComment.php`, {
 			method: 'POST',
 			body: JSON.stringify([this.props.gridId, this.props.userId, comment])
 		})
@@ -59,7 +60,7 @@ class Comments extends Component {
 
 	likeComment(commentId)
 	{
-		fetch('http://localhost/GolApi/likeComment.php', {
+		fetch(`${apiPath}likeComment.php`, {
 			method: 'post',
 			body: JSON.stringify([commentId, this.props.userId])
 		})
@@ -71,7 +72,7 @@ class Comments extends Component {
 
 	dislikeComment(commentId)
 	{
-		fetch('http://localhost/GolApi/dislikeComment.php', {
+		fetch(`${apiPath}dislikeComment.php`, {
 			method: 'post',
 			body: JSON.stringify([commentId, this.props.userId])
 		})

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import ArtworksNav from './ArtworksNav';
 import ArtworkElement from './ArtworkElement';
+import apiPath from '../apiPath';
 
 class Artworks extends Component {
 	constructor(props) {
@@ -82,7 +83,7 @@ class Artworks extends Component {
 			API = 'getAllGridsId';
 		}
 
-		fetch(`http://localhost/GolApi/${API}.php`, init)
+		fetch(`${apiPath}${API}.php`, init)
 			.then(response => response.json())
 			.then(json => {
 

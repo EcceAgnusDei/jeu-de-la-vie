@@ -6,6 +6,7 @@ import SpeedRange from './SpeedRange';
 import Comments from './Comments';
 import SaveGridForm from './SaveGridForm';
 import GolCanvas from '../GolCanvas';
+import apiPath from '../apiPath';
 
 class Play extends Component {
 	constructor(props) {
@@ -102,7 +103,7 @@ class Play extends Component {
 
 	like()
 	{
-		fetch('http://localhost/GolApi/likeGrid.php', {
+		fetch(`${apiPath}likeGrid.php`, {
 			method: 'post',
 			body: JSON.stringify([this.props.artwork.id, this.props.userId])
 		})
@@ -119,7 +120,7 @@ class Play extends Component {
 
 	loadLikes()
 	{
-		fetch('http://localhost/GolApi/getGridLikes.php', {
+		fetch(`${apiPath}getGridLikes.php`, {
 			method: 'post',
 			body: JSON.stringify(this.props.artwork.id)
 		})
@@ -142,7 +143,7 @@ class Play extends Component {
 	{
 		this.handleCommand('save');
 
-		fetch('http://localhost/GolApi/addGrid.php', {
+		fetch(`${apiPath}addGrid.php`, {
 			method: 'POST',
 			body: JSON.stringify([this.gameGrid.saved, this.props.userId, title])
 		})
@@ -165,7 +166,10 @@ class Play extends Component {
 					<div>
 						<h1>{this.props.artwork.name} de {this.props.artwork.author}</h1> 
 						<div>
-							{<button title={this.isLiked() ? "Je n'aime plus" : "J'aime"} onClick={this.like}>like</button>}
+							{this.props.userId != 0 ? 
+								<button title={this.isLiked() ? "Je n'aime plus" : "J'aime"} onClick={this.like}>like</button> :
+								'likes '
+							}
 							{this.state.likes}
 						</div>
 					</div> :

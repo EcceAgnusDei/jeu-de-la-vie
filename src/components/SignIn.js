@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import apiPath from '../apiPath';
 
 class SignIn extends Component {
 	constructor() {
@@ -40,7 +41,7 @@ class SignIn extends Component {
 
 		if(this.state.loginColor === 'green' && this.state.passwordColor === 'green')
 		{
-			fetch(`http://localhost/GolApi/signIn.php`, {
+			fetch(`${apiPath}signIn.php`, {
 				method: 'POST',
 				body: JSON.stringify([this.state.login, this.state.password, this.state.email])
 			})
@@ -57,7 +58,7 @@ class SignIn extends Component {
 	}
 
 	componentDidMount() {
-		fetch('http://localhost/GolApi/getLogins.php')
+		fetch(`${apiPath}getLogins.php`)
 			.then(response => response.json())
 			.then(json => {this.logins = json});
 	}

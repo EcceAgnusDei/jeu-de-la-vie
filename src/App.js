@@ -9,6 +9,7 @@ import UserSpace from './components/UserSpace';
 import Footer from './components/Footer';
 import { NavProvider } from './context/navContext';
 import { ArtworkProvider } from './context/artworkContext';
+import apiPath from './apiPath';
 
 class App extends Component {
   constructor() {
@@ -47,7 +48,7 @@ class App extends Component {
 
   log(login, password)
   {
-    fetch('http://localhost/GolApi/logging.php', {
+    fetch(`${apiPath}logging.php`, {
       method: 'post',
       body: JSON.stringify([login, password])
     })
