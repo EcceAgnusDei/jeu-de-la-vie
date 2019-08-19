@@ -27,16 +27,20 @@ class Command extends Component {
 	}
 	
 	render() {
+		const playJSX = this.state.playAction == 'play' ? <i className="fas fa-play"></i> : <i className="fas fa-pause"></i>;
+		const rubberJSX = this.state.rubberDisplay ? <i className="fas fa-eraser"></i> : <i className="fas fa-pencil-alt"></i>;
 		return (
 			<div>
 				<div>
-					<button name={this.state.playAction} onClick={this.handleClick}>{this.state.playAction}</button>
-					<button name="next" onClick={this.handleClick}>Next</button>
-					<button name="rubber" onClick={this.handleClick}>{
-						this.state.rubberDisplay ?
-						'Rubber' :
-						'Pen'
-					}</button>
+					<button name={this.state.playAction} onClick={this.handleClick}>
+						{playJSX}
+					</button>
+					<button name="next" onClick={this.handleClick}>
+						<i className="fas fa-step-forward"></i>
+					</button>
+					<button name="rubber" onClick={this.handleClick}>
+						{rubberJSX}
+					</button>
 				</div>
 				<div>
 					<button name="save" onClick={this.handleClick}>Enregistrer</button>

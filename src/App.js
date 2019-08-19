@@ -10,6 +10,7 @@ import Footer from './components/Footer';
 import { NavProvider } from './context/navContext';
 import { ArtworkProvider } from './context/artworkContext';
 import apiPath from './apiPath';
+import './css/style.css';
 
 class App extends Component {
   constructor() {

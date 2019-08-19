@@ -93,17 +93,20 @@ class Comments extends Component {
 					<button 
 						title={item.likeState === 'liked' ? 'Je n\'aime plus' : 'J\'aime'}
 						onClick={() => this.likeComment(item.id)}
-					>like
+						className={item.likeState === 'liked' && 'blue'}
+					>
+						<i className="far fa-thumbs-up"></i>
 					</button> :
-					' likes '}
+					<i className="far fa-thumbs-up"></i>}
 					{item.nbLikes}
 					{this.props.userId != 0 ?
 					<button
 						title={item.likeState === 'disliked' ? 'Pas si mal finalement...' : 'Je n\'aime pas!'}
 						onClick={() => this.dislikeComment(item.id)}
-					>dislike
+						className={item.likeState === 'disliked' && 'red'}
+					><i className="far fa-thumbs-down"></i>
 					</button> :
-					' dislikes '}
+					<i className="far fa-thumbs-down"></i>}
 					{item.nbDislikes}
 				</div>
 			</div>

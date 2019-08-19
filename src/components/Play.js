@@ -167,8 +167,12 @@ class Play extends Component {
 						<h1>{this.props.artwork.name} de {this.props.artwork.author}</h1> 
 						<div>
 							{this.props.userId != 0 ? 
-								<button title={this.isLiked() ? "Je n'aime plus" : "J'aime"} onClick={this.like}>like</button> :
-								'likes '
+								<button 
+									title={this.isLiked() ? "Je n'aime plus" : "J'aime"} 
+									onClick={this.like}>
+									<i className="far fa-thumbs-up"></i>
+								</button> :
+								<i className="far fa-thumbs-up"></i>
 							}
 							{this.state.likes}
 						</div>
