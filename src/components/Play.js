@@ -158,19 +158,18 @@ class Play extends Component {
 	}
 
 	render() {
-		console.log(this.isLiked());
 		return (
 			<React.Fragment>
 				{
 					this.props.artwork.name ?
 					<div>
 						<h1>{this.props.artwork.name} de {this.props.artwork.author}</h1> 
-						<div>
+						<div className={this.isLiked() ? 'blue' : ''}>
 							{this.props.userId != 0 ? 
 								<button 
 									title={this.isLiked() ? "Je n'aime plus" : "J'aime"} 
 									onClick={this.like}
-									className={this.isLiked() && 'blue'}
+									className="like-btn"
 								>
 									<i className="far fa-thumbs-up"></i>
 								</button> :
@@ -181,7 +180,7 @@ class Play extends Component {
 					</div> :
 					<h1>A vous de jouer au jeu de la vie !</h1>
 				}
-				<Grid />
+				<div className="grid-container"><Grid /></div>
 				<Command handleCommand={this.handleCommand} />
 				<GridSizeForm handleSizing={this.handleSizing} />
 				<SpeedRange handleSpeed={this.handleSpeed} />

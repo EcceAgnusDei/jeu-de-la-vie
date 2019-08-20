@@ -39,6 +39,7 @@ a
 
 label
 {
+	font-size: 0.8em;
 	display: flex;
 	flex-direction: column;
 	align-items: center;
@@ -49,15 +50,23 @@ input
 {
 	border: $danger 1px solid;
 	border-radius: 3px;
+	font-size: 0.8em;
 }
 
 h1, h2, h3, h4
 {
 	color: $primary;
+	text-align: center;
 }
 
 .grid
 {
 	width: 70%;
 	margin: auto;
+}
+
+strong
+{
+	color: $primary;
+	font-size: 1.2em;
 }

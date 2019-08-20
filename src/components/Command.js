@@ -30,8 +30,8 @@ class Command extends Component {
 		const playJSX = this.state.playAction == 'play' ? <i className="fas fa-play"></i> : <i className="fas fa-pause"></i>;
 		const rubberJSX = this.state.rubberDisplay ? <i className="fas fa-eraser"></i> : <i className="fas fa-pencil-alt"></i>;
 		return (
-			<div>
-				<div>
+			<div className="command">
+				<div className="command-item">
 					<button className="command-btn" name={this.state.playAction} onClick={this.handleClick}>
 						{playJSX}
 					</button>
@@ -42,7 +42,7 @@ class Command extends Component {
 						{rubberJSX}
 					</button>
 				</div>
-				<div>
+				<div className="command-item">
 					<button className="command-btn" name="save" onClick={this.handleClick}>Enregistrer</button>
 					<button className="command-btn" name="load" onClick={this.handleClick}>Charger</button>
 				</div>

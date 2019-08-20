@@ -28,7 +28,7 @@ class GridSizeForm extends Component {
 
 	render() {
 		return (
-			<form onSubmit={this.handleSubmit}>
+			<form className="grid_size-form" onSubmit={this.handleSubmit}>
 				<label>Colonnes
 					<input type="text" name="cols" value={this.state.cols} onChange={this.handleChange}/>
 				</label>

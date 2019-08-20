@@ -58,9 +58,8 @@ class ArtworkElement extends Component {
 	}
 	
 	render() {
-		const style = {width: 90 * this.props.rows / this.props.elementPerPage + '%'};
 		return (
-			<div className="artwork-item" style={style}>
+			<div className="artwork-item">
 				<canvas id={`miniature${this.props.id}`} />
 				<ArtworkConsumer>
 				{

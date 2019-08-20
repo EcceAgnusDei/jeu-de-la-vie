@@ -86,7 +86,7 @@ class Comments extends Component {
 		const commentsJSX = this.state.comments.map(
 			item => 
 			<div key={item.id} class="comment">
-				<div>{!this.props.userSpace && item.author} le {item.date}</div>
+				<div><strong>{!this.props.userSpace && item.author}</strong> le {item.date}</div>
 				<p>{item.comment}</p>
 				<div className="like-container">
 					<div className={item.likeState === 'liked' ? 'blue' : ''}>
