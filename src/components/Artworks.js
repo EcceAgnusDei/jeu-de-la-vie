@@ -120,7 +120,7 @@ class Artworks extends Component {
 			<ArtworkElement key={item.id} id={item.id} elementPerPage={this.elementPerPage} rows={this.rows}/>
 		);
 		const menuJSX = this.menu.map(item =>
-			<li key={item}><button className="menu-btn" onClick={() => this.handleNav(item)}>{item} <i class="fas fa-sort-down"></i></button></li>
+			<li key={item}><button className="menu-btn" onClick={() => this.handleNav(item)}>{item} <i className="fas fa-sort-down"></i></button></li>
 		);
 		return (
 			<React.Fragment>

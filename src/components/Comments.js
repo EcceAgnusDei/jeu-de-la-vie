@@ -85,29 +85,33 @@ class Comments extends Component {
 	render() {
 		const commentsJSX = this.state.comments.map(
 			item => 
-			<div key={item.id}>
-				<p>{!this.props.userSpace && item.author} le {item.date}</p>
+			<div key={item.id} class="comment">
+				<div>{!this.props.userSpace && item.author} le {item.date}</div>
 				<p>{item.comment}</p>
-				<div>
-					{this.props.userId != 0 ?
-					<button 
-						title={item.likeState === 'liked' ? 'Je n\'aime plus' : 'J\'aime'}
-						onClick={() => this.likeComment(item.id)}
-						className={item.likeState === 'liked' && 'blue'}
-					>
-						<i className="far fa-thumbs-up"></i>
-					</button> :
-					<i className="far fa-thumbs-up"></i>}
-					{item.nbLikes}
-					{this.props.userId != 0 ?
-					<button
-						title={item.likeState === 'disliked' ? 'Pas si mal finalement...' : 'Je n\'aime pas!'}
-						onClick={() => this.dislikeComment(item.id)}
-						className={item.likeState === 'disliked' && 'red'}
-					><i className="far fa-thumbs-down"></i>
-					</button> :
-					<i className="far fa-thumbs-down"></i>}
-					{item.nbDislikes}
+				<div className="like-container">
+					<div className={item.likeState === 'liked' ? 'blue' : ''}>
+						{this.props.userId != 0 ?
+							<button 
+								title={item.likeState === 'liked' ? 'Je n\'aime plus' : 'J\'aime'}
+								onClick={() => this.likeComment(item.id)}
+								className="like-btn"
+							>
+								<i className="far fa-thumbs-up"></i>
+							</button> :
+							<i className="far fa-thumbs-up"></i>}
+							{item.nbLikes}
+					</div>
+					<div className={item.likeState === 'disliked' ? 'red' : ''}>
+						{this.props.userId != 0 ?
+						<button
+							title={item.likeState === 'disliked' ? 'Pas si mal finalement...' : 'Je n\'aime pas!'}
+							onClick={() => this.dislikeComment(item.id)}
+							className="like-btn"
+						><i className="far fa-thumbs-down"></i>
+						</button> :
+						<i className="far fa-thumbs-down"></i>}
+						{item.nbDislikes}
+					</div>
 				</div>
 			</div>
 		);

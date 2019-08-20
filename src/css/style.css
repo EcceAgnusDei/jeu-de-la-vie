@@ -75,10 +75,10 @@ h1, h2, h3, h4 {
   margin: auto; }
 
 .blue {
-  color: #4785ff; }
+  color: #4785ff !important; }
 
 .red {
-  color: #ff2424; }
+  color: #ff2424 !important; }
 
 .logo {
   width: 70px; }
@@ -86,7 +86,7 @@ h1, h2, h3, h4 {
 .menu {
   display: flex; }
 
-.btn, .menu-btn, .nav-btn, .artwork-btn, footer button, .command-btn, .danger-btn {
+.btn, .menu-btn, .nav-btn, .artwork-btn, .like-btn, footer button, .command-btn, .danger-btn {
   outline: none;
   border: none;
   border-radius: 4px;
@@ -96,20 +96,20 @@ h1, h2, h3, h4 {
   margin: 5px;
   color: white;
   background-color: #23cb1a; }
-  .btn:hover, .menu-btn:hover, .nav-btn:hover, .artwork-btn:hover, footer button:hover, .command-btn:hover, .danger-btn:hover {
+  .btn:hover, .menu-btn:hover, .nav-btn:hover, .artwork-btn:hover, .like-btn:hover, footer button:hover, .command-btn:hover, .danger-btn:hover {
     cursor: pointer;
     background-color: #1b9e14; }
-  .btn:active, .menu-btn:active, .nav-btn:active, .artwork-btn:active, footer button:active, .command-btn:active, .danger-btn:active {
+  .btn:active, .menu-btn:active, .nav-btn:active, .artwork-btn:active, .like-btn:active, footer button:active, .command-btn:active, .danger-btn:active {
     transform: scale(0.95); }
 
-.menu-btn, .nav-btn, .artwork-btn, footer button {
+.menu-btn, .nav-btn, .artwork-btn, .like-btn, footer button {
   color: #23cb1a;
   background-color: transparent;
   margin: 0; }
-  .menu-btn:hover, .nav-btn:hover, .artwork-btn:hover, footer button:hover {
+  .menu-btn:hover, .nav-btn:hover, .artwork-btn:hover, .like-btn:hover, footer button:hover {
     color: #1b9e14;
     background-color: transparent; }
-  .menu-btn:active, .nav-btn:active, .artwork-btn:active, footer button:active {
+  .menu-btn:active, .nav-btn:active, .artwork-btn:active, .like-btn:active, footer button:active {
     transform: none; }
 
 .command-btn {
@@ -127,6 +127,12 @@ h1, h2, h3, h4 {
 
 .artwork-btn {
   font-size: 1.5em; }
+
+.like-btn {
+  font-size: 1.2em;
+  color: inherit; }
+  .like-btn:hover {
+    color: inherit; }
 
 .log-form {
   display: flex;
@@ -170,7 +176,7 @@ h1, h2, h3, h4 {
     right: 0; }
 
 .show_steps {
-  width: 540px;
+  width: 570px;
   margin: auto;
   display: flex;
   justify-content: space-between;
@@ -178,6 +184,15 @@ h1, h2, h3, h4 {
   font-size: 2em; }
   .show_steps img {
     width: 250px; }
+
+.comment {
+  width: 50%;
+  margin: 30px auto;
+  border-radius: 3px;
+  border: 2px #ff680a solid; }
+
+.like-container {
+  display: flex; }
 
 header {
   display: flex;

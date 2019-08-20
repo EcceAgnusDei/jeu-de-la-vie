@@ -16,6 +16,7 @@ while($data = $request->fetch())
 	$comment['comment'] = $data['comment'];
 	$comment['date'] = $data['comment_date_fr'];
 	$comment['nbLikes'] = CommentManager::countLikes($comment['id']);
+	$comment['likeState'] = LikeManager::getLikeState($data['id'], $userId, 'comment');
 	$comment['nbDislikes'] = CommentManager::countDislikes($comment['id']);
 
 	$userName = UserManager::getLoginById(
