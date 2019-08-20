@@ -1,9 +1,33 @@
-.blue
+@import "libs/base.scss";
+@import "libs/elements.scss";
+
+.menu
 {
-	color: blue;
+	display: flex;
 }
 
-.red
+.logo
 {
-	color: red;
+	width: 70px;
+}
+
+header
+{
+	display: flex;
+	align-items: center;
+	border-bottom: solid 3px $danger;
+}
+
+footer
+{
+	border-top: solid 3px $danger;
+	min-height: 30px;
+	position: absolute;
+	bottom: 0;
+	width: 100%;
+}
+
+main
+{
+	padding-bottom: 80px;
 }

@@ -4,7 +4,6 @@ import Home from './components/Home';
 import Play from './components/Play';
 import Artworks from './components/Artworks';
 import SignIn from './components/SignIn';
-import LogForm from './components/LogForm';
 import UserSpace from './components/UserSpace';
 import Footer from './components/Footer';
 import { NavProvider } from './context/navContext';
@@ -83,10 +82,10 @@ class App extends Component {
     return (
       <div>
         <NavProvider value={{menu: this.menu, nav: this.handleNav}}>
-          <Header />
+          <Header loggedId={this.state.loggedId} log={this.log}/>
         </NavProvider>
-        {!this.state.loggedId && <LogForm log={this.log}/>}
-          {this.state.activePage === 'Accueil' && <Home />}
+        <main>
+          {this.state.activePage === 'Accueil' && <Home handleNav={this.handleNav}/>}
           {this.state.activePage === 'Jouer' && <Play artwork={this.state.artwork} userId={this.state.loggedId} handleNav={this.handleNav}/>}
           <ArtworkProvider value={this.artworkLoad}>
           {this.state.activePage === 'Créations' && 
@@ -94,6 +93,7 @@ class App extends Component {
           {this.state.activePage === 'Espace perso' && <UserSpace logout={this.logout} userId={this.state.loggedId}/>}
           </ArtworkProvider>
           {this.state.activePage === 'Inscription' && <SignIn handleNav={this.handleNav} log={this.log}/>}
+        </main>
           <Footer userId={this.state.loggedId} logout={this.logout}/>
       </div>
     );

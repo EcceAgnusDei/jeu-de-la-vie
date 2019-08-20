@@ -32,19 +32,19 @@ class Command extends Component {
 		return (
 			<div>
 				<div>
-					<button name={this.state.playAction} onClick={this.handleClick}>
+					<button className="command-btn" name={this.state.playAction} onClick={this.handleClick}>
 						{playJSX}
 					</button>
-					<button name="next" onClick={this.handleClick}>
+					<button className="command-btn" name="next" onClick={this.handleClick}>
 						<i className="fas fa-step-forward"></i>
 					</button>
-					<button name="rubber" onClick={this.handleClick}>
+					<button className="command-btn" name="rubber" onClick={this.handleClick}>
 						{rubberJSX}
 					</button>
 				</div>
 				<div>
-					<button name="save" onClick={this.handleClick}>Enregistrer</button>
-					<button name="load" onClick={this.handleClick}>Charger</button>
+					<button className="command-btn" name="save" onClick={this.handleClick}>Enregistrer</button>
+					<button className="command-btn" name="load" onClick={this.handleClick}>Charger</button>
 				</div>
 			</div>
 		);

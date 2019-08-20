@@ -65,43 +65,45 @@ class SignIn extends Component {
 	
 	render() {
 		return (
-			<form onSubmit={this.handleSubmit}>
-				{this.state.loginColor === 'red' && <div>Pseudo déjà existant</div>}
-				<label>Pseudo
-				<input 
-					type="text" 
-					name="login"
-					onChange={this.handleChange} 
-					value={this.state.login} 
-					style={{backgroundColor: this.state.loginColor}}
-					title="Entrez votre pseudo."
-					required
-				/>
-				</label>
-				<label>Mot de passe
-				{this.state.passwordColor === 'red' && <div>Mot de passe trop court (8 caractères minimum)</div>}
-				<input 
-					type="password" 
-					name="password" 
-					onChange={this.handleChange} 
-					value={this.state.password} 
-					style={{backgroundColor: this.state.passwordColor}}
-					title="Entrez votre mot de passe de 8 caractères minimum."
-					required
-				/>
-				</label>
-				<label>Mail
-				<input 
-					type="email" 
-					name="email" 
-					onChange={this.handleChange} 
-					value={this.state.email}
-					title="Entre votre mail."
-					required 
+			<React.Fragment>
+				<form onSubmit={this.handleSubmit}>
+					{this.state.loginColor === 'red' && <div>Pseudo déjà existant</div>}
+					<label>Pseudo
+					<input 
+						type="text" 
+						name="login"
+						onChange={this.handleChange} 
+						value={this.state.login} 
+						style={{backgroundColor: this.state.loginColor}}
+						title="Entrez votre pseudo."
+						required
 					/>
-				</label>
-				<button>S'inscrire</button>
-			</form>
+					</label>
+					<label>Mot de passe
+					{this.state.passwordColor === 'red' && <div>Mot de passe trop court (8 caractères minimum)</div>}
+					<input 
+						type="password" 
+						name="password" 
+						onChange={this.handleChange} 
+						value={this.state.password} 
+						style={{backgroundColor: this.state.passwordColor}}
+						title="Entrez votre mot de passe de 8 caractères minimum."
+						required
+					/>
+					</label>
+					<label>Mail
+					<input 
+						type="email" 
+						name="email" 
+						onChange={this.handleChange} 
+						value={this.state.email}
+						title="Entre votre mail."
+						required 
+						/>
+					</label>
+					<button>S'inscrire</button>
+				</form>
+			</React.Fragment>
 		);
 	}
 }

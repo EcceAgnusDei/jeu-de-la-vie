@@ -3,15 +3,17 @@ import { NavConsumer } from '../context/navContext'
 
 function Navbar(props) {
 	return (
-		<ul>
-			<NavConsumer>
+		<nav>
+			<ul className="menu">
+				<NavConsumer>
 				{
 					(value) => {
-						return value.menu.map(item => <li key={item} onClick={() => value.nav(item)}>{item}</li>)
+						return value.menu.map(item => <li key={item}><button className="menu-btn" onClick={() => value.nav(item)}>{item}</button></li>)
 					}
 				}
-			</NavConsumer>
-		</ul>
+				</NavConsumer>
+			</ul>
+		</nav>
 	);
 }
 

@@ -7,13 +7,17 @@ $userId = $post[1];
 
 $state = LikeManager::getLikeState($commentId, $userId, 'comment');
 
-if($state != 'disliked')
+if($state == 'disliked')
 {
-	$succes = LikeManager::commentDislike($commentId, $userId);
+	$succes = LikeManager::deleteCommentDislike($commentId, $userId);
 }
 else
 {
-	$succes = LikeManager::deleteCommentDislike($commentId, $userId);
+	if($state == 'liked')
+	{
+		LikeManager::deleteCommentLike($commentId, $userId);
+	}
+	$succes = LikeManager::commentDislike($commentId, $userId);
 }
 
 echo json_encode($succes);

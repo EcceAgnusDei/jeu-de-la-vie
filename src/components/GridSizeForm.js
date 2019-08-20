@@ -38,7 +38,7 @@ class GridSizeForm extends Component {
 				<label>Taille des carrés
 					<input type="text" name="rows" value={this.state.squareSize} onChange={this.handleChange}/>
 				</label>
-				<button>Afficher la grille</button>
+				<button className="btn">Afficher la grille</button>
 			</form>
 		);
 	}

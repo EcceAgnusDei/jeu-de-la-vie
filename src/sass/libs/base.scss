@@ -1,0 +1,52 @@
+$blue: #4785ff;
+$red: #ff2424;
+
+$primary: #23cb1a;
+$danger: #ff680a;
+$noir: #1a1a1a;
+
+li
+{
+	list-style-type: none;
+	display: flex;
+	align-items: center;
+}
+
+body
+{
+	margin: 0;
+	min-height: 100vh;
+	position: relative;
+	color: $noir;
+}
+
+a
+{
+	text-decoration: none;
+	color: $primary;
+	&:hover
+	{
+		color: darken($primary, 10);
+	}
+}
+
+.link
+{
+	@extend a;
+	cursor: pointer;
+	
+}
+
+label
+{
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	color: $primary;
+}
+
+input
+{
+	border: $danger 1px solid;
+	border-radius: 3px;
+}

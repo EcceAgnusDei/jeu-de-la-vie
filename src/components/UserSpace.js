@@ -17,18 +17,18 @@ class UserSpace extends Component {
 	}
 
 	render() {
-		const menuJSX = this.menu.map(item => {return <li key={item} onClick={() => this.handleNav(item)}>{item}</li>});
+		const menuJSX = this.menu.map(item => {return <li key={item}><button className="menu-btn" onClick={() => this.handleNav(item)}>{item}</button></li>});
 		return (
-			<div>
+			<React.Fragment>
 				<nav>
-					<ul>
+					<ul className="menu">
 						{menuJSX}
+						<button className="danger-btn" onClick={this.props.logout}>Déconnexion</button>
 					</ul>
 				</nav>
-				<button onClick={this.props.logout}>Déconnexion</button>
 				{this.state.activePage === this.menu[0] && <Artworks userSpace={true} userId={this.props.userId}/>}
 				{this.state.activePage === this.menu[1] && <Comments userSpace={true} userId={this.props.userId}/>}
-			</div>
+			</React.Fragment>
 		);
 	}
 }

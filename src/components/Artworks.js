@@ -119,20 +119,18 @@ class Artworks extends Component {
 			<ArtworkElement key={item.id} id={item.id} />
 		);
 		const menuJSX = this.menu.map(item =>
-			<li key={item} onClick={() => this.handleNav(item)}>{item}</li>
+			<li key={item}><button className="menu-btn" onClick={() => this.handleNav(item)}>{item} <i class="fas fa-sort-down"></i></button></li>
 		);
 		return (
-			<div>
+			<React.Fragment>
 				<nav>
-					<ul>
+					<ul className="menu">
 						{menuJSX}
 					</ul>
 				</nav>
-				<main>
-					{gridsJSX}
-				</main>
+				{gridsJSX}
 				<ArtworksNav next={this.next} prev={this.prev} visibility={this.navigationVisibility}/>
-			</div>
+			</React.Fragment>
 		);
 	}
 }

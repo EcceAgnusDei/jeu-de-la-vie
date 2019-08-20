@@ -37,7 +37,7 @@ class SaveGridForm extends Component {
 					required 
 					/>
 				</label>
-				<button>Enregistrer</button>
+				<button className="btn">Enregistrer</button>
 			</form>
 		);
 	}
