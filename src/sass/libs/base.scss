@@ -15,6 +15,7 @@ li
 body
 {
 	margin: 0;
+	font-size: 1.5em;
 	min-height: 100vh;
 	position: relative;
 	color: $noir;
@@ -34,7 +35,6 @@ a
 {
 	@extend a;
 	cursor: pointer;
-	
 }
 
 label
@@ -49,4 +49,15 @@ input
 {
 	border: $danger 1px solid;
 	border-radius: 3px;
+}
+
+h1, h2, h3, h4
+{
+	color: $primary;
+}
+
+.grid
+{
+	width: 70%;
+	margin: auto;
 }

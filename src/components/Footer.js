@@ -25,9 +25,11 @@ function Footer(props) {
 
 	return (
 		<footer>
-			<a>&copy; Antoine Mondoloni</a> <a href="http://mondoloni-dev.fr/legal/rgpd.html">RGPD</a>
-			<a href="http://mondoloni-dev.fr/legal/legalNotice.html">Mentions légales</a>
-			{props.userId !== 0 && <button className="danger-btn" onClick={delAccount}>Supprimer votre compte</button>}
+			<div className="footer-container">
+				<a>&copy; Antoine Mondoloni</a> <a href="http://mondoloni-dev.fr/legal/rgpd.html">RGPD</a>
+				<a href="http://mondoloni-dev.fr/legal/legalNotice.html">Mentions légales</a>
+				{props.userId !== 0 && <button onClick={delAccount}>Supprimer votre compte</button>}
+			</div>
 		</footer>
 	);
 }

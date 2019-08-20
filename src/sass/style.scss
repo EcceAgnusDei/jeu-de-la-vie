@@ -1,15 +1,6 @@
 @import "libs/base.scss";
-@import "libs/elements.scss";
+@import "libs/module.scss";
 
-.menu
-{
-	display: flex;
-}
-
-.logo
-{
-	width: 70px;
-}
 
 header
 {
@@ -21,10 +12,28 @@ header
 footer
 {
 	border-top: solid 3px $danger;
+	font-size: 0.7em;
 	min-height: 30px;
 	position: absolute;
 	bottom: 0;
 	width: 100%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	*
+	{
+		margin: 0 7px;
+	}
+	button
+	{
+		@extend .menu-btn;
+		font-weight: 400;
+		color: $danger;
+		&:hover
+		{
+			color: darken($danger, 10);
+		}
+	}
 }
 
 main
