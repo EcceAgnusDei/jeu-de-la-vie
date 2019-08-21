@@ -163,8 +163,8 @@ class Play extends Component {
 				{
 					this.props.artwork.name ?
 					<div>
-						<h1>{this.props.artwork.name} de {this.props.artwork.author}</h1> 
-						<div className={this.isLiked() ? 'blue' : ''}>
+						<h1 className="load_grid-title">{this.props.artwork.name} de {this.props.artwork.author}</h1> 
+						<div className={this.isLiked() ? 'loaded_grid-like blue' : 'loaded_grid-like'}>
 							{this.props.userId != 0 ? 
 								<button 
 									title={this.isLiked() ? "Je n'aime plus" : "J'aime"} 

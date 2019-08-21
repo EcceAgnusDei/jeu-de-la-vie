@@ -60,7 +60,10 @@ class ArtworkElement extends Component {
 	render() {
 		return (
 			<div className="artwork-item">
-				<canvas id={`miniature${this.props.id}`} />
+				<canvas className="grid-miniature" id={`miniature${this.props.id}`} />
+				<div className="blue">
+					{this.state.likes} <i className="far fa-thumbs-up"></i>
+				</div>
 				<ArtworkConsumer>
 				{
 					(value) => {
@@ -68,9 +71,6 @@ class ArtworkElement extends Component {
 							<button className="artwork-btn" onClick={() => value(this.state)}>
 							{this.state.name} de {this.state.author}
 							</button>
-							<div>
-								{this.state.likes} <i className="far fa-thumbs-up"></i>
-							</div>
 						</div>
 					}
 				}

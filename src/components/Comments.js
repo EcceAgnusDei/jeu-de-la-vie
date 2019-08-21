@@ -37,6 +37,7 @@ class Comments extends Component {
 			})
 			.then(response => response.json())
 			.then(json => {
+				console.log(json);
 				this.setState({comments: json})
 			});
 		}
@@ -85,7 +86,7 @@ class Comments extends Component {
 	render() {
 		const commentsJSX = this.state.comments.map(
 			item => 
-			<div key={item.id} class="comment">
+			<div key={item.id} className="comment">
 				<div><strong>{!this.props.userSpace && item.author}</strong> le {item.date}</div>
 				<p>{item.comment}</p>
 				<div className="like-container">
@@ -116,7 +117,7 @@ class Comments extends Component {
 			</div>
 		);
 		return (
-			<section>
+			<section className="comment-container">
 				{(this.props.userId != 0 && this.props.gridId) && <CommentForm addComment={this.addComment} userId={this.props.userId}/>}
 				{commentsJSX}
 			</section>

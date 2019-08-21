@@ -86,7 +86,7 @@
 .artwork-btn
 {
 	@extend .menu-btn;
-	font-size: 1.5em;
+	font-size: 1.2em;
 }
 
 .like-btn
@@ -124,6 +124,7 @@
 	align-items: center;
 	justify-content: end;
 	width: 350px;
+	margin: 12px;
 	canvas
 	{
 		max-width: 100%;
@@ -176,11 +177,35 @@
 
 .comment
 {
-	width: 50%;
 	margin: 30px auto;
 	padding: 10px;
 	border-radius: 3px;
 	border: 2px $danger solid;
+}
+
+.comment-container
+{
+	width: 50%;
+	margin: auto;
+}
+
+.comment-form
+{
+	width: 100%;
+	display: flex;
+	flex-direction: column;
+	button
+	{
+		@extend .command-btn;
+		align-self: flex-end;
+		margin: 7px 0;
+	}
+	textarea
+	{
+		border: $danger 2px solid;
+		background-color: rgba($primary, 0.3);
+		font-size: 1em;
+	}
 }
 
 .like-container
@@ -194,6 +219,17 @@
 	overflow: auto;
 	display: flex;
 	justify-content: center;
+}
+
+.loaded_grid-like
+{
+	width: 70px;
+	margin: 0 auto 30px auto;
+}
+
+.load_grid-title
+{
+	margin-bottom: 7px;
 }
 
 .command
@@ -220,4 +256,31 @@
 		align-self: end;
 		margin-bottom: 0;
 	}
+}
+
+.save_grid-form
+{
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	margin: auto;
+	width: 320px;
+	button
+	{
+		align-self: end;
+		margin-bottom: 0;
+	}
+}
+
+.artworks-menu
+{
+	@extend .menu;
+	width: 420px;
+	margin: 33px auto;
+	padding: 0;
+}
+
+.grid-miniature
+{
+	margin-bottom: 12px;
 }

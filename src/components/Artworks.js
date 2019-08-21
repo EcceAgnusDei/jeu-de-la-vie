@@ -125,7 +125,7 @@ class Artworks extends Component {
 		return (
 			<React.Fragment>
 				<nav>
-					<ul className="menu">
+					<ul className="artworks-menu">
 						{menuJSX}
 					</ul>
 				</nav>

@@ -25,20 +25,22 @@ class SaveGridForm extends Component {
 	
 	render() {
 		return (
-			<form onSubmit={this.handleSubmit}>
+			<React.Fragment>
 				<h2>Enregistrer votre création</h2>
-				<label>Nom de votre population
+				<form className="save_grid-form" onSubmit={this.handleSubmit}>
+					<label>Nom de votre population
 					<input 
-					type="text" 
-					title="Donnez un nom à votre population."
-					name="title" 
-					value={this.state.title} 
-					onChange={this.handleChange} 
-					required 
+						type="text" 
+						title="Donnez un nom à votre population."
+						name="title" 
+						value={this.state.title} 
+						onChange={this.handleChange} 
+						required 
 					/>
-				</label>
-				<button className="btn">Enregistrer</button>
-			</form>
+					</label>
+					<button className="btn">Enregistrer</button>
+				</form>
+			</React.Fragment>
 		);
 	}
 }

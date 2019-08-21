@@ -25,9 +25,9 @@ class CommentForm extends Component {
 		return (
 			<div>
 				<h2>Laissez un commentaire</h2>
-				<form onSubmit={this.handleSubmit}>
+				<form className="comment-form" onSubmit={this.handleSubmit}>
 					<textarea name="comment" value={this.state.comment} onChange={this.handleChange}/>
-					<button>Envoyer</button>
+					<button className="btn">Envoyer</button>
 				</form>
 			</div>
 		);
