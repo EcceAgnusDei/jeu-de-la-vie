@@ -65,6 +65,11 @@
 	color: white;
 	padding: 7px 12px;
 	background-color: $primary;
+	display: block;
+	.fas
+	{
+		pointer-events: none;
+	}
 }
 
 .danger-btn
@@ -108,7 +113,7 @@
 	button
 	{
 		margin-bottom: 0;
-		align-self: end;
+		align-self: flex-end;
 	}
 	label
 	{
@@ -122,7 +127,7 @@
 	display: flex;
 	flex-direction: column;
 	align-items: center;
-	justify-content: end;
+	justify-content: flex-end;
 	width: 350px;
 	margin: 12px;
 	canvas
@@ -246,15 +251,20 @@
 
 .grid_size-form
 {
-	width: 720px;
+	width: 500px;
 	margin: 30px auto;
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
 	button
 	{
-		align-self: end;
+		align-self: flex-end;
 		margin-bottom: 0;
+	}
+	input
+	{
+		width: 70px;
+		text-align: center;
 	}
 }
 
@@ -267,7 +277,7 @@
 	width: 320px;
 	button
 	{
-		align-self: end;
+		align-self: flex-end;
 		margin-bottom: 0;
 	}
 }
@@ -283,4 +293,24 @@
 .grid-miniature
 {
 	margin-bottom: 12px;
+}
+
+.signin-form
+{
+	width: 300px;
+	height: 300px;
+	margin: 33px auto;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	input
+	{
+		width: 90%;
+	}
+}
+
+.signin-error_message
+{
+	color: $danger;
+	font-size: 0.8em;
 }

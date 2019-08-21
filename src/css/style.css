@@ -129,7 +129,10 @@ strong {
 .command-btn, .comment-form button {
   color: white;
   padding: 7px 12px;
-  background-color: #23cb1a; }
+  background-color: #23cb1a;
+  display: block; }
+  .command-btn .fas, .comment-form button .fas {
+    pointer-events: none; }
 
 .danger-btn {
   background-color: #ff680a; }
@@ -154,7 +157,7 @@ strong {
   margin-left: 12px; }
   .log-form button {
     margin-bottom: 0;
-    align-self: end; }
+    align-self: flex-end; }
   .log-form label {
     color: #ff680a;
     margin-left: 7px; }
@@ -163,7 +166,7 @@ strong {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: end;
+  justify-content: flex-end;
   width: 350px;
   margin: 12px; }
   .artwork-item canvas {
@@ -248,14 +251,17 @@ strong {
   justify-content: center; }
 
 .grid_size-form {
-  width: 720px;
+  width: 500px;
   margin: 30px auto;
   display: flex;
   align-items: center;
   justify-content: space-between; }
   .grid_size-form button {
-    align-self: end;
+    align-self: flex-end;
     margin-bottom: 0; }
+  .grid_size-form input {
+    width: 70px;
+    text-align: center; }
 
 .save_grid-form {
   display: flex;
@@ -264,7 +270,7 @@ strong {
   margin: auto;
   width: 320px; }
   .save_grid-form button {
-    align-self: end;
+    align-self: flex-end;
     margin-bottom: 0; }
 
 .artworks-menu {
@@ -274,6 +280,20 @@ strong {
 
 .grid-miniature {
   margin-bottom: 12px; }
+
+.signin-form {
+  width: 300px;
+  height: 300px;
+  margin: 33px auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between; }
+  .signin-form input {
+    width: 90%; }
+
+.signin-error_message {
+  color: #ff680a;
+  font-size: 0.8em; }
 
 header {
   display: flex;

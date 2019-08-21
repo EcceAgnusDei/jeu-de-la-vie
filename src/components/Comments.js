@@ -82,6 +82,18 @@ class Comments extends Component {
 				json ? this.getComments() : alert('Erreur');
 			});
 	}
+
+	deleteComment(id)
+	{
+		fetch(`${apiPath}deleteComment.php`, {
+			method: 'post',
+			body: id
+		})
+		.then(response=> response.json())
+		.then(json => {
+			json ? this.getComments() : alert('erreur');
+		});
+	}
 	
 	render() {
 		const commentsJSX = this.state.comments.map(
@@ -92,15 +104,15 @@ class Comments extends Component {
 				<div className="like-container">
 					<div className={item.likeState === 'liked' ? 'blue' : ''}>
 						{this.props.userId != 0 ?
-							<button 
-								title={item.likeState === 'liked' ? 'Je n\'aime plus' : 'J\'aime'}
-								onClick={() => this.likeComment(item.id)}
-								className="like-btn"
-							>
-								<i className="far fa-thumbs-up"></i>
-							</button> :
-							<i className="far fa-thumbs-up"></i>}
-							{item.nbLikes}
+						<button 
+							title={item.likeState === 'liked' ? 'Je n\'aime plus' : 'J\'aime'}
+							onClick={() => this.likeComment(item.id)}
+							className="like-btn"
+						>
+							<i className="far fa-thumbs-up"></i>
+						</button> :
+						<i className="far fa-thumbs-up"></i>}
+						{item.nbLikes}
 					</div>
 					<div className={item.likeState === 'disliked' ? 'red' : ''}>
 						{this.props.userId != 0 ?
@@ -114,6 +126,13 @@ class Comments extends Component {
 						{item.nbDislikes}
 					</div>
 				</div>
+				{(item.authorId === this.props.userId || this.props.userSpace) &&
+				<button 
+					className="danger-btn" 
+					onClick={() => this.deleteComment(item.id)}
+				>
+					Supprimer
+				</button>}
 			</div>
 		);
 		return (

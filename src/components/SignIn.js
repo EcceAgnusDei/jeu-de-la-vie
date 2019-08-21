@@ -7,9 +7,11 @@ class SignIn extends Component {
 		this.state = {
 			login: '',
 			password: '',
+			confirmPassword: '',
 			email: '',
-			loginColor: 'white',
-			passwordColor: 'white'
+			loginState: false,
+			passwordState: false,
+			confirmPasswordState: false
 		};
 
 		this.logins = [];
@@ -23,16 +25,19 @@ class SignIn extends Component {
 		this.setState({[name]: value});
 
 		if(name === 'login') {
-			this.logins.indexOf(value) === -1 && value.length !== 0 ? //le pseudo existant ?
-			this.setState({loginColor: 'green'}) :
-			value.length === 0 ?
-			this.setState({loginColor:'white'}) :
-			this.setState({loginColor:'red'});
+			this.logins.indexOf(value) === -1 ?
+			this.setState({loginState: true}) :
+			this.setState({loginState: false})
 		}
 		else if(name === 'password') {
 			value.length < 8 ?
-			this.setState({passwordColor: 'red'}) :
-			this.setState({passwordColor: 'green'});
+			this.setState({passwordState: false}) :
+			this.setState({passwordState: true});
+		}
+		else if(name === 'confirmPassword')
+		{
+			const state = this.state.password === value ? true : false;
+			this.setState({confirmPasswordState: state});
 		}
 	}
 
@@ -66,28 +71,37 @@ class SignIn extends Component {
 	render() {
 		return (
 			<React.Fragment>
-				<form onSubmit={this.handleSubmit}>
-					{this.state.loginColor === 'red' && <div>Pseudo déjà existant</div>}
+				<form className="signin-form" onSubmit={this.handleSubmit}>
 					<label>Pseudo
+					{!this.state.loginState && this.state.login.length != 0 && <div className="signin-error_message">Pseudo déjà existant</div>}
 					<input 
 						type="text" 
 						name="login"
 						onChange={this.handleChange} 
-						value={this.state.login} 
-						style={{backgroundColor: this.state.loginColor}}
+						value={this.state.login}
 						title="Entrez votre pseudo."
 						required
 					/>
 					</label>
 					<label>Mot de passe
-					{this.state.passwordColor === 'red' && <div>Mot de passe trop court (8 caractères minimum)</div>}
+					{!this.state.passwordState && this.state.password.length != 0 && <div className="signin-error_message">Mot de passe trop court (8 caractères minimum)</div>}
 					<input 
 						type="password" 
 						name="password" 
 						onChange={this.handleChange} 
 						value={this.state.password} 
-						style={{backgroundColor: this.state.passwordColor}}
 						title="Entrez votre mot de passe de 8 caractères minimum."
+						required
+					/>
+					</label>
+					<label>Confirmez mot de passe
+					{!this.state.confirmPasswordState && this.state.confirmPassword.length != 0 && <div className="signin-error_message">Ne correspond pas au mot de passe</div>}
+					<input 
+						type="password" 
+						name="confirmPassword" 
+						onChange={this.handleChange} 
+						value={this.state.confirmPassword}
+						title="Retapez votre mot de passe"
 						required
 					/>
 					</label>
@@ -101,7 +115,7 @@ class SignIn extends Component {
 						required 
 						/>
 					</label>
-					<button>S'inscrire</button>
+					<button className="btn">S'inscrire</button>
 				</form>
 			</React.Fragment>
 		);

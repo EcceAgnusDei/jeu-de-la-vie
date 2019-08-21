@@ -15,6 +15,7 @@ while($data = $request->fetch())
 {
 	$comment = [];
 	$comment['id'] = $data['id'];
+	$comment['authorId'] = $data['author_id'];
 	$comment['comment'] = $data['comment'];
 	$comment['date'] = $data['comment_date_fr'];
 	$comment['likeState'] = LikeManager::getLikeState($comment['id'], $currentUserId, 'comment');
