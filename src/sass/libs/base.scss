@@ -6,7 +6,7 @@ $danger: #ff680a;
 $noir: #1a1a1a;
 
 $medium: "(max-width: 780px)";
-$small: "(max-width: 560px)";
+$small: "(max-width: 570px)";
 $large: "(max-width: 940px)";
 
 li
@@ -14,6 +14,11 @@ li
 	list-style-type: none;
 	display: flex;
 	align-items: center;
+}
+
+ul
+{
+	padding: 0;
 }
 
 button
@@ -74,6 +79,10 @@ h1, h2, h3, h4
 {
 	width: 70%;
 	margin: auto;
+	@media #{$medium}
+	{
+		width: 95%;
+	}
 }
 
 strong

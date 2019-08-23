@@ -6,6 +6,7 @@ import Artworks from './components/Artworks';
 import SignIn from './components/SignIn';
 import UserSpace from './components/UserSpace';
 import Footer from './components/Footer';
+import SideDrawer from './components/SideDrawer';
 import { NavProvider } from './context/navContext';
 import { ArtworkProvider } from './context/artworkContext';
 import apiPath from './apiPath';
@@ -17,7 +18,8 @@ class App extends Component {
     this.state = {
       activePage: 'Accueil',
       artwork: {},
-      loggedId: 0
+      loggedId: 0,
+      sideDrawerOpen: false
     };
 
     this.menu = ['Accueil', 'Jouer', 'Créations', 'Inscription'];
@@ -25,6 +27,7 @@ class App extends Component {
     this.artworkLoad = this.artworkLoad.bind(this);
     this.log = this.log.bind(this);
     this.logout = this.logout.bind(this);
+    this.drawerClickHandler = this.drawerClickHandler.bind(this);
   }
 
   componentDidMount()
@@ -71,6 +74,11 @@ class App extends Component {
     this.setState({loggedId: 0, activePage: 'Accueil'});
     sessionStorage.removeItem('userId');
   }
+
+  drawerClickHandler()
+  {
+    this.setState((prevState) => { return {sideDrawerOpen: !prevState.sideDrawerOpen} })
+  }
   
   render() {
     if(this.state.loggedId) {
@@ -82,7 +90,8 @@ class App extends Component {
     return (
       <div>
         <NavProvider value={{menu: this.menu, nav: this.handleNav}}>
-          <Header loggedId={this.state.loggedId} log={this.log}/>
+          <Header loggedId={this.state.loggedId} log={this.log} burgerClick={this.drawerClickHandler}/>
+          <SideDrawer open={this.state.sideDrawerOpen} backdropClick={this.drawerClickHandler}/>
         </NavProvider>
         <main>
           {this.state.activePage === 'Accueil' && <Home handleNav={this.handleNav}/>}

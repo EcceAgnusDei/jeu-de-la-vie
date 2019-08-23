@@ -43,6 +43,9 @@ h1, h2, h3, h4 {
 .grid {
   width: 70%;
   margin: auto; }
+  @media (max-width: 780px) {
+    .grid {
+      width: 95%; } }
 
 strong {
   color: #23cb1a;
@@ -117,7 +120,8 @@ strong {
   align-items: center;
   margin-left: 12px;
   width: 30%;
-  min-width: 300px; }
+  min-width: 300px;
+  max-width: 600px; }
   .log-form button {
     margin-bottom: 0;
     align-self: flex-end; }
@@ -172,6 +176,9 @@ strong {
   font-size: 2em; }
   .show_steps img {
     width: 250px; }
+  @media (max-width: 560px) {
+    .show_steps {
+      flex-direction: column; } }
 
 .comment {
   margin: 30px auto;
@@ -277,5 +284,20 @@ strong {
 .signin-error_message {
   color: #ff680a;
   font-size: 0.8em; }
+
+.backdrop {
+  background-color: rgba(0, 0, 0, 0.4);
+  height: 100vh;
+  width: 100%;
+  position: fixed;
+  top: 0;
+  left: 0; }
+
+.side_drawer {
+  width: 70%;
+  height: 100%;
+  background-color: white; }
+  .side_drawer .menu, .side_drawer .artworks-menu {
+    margin-top: 0; }
 
 /*# sourceMappingURL=module.css.map */

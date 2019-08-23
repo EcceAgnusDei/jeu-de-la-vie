@@ -18,6 +18,14 @@
 .menu
 {
 	display: flex;
+	margin: 0 24px;
+	header &
+	{
+		@media #{$medium}
+		{
+			display: none;
+		}
+	}
 }
 
 .btn
@@ -106,11 +114,34 @@
 	}
 }
 
+.burger-btn
+{
+	@extend .menu-btn;
+	padding: 0;
+	margin: 0 24px;
+	height: 48px;
+	width: 64px;
+	display: none;
+	flex-direction: column;
+	justify-content: space-between;
+	@media #{$medium}
+	{
+		display: flex;
+	}
+}
+
+.burger-bar
+{
+	height: 2px;
+	width: 64px;
+	background-color: $primary;
+	display: flex;
+}
+
 .log-form
 {
 	display: flex;
 	align-items: center;
-	margin-left: 12px;
 	width: 30%;
 	min-width: 300px;
 	max-width: 600px;
@@ -192,6 +223,11 @@
 	justify-content: space-between;
 	align-items: center;
 	font-size: 2em;
+	@media #{$small}
+	{
+		flex-direction: column;
+		width: 100%;
+	}
 }
 
 .comment
@@ -347,4 +383,40 @@
 {
 	color: $danger;
 	font-size: 0.8em;
+}
+
+.backdrop
+{
+	background-color: rgba(0, 0, 0, 0.4);
+	height: 100vh;
+	width: 100%;
+	position: fixed;
+	top: 0;
+	left: 0;
+	transform: translateX(-100%);
+	transition: 0.3s ease-out;
+}
+
+.side_drawer
+{
+	width: 70%;
+	height: 100%;
+	background-color: white;
+	box-shadow: 7px 0px 9px 2px rgba(0, 0, 0, 0.7);
+	.menu
+	{
+		margin-top: 0;
+		flex-direction: column;
+		justify-content: center;
+		height: 100vh;
+		li
+		{
+			margin: 24px 0;
+		}
+	}
+}
+
+.open
+{
+	transform: translateX(0);
 }

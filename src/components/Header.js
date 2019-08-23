@@ -7,7 +7,12 @@ function Header(props) {
 	return (
 		<header>
 			<img className="logo" src={logo}/>
-			<Navbar menu={props.menu}/>
+			<button className="burger-btn" onClick={props.burgerClick}>
+				<div className="burger-bar" />
+				<div className="burger-bar" />
+				<div className="burger-bar" />
+			</button>
+			<Navbar />
 			{!props.loggedId && <LogForm log={props.log}/>}
 		</header>
 	);
