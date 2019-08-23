@@ -5,11 +5,20 @@ $primary: #23cb1a;
 $danger: #ff680a;
 $noir: #1a1a1a;
 
+$medium: "(max-width: 780px)";
+$small: "(max-width: 560px)";
+$large: "(max-width: 940px)";
+
 li
 {
 	list-style-type: none;
 	display: flex;
 	align-items: center;
+}
+
+button
+{
+	font-family: 'Cabin', sans-serif;
 }
 
 body
@@ -19,6 +28,7 @@ body
 	min-height: 100vh;
 	position: relative;
 	color: $noir;
+	font-family: 'Cabin', sans-serif;
 }
 
 a
@@ -57,6 +67,7 @@ h1, h2, h3, h4
 {
 	color: $primary;
 	text-align: center;
+	font-family: 'BioRhyme', serif;
 }
 
 .grid

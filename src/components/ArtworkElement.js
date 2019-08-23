@@ -56,7 +56,7 @@ class ArtworkElement extends Component {
 		grid.grid(7, maxX +5, maxY +5);
 		grid.load(this.state.coords);
 	}
-	
+
 	render() {
 		return (
 			<div className="artwork-item">
@@ -75,6 +75,8 @@ class ArtworkElement extends Component {
 					}
 				}
 				</ArtworkConsumer>
+				{this.props.userSpace && 
+				<button className="danger-btn" onClick={() => this.props.deleteGrid(this.props.id)}>Supprimer</button>}
 			</div>
 		);
 	}

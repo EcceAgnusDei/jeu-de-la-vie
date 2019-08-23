@@ -17,12 +17,15 @@ class Artworks extends Component {
 		this.navigationVisibility = {next: true, prev: false}
 		this.maxPage = 0;
 		this.menu = ['Les dernières création', 'Les plus populaires'];
+		this.sort = 'date'
 
 		this.next = this.next.bind(this);
 		this.prev = this.prev.bind(this);
 		this.sortByLikes = this.sortByLikes.bind(this);
 		this.sortByDate = this.sortByDate.bind(this);
 		this.handleNav = this.handleNav.bind(this);
+		this.deleteGrid = this.deleteGrid.bind(this);
+		this.getIds = this.getIds.bind(this);
 	}
 
 	sortByLikes()
@@ -41,6 +44,7 @@ class Artworks extends Component {
 		const array = [...this.state.allIds];
 		array.sort(compare);
 
+		this.sort = 'likes'
 		this.setState({allIds: array, visibleIds: array.slice(0, this.elementPerPage)});
 	}
 
@@ -60,6 +64,7 @@ class Artworks extends Component {
 		const array = [...this.state.allIds];
 		array.sort(compare);
 
+		this.sort = 'date';
 		this.setState({allIds: array, visibleIds: array.slice(0, this.elementPerPage)});
 	}
 
@@ -73,6 +78,11 @@ class Artworks extends Component {
 	}
 
 	componentDidMount()
+	{
+		this.getIds();
+	}
+
+	getIds()
 	{
 		let API = '';
 		let init = {};
@@ -93,6 +103,21 @@ class Artworks extends Component {
 				); //gérer le cas ou il y a moins de 8 créations
 			})
 			.catch(error => console.error(error));
+	}
+
+	deleteGrid(id)
+	{	
+		if(window.confirm('Voulez-vous supprimer votre création ?'))
+		{
+			fetch(`${apiPath}deleteGrid.php`, {
+	      		method: 'post',
+	      		body: id
+	    	})
+			.then(response => response.json())
+			.then(json => {
+				json ? this.getIds() : alert('erreur');
+			});
+		}
 	}
 	
 	next()
@@ -117,16 +142,31 @@ class Artworks extends Component {
 
 	render() {
 		const gridsJSX = this.state.visibleIds.map( item =>
-			<ArtworkElement key={item.id} id={item.id} elementPerPage={this.elementPerPage} rows={this.rows}/>
+			<ArtworkElement deleteGrid={this.deleteGrid} key={item.id} id={item.id} userSpace={this.props.userSpace} elementPerPage={this.elementPerPage} rows={this.rows}/>
 		);
 		const menuJSX = this.menu.map(item =>
-			<li key={item}><button className="menu-btn" onClick={() => this.handleNav(item)}>{item} <i className="fas fa-sort-down"></i></button></li>
+			<li key={item}><button className="menu-btn" onClick={() => this.handleNav(item)}>{item} {<i className="fas fa-sort-down"></i>}</button></li>
 		);
 		return (
 			<React.Fragment>
 				<nav>
 					<ul className="artworks-menu">
-						{menuJSX}
+						<li>
+							<button 
+								className="menu-btn" 
+								onClick={() => this.handleNav(this.menu[0])}
+							>
+							{this.menu[0]} {this.sort === 'date' && <i className="fas fa-sort-down"></i>}
+							</button>
+						</li>
+						<li>
+							<button 
+								className="menu-btn" 
+								onClick={() => this.handleNav(this.menu[1])}
+							>
+							{this.menu[1]} {this.sort === 'likes' && <i className="fas fa-sort-down"></i>}
+							</button>
+						</li>
 					</ul>
 				</nav>
 				<div className="artworks">

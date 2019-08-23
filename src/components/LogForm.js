@@ -28,13 +28,15 @@ class LogForm extends Component {
 	render() {
 		return (
 			<form className="log-form" onSubmit={this.handleSubmit}>
-				<label>Login
-					<input type="text" name="login" value={this.state.login} onChange={this.handleChange} required/>
-				</label>
-				<label>Mot de passe
-					<input type="password" name="password" value={this.state.password} onChange={this.handleChange} required/>
-				</label>
-				<button className="danger-btn">Go</button>
+				<div className="input-container">
+					<label>Login
+						<input type="text" name="login" value={this.state.login} onChange={this.handleChange} required/>
+					</label>
+					<label>Mot de passe
+						<input type="password" name="password" value={this.state.password} onChange={this.handleChange} required/>
+					</label>
+				</div>	
+			<button className="danger-btn">Go</button>
 			</form>
 		);
 	}

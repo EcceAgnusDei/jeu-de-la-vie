@@ -85,14 +85,17 @@ class Comments extends Component {
 
 	deleteComment(id)
 	{
-		fetch(`${apiPath}deleteComment.php`, {
-			method: 'post',
-			body: id
-		})
-		.then(response=> response.json())
-		.then(json => {
-			json ? this.getComments() : alert('erreur');
-		});
+		if(window.confirm('Voulez-vous supprimer votre commentaire ?'))
+		{
+			fetch(`${apiPath}deleteComment.php`, {
+				method: 'post',
+				body: id
+			})
+			.then(response=> response.json())
+			.then(json => {
+				json ? this.getComments() : alert('erreur');
+			});
+		}
 	}
 	
 	render() {
@@ -101,38 +104,40 @@ class Comments extends Component {
 			<div key={item.id} className="comment">
 				<div><strong>{!this.props.userSpace && item.author}</strong> le {item.date}</div>
 				<p>{item.comment}</p>
-				<div className="like-container">
-					<div className={item.likeState === 'liked' ? 'blue' : ''}>
-						{this.props.userId != 0 ?
-						<button 
-							title={item.likeState === 'liked' ? 'Je n\'aime plus' : 'J\'aime'}
-							onClick={() => this.likeComment(item.id)}
-							className="like-btn"
-						>
-							<i className="far fa-thumbs-up"></i>
-						</button> :
-						<i className="far fa-thumbs-up"></i>}
-						{item.nbLikes}
+				<div className="comment_action-container">
+					<div className="like-container">
+						<div className={item.likeState === 'liked' ? 'blue' : ''}>
+							{this.props.userId != 0 ?
+							<button 
+								title={item.likeState === 'liked' ? 'Je n\'aime plus' : 'J\'aime'}
+								onClick={() => this.likeComment(item.id)}
+								className="like-btn"
+							>
+								<i className="far fa-thumbs-up"></i>
+							</button> :
+							<i className="far fa-thumbs-up"></i>}
+							{item.nbLikes}
+						</div>
+						<div className={item.likeState === 'disliked' ? 'red' : ''}>
+							{this.props.userId != 0 ?
+							<button
+								title={item.likeState === 'disliked' ? 'Pas si mal finalement...' : 'Je n\'aime pas!'}
+								onClick={() => this.dislikeComment(item.id)}
+								className="like-btn"
+							><i className="far fa-thumbs-down"></i>
+							</button> :
+							<i className="far fa-thumbs-down"></i>}
+							{item.nbDislikes}
+						</div>
 					</div>
-					<div className={item.likeState === 'disliked' ? 'red' : ''}>
-						{this.props.userId != 0 ?
-						<button
-							title={item.likeState === 'disliked' ? 'Pas si mal finalement...' : 'Je n\'aime pas!'}
-							onClick={() => this.dislikeComment(item.id)}
-							className="like-btn"
-						><i className="far fa-thumbs-down"></i>
-						</button> :
-						<i className="far fa-thumbs-down"></i>}
-						{item.nbDislikes}
-					</div>
+					{(item.authorId === this.props.userId || this.props.userSpace) &&
+					<button 
+						className="danger-btn" 
+						onClick={() => this.deleteComment(item.id)}
+					>
+						Supprimer
+					</button>}
 				</div>
-				{(item.authorId === this.props.userId || this.props.userSpace) &&
-				<button 
-					className="danger-btn" 
-					onClick={() => this.deleteComment(item.id)}
-				>
-					Supprimer
-				</button>}
 			</div>
 		);
 		return (

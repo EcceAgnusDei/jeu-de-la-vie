@@ -6,6 +6,7 @@ header
 {
 	display: flex;
 	align-items: center;
+	justify-content: flex-start;
 	border-bottom: solid 3px $danger;
 }
 

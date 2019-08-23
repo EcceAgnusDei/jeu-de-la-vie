@@ -47,6 +47,7 @@
 	@extend .btn;
 	color: $primary;
 	background-color: transparent;
+	font-size: 0.9em;
 	margin: 0;
 	&:hover
 	{
@@ -91,7 +92,7 @@
 .artwork-btn
 {
 	@extend .menu-btn;
-	font-size: 1.2em;
+	font-size: 1em;
 }
 
 .like-btn
@@ -110,15 +111,28 @@
 	display: flex;
 	align-items: center;
 	margin-left: 12px;
+	width: 30%;
+	min-width: 300px;
+	max-width: 600px;
 	button
 	{
 		margin-bottom: 0;
 		align-self: flex-end;
 	}
+	input
+	{
+		width: 100%;
+	}
 	label
 	{
 		color: $danger;
 		margin-left: 7px;
+		width: 47%;
+	}
+	.input-container
+	{
+		display: flex;
+		flex: 1;
 	}
 }
 
@@ -192,6 +206,13 @@
 {
 	width: 50%;
 	margin: auto;
+}
+
+.comment_action-container
+{
+	display: flex;
+	justify-content: space-between;
+	align-items: space-around;
 }
 
 .comment-form
@@ -274,7 +295,7 @@
 	justify-content: space-between;
 	align-items: center;
 	margin: auto;
-	width: 320px;
+	width: 330px;
 	button
 	{
 		align-self: flex-end;
@@ -285,9 +306,22 @@
 .artworks-menu
 {
 	@extend .menu;
-	width: 420px;
+	width: 430px;
+	height: 33px;
 	margin: 33px auto;
 	padding: 0;
+	button
+	{
+		position: relative;
+	}
+	.fas
+	{
+		display: block;
+		position: absolute;
+		bottom: -7px;
+		right: 50%;
+		transform: translateX(50%);
+	}
 }
 
 .grid-miniature
