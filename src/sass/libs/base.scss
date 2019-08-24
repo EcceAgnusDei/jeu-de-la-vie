@@ -98,3 +98,8 @@ strong
 	color: $primary;
 	font-size: 1.2em;
 }
+
+.current_page
+{
+	color: darken($primary, 10) !important;
+}

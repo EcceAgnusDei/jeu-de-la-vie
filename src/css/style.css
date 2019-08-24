@@ -57,6 +57,9 @@ strong {
   color: #23cb1a;
   font-size: 1.2em; }
 
+.current_page {
+  color: #1b9e14 !important; }
+
 .blue {
   color: #4785ff !important; }
 

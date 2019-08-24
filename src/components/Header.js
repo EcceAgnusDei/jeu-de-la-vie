@@ -12,7 +12,7 @@ function Header(props) {
 				<div className="burger-bar" />
 				<div className="burger-bar" />
 			</button>
-			<Navbar />
+			<Navbar active={props.active}/>
 			{!props.loggedId && <LogForm log={props.log}/>}
 		</header>
 	);

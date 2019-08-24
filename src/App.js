@@ -90,7 +90,7 @@ class App extends Component {
     return (
       <React.Fragment>
         <NavProvider value={{menu: this.menu, nav: this.handleNav}}>
-          <Header loggedId={this.state.loggedId} log={this.log} burgerClick={this.drawerClickHandler}/>
+          <Header loggedId={this.state.loggedId} log={this.log} burgerClick={this.drawerClickHandler} active={this.state.activePage}/>
           <SideDrawer open={this.state.sideDrawerOpen} backdropClick={this.drawerClickHandler}/>
         </NavProvider>
         <main>
