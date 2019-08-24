@@ -34,6 +34,10 @@ body
 	position: relative;
 	color: $noir;
 	font-family: 'Cabin', sans-serif;
+	@media #{$small}
+	{
+		font-size: 1.1em;
+	}
 }
 
 a
@@ -73,6 +77,10 @@ h1, h2, h3, h4
 	color: $primary;
 	text-align: center;
 	font-family: 'BioRhyme', serif;
+	@media #{$small}
+	{
+		//font-size: 1.2em;
+	}
 }
 
 .grid

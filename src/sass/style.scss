@@ -24,7 +24,7 @@ footer
 	align-items: center;
 	*
 	{
-		margin: 0 7px;
+		margin: 0 3px;
 	}
 	button
 	{
@@ -35,6 +35,21 @@ footer
 		{
 			color: darken($danger, 10);
 		}
+	}
+	@media #{$small}
+	{
+		*
+		{
+			
+		}
+	}
+}
+
+.footer-container
+{
+	@media #{$small}
+	{
+		margin: 0;
 	}
 }
 

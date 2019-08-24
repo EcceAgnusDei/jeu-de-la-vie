@@ -16,6 +16,9 @@ body {
   position: relative;
   color: #1a1a1a;
   font-family: 'Cabin', sans-serif; }
+  @media (max-width: 570px) {
+    body {
+      font-size: 1.1em; } }
 
 a, .link {
   text-decoration: none;
@@ -186,13 +189,16 @@ strong {
   .artwork-item canvas {
     max-width: 100%;
     max-height: 300px; }
+  @media (max-width: 570px) {
+    .artwork-item {
+      width: 320px; } }
 
 .artworks {
   width: 100%;
-  height: 700px;
+  min-height: 700px;
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-between;
+  justify-content: center;
   align-content: space-between; }
 
 .artworks-nav {
@@ -231,6 +237,9 @@ strong {
 .comment-container {
   width: 50%;
   margin: auto; }
+  @media (max-width: 940px) {
+    .comment-container {
+      width: 90%; } }
 
 .comment_action-container {
   display: flex;
@@ -285,6 +294,14 @@ strong {
   .grid_size-form input {
     width: 70px;
     text-align: center; }
+  @media (max-width: 570px) {
+    .grid_size-form {
+      flex-direction: column;
+      width: 200px; }
+      .grid_size-form button {
+        align-self: center; }
+      .grid_size-form label {
+        margin: 7px 0; } }
 
 .save_grid-form {
   display: flex;
@@ -297,7 +314,9 @@ strong {
     margin-bottom: 0; }
 
 .artworks-menu {
-  width: 430px;
+  display: flex;
+  justify-content: center;
+  width: 100%;
   height: 33px;
   margin: 33px auto;
   padding: 0; }
@@ -306,6 +325,7 @@ strong {
   .artworks-menu .fas {
     display: block;
     position: absolute;
+    z-index: 0;
     bottom: -7px;
     right: 50%;
     transform: translateX(50%); }
@@ -332,6 +352,7 @@ strong {
   height: 100vh;
   width: 100%;
   position: fixed;
+  z-index: 3;
   top: 0;
   left: 0;
   transform: translateX(-100%);
@@ -353,10 +374,6 @@ strong {
     height: 100vh; }
     .side_drawer .menu li, .side_drawer .artworks-menu li {
       margin: 24px 0; }
-    @media (max-width: 570px) {
-      .side_drawer .menu, .side_drawer .artworks-menu {
-        height: 50vh;
-        justify-content: space-between; } }
 
 .open {
   transform: translateX(0); }
@@ -379,12 +396,16 @@ footer {
   justify-content: center;
   align-items: center; }
   footer * {
-    margin: 0 7px; }
+    margin: 0 3px; }
   footer button {
     font-weight: 400;
     color: #ff680a; }
     footer button:hover {
       color: #d65200; }
+
+@media (max-width: 570px) {
+  .footer-container {
+    margin: 0; } }
 
 main {
   padding-bottom: 80px; }

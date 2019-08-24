@@ -88,7 +88,7 @@ class App extends Component {
     }
     
     return (
-      <div>
+      <React.Fragment>
         <NavProvider value={{menu: this.menu, nav: this.handleNav}}>
           <Header loggedId={this.state.loggedId} log={this.log} burgerClick={this.drawerClickHandler}/>
           <SideDrawer open={this.state.sideDrawerOpen} backdropClick={this.drawerClickHandler}/>
@@ -104,7 +104,7 @@ class App extends Component {
           {this.state.activePage === 'Inscription' && <SignIn handleNav={this.handleNav} log={this.log}/>}
         </main>
           <Footer userId={this.state.loggedId} logout={this.logout}/>
-      </div>
+      </React.Fragment>
     );
   }
 }
