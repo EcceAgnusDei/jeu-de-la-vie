@@ -4,6 +4,8 @@ $red: #ff2424;
 $primary: #23cb1a;
 $danger: #ff680a;
 $noir: #1a1a1a;
+$backgroundPrimary: lighten($primary, 50);
+$backgroundSecondary: lighten($danger, 42);
 
 $medium: "(max-width: 780px)";
 $small: "(max-width: 570px)";
@@ -34,6 +36,7 @@ body
 	position: relative;
 	color: $noir;
 	font-family: 'Cabin', sans-serif;
+	background-color: $backgroundPrimary;
 	@media #{$small}
 	{
 		font-size: 1.1em;
@@ -101,5 +104,5 @@ strong
 
 .current_page
 {
-	color: darken($primary, 10) !important;
+	color: $danger !important;
 }

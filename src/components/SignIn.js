@@ -44,7 +44,7 @@ class SignIn extends Component {
 	handleSubmit(event) {
 		event.preventDefault();
 
-		if(this.state.loginColor === 'green' && this.state.passwordColor === 'green')
+		if(this.state.loginState && this.state.passwordState && this.state.confirmPasswordState)
 		{
 			fetch(`${apiPath}signIn.php`, {
 				method: 'POST',
@@ -58,14 +58,14 @@ class SignIn extends Component {
 					} else {
 						alert('erreur');
 					}
-				});
+				})
 		}
 	}
 
 	componentDidMount() {
 		fetch(`${apiPath}getLogins.php`)
 			.then(response => response.json())
-			.then(json => {this.logins = json});
+			.then(json => {this.logins = json})
 	}
 	
 	render() {

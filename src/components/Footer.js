@@ -19,7 +19,7 @@ function Footer(props) {
 					} else {
 						alert('Erreur');
 					}
-				});
+				})
 		}
 	}
 

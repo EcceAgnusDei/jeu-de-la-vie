@@ -3,7 +3,6 @@ import { NavConsumer } from '../context/navContext'
 
 function Navbar(props) {
 	let className;
-	console.log('************Rendering menu************');
 	return (
 		<nav>
 			<ul className="menu">
@@ -11,7 +10,6 @@ function Navbar(props) {
 				{
 					(value) => {
 						return value.menu.map(item => {
-							console.log(item, props.active)
 							if(props.active === item)
 							{
 								className = 'menu-btn current_page';

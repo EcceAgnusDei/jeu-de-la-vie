@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import ArtworksNav from './ArtworksNav';
 import ArtworkElement from './ArtworkElement';
+import ErrorBoundary from './ErrorBoundary';
 import apiPath from '../apiPath';
 
 class Artworks extends Component {
@@ -8,11 +9,13 @@ class Artworks extends Component {
 		super(props);
 		this.state = {
 			allIds: [],
-			visibleIds: []
+			visibleIds: [],
+			hasDbError: false,
+			loading: true
 		};
 
 		this.page = 0;
-		this.elementPerPage = 8;
+		this.elementPerPage = 20;
 		this.rows = 2;
 		this.navigationVisibility = {next: true, prev: false}
 		this.maxPage = 0;
@@ -84,6 +87,7 @@ class Artworks extends Component {
 
 	getIds()
 	{
+		this.setState({loading: true})
 		let API = '';
 		let init = {};
 		if(this.props.userSpace)
@@ -98,11 +102,15 @@ class Artworks extends Component {
 			.then(response => response.json())
 			.then(json => {
 
-				this.setState({allIds: json, visibleIds: json.slice(0, this.elementPerPage)},
+				this.setState({
+					allIds: json, 
+					visibleIds: json.slice(0, this.elementPerPage),
+					loading: false
+					},
 					() => {this.maxPage = Math.floor(this.state.allIds.length / this.elementPerPage)}
 				); //gérer le cas ou il y a moins de 8 créations
 			})
-			.catch(error => console.error(error));
+			.catch(() => this.setState({hasDbError: true}));
 	}
 
 	deleteGrid(id)
@@ -116,7 +124,8 @@ class Artworks extends Component {
 			.then(response => response.json())
 			.then(json => {
 				json ? this.getIds() : alert('erreur');
-			});
+			})
+			.catch(() => this.setState({hasDbError: true}));
 		}
 	}
 	
@@ -141,12 +150,16 @@ class Artworks extends Component {
 	}
 
 	render() {
-		const gridsJSX = this.state.visibleIds.map( item =>
-			<ArtworkElement deleteGrid={this.deleteGrid} key={item.id} id={item.id} userSpace={this.props.userSpace} elementPerPage={this.elementPerPage} rows={this.rows}/>
+		const gridsJSX = this.state.visibleIds.map( item => 
+				<ArtworkElement deleteGrid={this.deleteGrid} key={item.id} id={item.id} userSpace={this.props.userSpace} elementPerPage={this.elementPerPage} rows={this.rows}/>
 		);
 		const menuJSX = this.menu.map(item =>
 			<li key={item}><button className="menu-btn" onClick={() => this.handleNav(item)}>{item} {<i className="fas fa-sort-down"></i>}</button></li>
 		);
+		if (this.state.hasDbError)
+		{
+			throw new Error('Impossible de se connecter à la base de données');
+		}
 		return (
 			<React.Fragment>
 				<nav>
@@ -170,7 +183,11 @@ class Artworks extends Component {
 					</ul>
 				</nav>
 				<div className="artworks">
-					{gridsJSX}
+				{
+					this.state.loading ? 
+					<div className="loading"><i class="fas fa-spinner"></i></div> :
+					<React.Fragment>{gridsJSX}</React.Fragment>
+				}
 				</div>
 				<ArtworksNav next={this.next} prev={this.prev} visibility={this.navigationVisibility}/>
 			</React.Fragment>

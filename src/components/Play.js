@@ -115,7 +115,7 @@ class Play extends Component {
 				} else {
 					alert('erreur');
 				}
-			});
+			})
 	}
 
 	loadLikes()
@@ -127,7 +127,7 @@ class Play extends Component {
 			.then(response => response.json())
 			.then(json => {
 				this.setState({likes: json.likes, likers: json.likers});
-			});
+			})
 	}
 
 	isLiked()
@@ -154,7 +154,7 @@ class Play extends Component {
 			} else {
 				alert('Erreur');
 			}
-		});
+		})
 	}
 
 	render() {

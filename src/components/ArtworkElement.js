@@ -11,7 +11,8 @@ class ArtworkElement extends Component {
 			name: '',
 			author: '',
 			coords: [],
-			likes: 0
+			likes: 0,
+			loading: true
 		};
 	}
 
@@ -29,10 +30,11 @@ class ArtworkElement extends Component {
 				name: name,
 				author: author,
 				coords: JSON.parse(json),
-				likes: likes
+				likes: likes,
+				loading: false
 			});
 		})
-		.catch(error => console.error(error));
+		.catch(() => this.setState({hasDbError: true}));
 	}
 
 	componentDidUpdate()
@@ -58,25 +60,32 @@ class ArtworkElement extends Component {
 	}
 
 	render() {
+		if (this.state.hasDbError)
+		{
+			throw new Error('Impossible de se connecter à la base de données');
+		}
 		return (
 			<div className="artwork-item">
-				<canvas className="grid-miniature" id={`miniature${this.props.id}`} />
-				<div className="blue">
-					{this.state.likes} <i className="far fa-thumbs-up"></i>
-				</div>
-				<ArtworkConsumer>
-				{
-					(value) => {
-						return <div>
-							<button className="artwork-btn" onClick={() => value(this.state)}>
-							{this.state.name} de {this.state.author}
-							</button>
-						</div>
+				{this.state.loading ? <div className="loading"><i class="fas fa-spinner"></i></div> :
+				<React.Fragment>
+					<canvas className="grid-miniature" id={`miniature${this.props.id}`} />
+					<div className="blue">
+						{this.state.likes} <i className="far fa-thumbs-up"></i>
+					</div>
+					<ArtworkConsumer>
+					{
+						(value) => {
+							return <div>
+								<button className="artwork-btn" onClick={() => value(this.state)}>
+								{this.state.name} de {this.state.author}
+								</button>
+							</div>
+						}
 					}
-				}
-				</ArtworkConsumer>
-				{this.props.userSpace && 
-				<button className="danger-btn" onClick={() => this.props.deleteGrid(this.props.id)}>Supprimer</button>}
+					</ArtworkConsumer>
+					{this.props.userSpace && 
+					<button className="danger-btn" onClick={() => this.props.deleteGrid(this.props.id)}>Supprimer</button>}
+				</React.Fragment>}
 			</div>
 		);
 	}

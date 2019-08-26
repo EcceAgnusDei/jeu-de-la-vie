@@ -9,10 +9,12 @@ header
 	justify-content: flex-start;
 	border-bottom: solid 3px $danger;
 	height: 70px;
+	background-color: $backgroundSecondary;
 }
 
 footer
 {
+	background-color: $backgroundSecondary;
 	border-top: solid 3px $danger;
 	font-size: 0.7em;
 	min-height: 30px;

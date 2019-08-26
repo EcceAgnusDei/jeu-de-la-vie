@@ -29,7 +29,8 @@ class Comments extends Component {
 			.then(json => {
 				console.log(json);
 				this.setState({comments: json})
-			});
+			})
+			.catch(() => {throw new Error('Impossible de se connecter à la base de données')});
 		} else {
 			fetch(`${apiPath}getGridComments.php`, {
 				method: 'post',
@@ -39,7 +40,7 @@ class Comments extends Component {
 			.then(json => {
 				console.log(json);
 				this.setState({comments: json})
-			});
+			})
 		}
 	}
 
@@ -56,7 +57,7 @@ class Comments extends Component {
 				} else {
 					alert('erreur');
 				}
-			});	
+			})
 	}
 
 	likeComment(commentId)
@@ -68,7 +69,7 @@ class Comments extends Component {
 			.then(response => response.json())
 			.then(json => {
 				json ? this.getComments() : alert('Erreur');
-			});
+			})
 	}
 
 	dislikeComment(commentId)
@@ -80,7 +81,7 @@ class Comments extends Component {
 			.then(response => response.json())
 			.then(json => {
 				json ? this.getComments() : alert('Erreur');
-			});
+			})
 	}
 
 	deleteComment(id)
@@ -94,7 +95,7 @@ class Comments extends Component {
 			.then(response=> response.json())
 			.then(json => {
 				json ? this.getComments() : alert('erreur');
-			});
+			})
 		}
 	}
 	

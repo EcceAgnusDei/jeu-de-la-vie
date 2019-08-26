@@ -15,7 +15,8 @@ body {
   min-height: 100vh;
   position: relative;
   color: #1a1a1a;
-  font-family: 'Cabin', sans-serif; }
+  font-family: 'Cabin', sans-serif;
+  background-color: #e9fce8; }
   @media (max-width: 570px) {
     body {
       font-size: 1.1em; } }
@@ -58,7 +59,7 @@ strong {
   font-size: 1.2em; }
 
 .current_page {
-  color: #1b9e14 !important; }
+  color: #ff680a !important; }
 
 .blue {
   color: #4785ff !important; }
@@ -381,14 +382,38 @@ strong {
 .open {
   transform: translateX(0); }
 
+.error {
+  display: flex;
+  flex-direction: column;
+  align-items: center; }
+  .error img {
+    width: 50%;
+    margin: 30px 0; }
+  .error h1 {
+    margin-bottom: 0; }
+  .error p {
+    text-align: center; }
+
+.loading {
+  color: #23cb1a;
+  font-size: 2em;
+  animation: loading_spin infinite 2s linear; }
+
+@keyframes loading_spin {
+  from {
+    transform: rotate(0deg); }
+  to {
+    transform: rotate(360deg); } }
 header {
   display: flex;
   align-items: center;
   justify-content: flex-start;
   border-bottom: solid 3px #ff680a;
-  height: 70px; }
+  height: 70px;
+  background-color: #ffece0; }
 
 footer {
+  background-color: #ffece0;
   border-top: solid 3px #ff680a;
   font-size: 0.7em;
   min-height: 30px;
