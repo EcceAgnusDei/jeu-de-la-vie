@@ -15,8 +15,7 @@ class Artworks extends Component {
 		};
 
 		this.page = 0;
-		this.elementPerPage = 20;
-		this.rows = 2;
+		this.elementPerPage = 8;
 		this.navigationVisibility = {next: true, prev: false}
 		this.maxPage = 0;
 		this.menu = ['Les dernières création', 'Les plus populaires'];
@@ -151,7 +150,7 @@ class Artworks extends Component {
 
 	render() {
 		const gridsJSX = this.state.visibleIds.map( item => 
-				<ArtworkElement deleteGrid={this.deleteGrid} key={item.id} id={item.id} userSpace={this.props.userSpace} elementPerPage={this.elementPerPage} rows={this.rows}/>
+				<ArtworkElement deleteGrid={this.deleteGrid} key={item.id} id={item.id} userSpace={this.props.userSpace} elementPerPage={this.elementPerPage} />
 		);
 		const menuJSX = this.menu.map(item =>
 			<li key={item}><button className="menu-btn" onClick={() => this.handleNav(item)}>{item} {<i className="fas fa-sort-down"></i>}</button></li>

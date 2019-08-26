@@ -340,7 +340,8 @@
 .grid_size-form
 {
 	width: 500px;
-	margin: 30px auto;
+	margin: auto;
+	margin-top: 30px;
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
@@ -367,6 +368,14 @@
 			margin: 7px 0;
 		}
 	}
+}
+
+.grid_size-error
+{
+	text-align: center;
+	color: $danger;
+	font-size: 0.8em;
+	margin-bottom: 30px;
 }
 
 .save_grid-form
