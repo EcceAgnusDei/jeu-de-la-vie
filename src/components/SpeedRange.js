@@ -20,7 +20,7 @@ class SpeedForm extends Component {
 	
 	render() {
 		return (
-			<label>Vitesse
+			<label className="speed_range">Vitesse
 				<input 
 					type="range" 
 					name="speed" 

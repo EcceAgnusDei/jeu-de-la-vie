@@ -59,7 +59,7 @@ strong {
   font-size: 1.2em; }
 
 .current_page {
-  color: #ff680a !important; }
+  color: #1b9e14 !important; }
 
 .blue {
   color: #4785ff !important; }
@@ -311,8 +311,7 @@ strong {
 .grid_size-error {
   text-align: center;
   color: #ff680a;
-  font-size: 0.8em;
-  margin-bottom: 30px; }
+  font-size: 0.8em; }
 
 .save_grid-form {
   display: flex;
@@ -323,6 +322,9 @@ strong {
   .save_grid-form button {
     align-self: flex-end;
     margin-bottom: 0; }
+
+.speed_range {
+  margin-top: 30px; }
 
 .artworks-menu {
   display: flex;

@@ -1,28 +1,27 @@
-import React from 'react'
-import { NavConsumer } from '../context/navContext'
+import React from 'react';
+import { NavConsumer } from '../context/navContext';
 
 function Navbar(props) {
+	console.log(props);
 	let className;
 	return (
 		<nav>
 			<ul className="menu">
-				<NavConsumer>
-				{
-					(value) => {
-						return value.menu.map(item => {
-							if(props.active === item)
-							{
-								className = 'menu-btn current_page';
-							} else {
-								className = 'menu-btn';
-							}
-							return  <li key={item}>
-									<button className={className} onClick={() => value.nav(item)}>{item}</button>
-								</li>
-						})
+			{
+				props.menu.map(item => {
+					if(props.active === item)
+					{
+						className = 'menu-btn current_page';
+					} else {
+						className = 'menu-btn';
 					}
-				}
-				</NavConsumer>
+					return  (
+						<li key={item}>
+							<button className={className} onClick={() => props.nav(item)}>{item}</button>
+						</li>
+					);
+				})
+			}
 			</ul>
 		</nav>
 	);

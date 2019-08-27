@@ -7,6 +7,7 @@ import SignIn from './components/SignIn';
 import UserSpace from './components/UserSpace';
 import Footer from './components/Footer';
 import SideDrawer from './components/SideDrawer';
+import Navbar from './components/Navbar';
 import ErrorBoundary from './components/ErrorBoundary';
 import { NavProvider } from './context/navContext';
 import { ArtworkProvider } from './context/artworkContext';
@@ -87,13 +88,21 @@ class App extends Component {
     } else {
       this.menu[3] = 'Inscription';
     }
-    
+    const navbar = <Navbar menu={this.menu} nav={this.handleNav} active={this.state.activePage}/>;
     return (
       <React.Fragment>
-          <NavProvider value={{menu: this.menu, nav: this.handleNav}}>
-            <Header loggedId={this.state.loggedId} log={this.log} burgerClick={this.drawerClickHandler} active={this.state.activePage}/>
-            <SideDrawer open={this.state.sideDrawerOpen} backdropClick={this.drawerClickHandler}/>
-          </NavProvider>
+          <Header 
+            loggedId={this.state.loggedId} 
+            log={this.log} 
+            burgerClick={this.drawerClickHandler} 
+            active={this.state.activePage}
+            navbar={navbar}
+          />
+          <SideDrawer 
+            open={this.state.sideDrawerOpen} 
+            backdropClick={this.drawerClickHandler}
+            navbar={navbar}
+          />
           <main>
             {this.state.activePage === 'Accueil' && 
               <Home handleNav={this.handleNav}/>}

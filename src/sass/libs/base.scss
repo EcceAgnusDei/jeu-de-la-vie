@@ -104,5 +104,5 @@ strong
 
 .current_page
 {
-	color: $danger !important;
+	color: darken($primary, 10) !important;
 }

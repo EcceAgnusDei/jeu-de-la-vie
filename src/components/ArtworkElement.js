@@ -77,7 +77,7 @@ class ArtworkElement extends Component {
 						(value) => {
 							return <div>
 								<button className="artwork-btn" onClick={() => value(this.state)}>
-								{this.state.name} de {this.state.author}
+								<em>{this.state.name}</em> de {this.state.author}
 								</button>
 							</div>
 						}

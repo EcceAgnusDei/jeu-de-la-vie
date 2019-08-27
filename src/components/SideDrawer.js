@@ -12,7 +12,7 @@ function SideDrawer(props) {
 	return (
 		<div className={className} onClick={props.backdropClick}>
 			<div className="side_drawer">
-				<Navbar />
+				{props.navbar}
 			</div>
 		</div>
 	);

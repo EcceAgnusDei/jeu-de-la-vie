@@ -375,7 +375,6 @@
 	text-align: center;
 	color: $danger;
 	font-size: 0.8em;
-	margin-bottom: 30px;
 }
 
 .save_grid-form
@@ -390,6 +389,11 @@
 		align-self: flex-end;
 		margin-bottom: 0;
 	}
+}
+
+.speed_range
+{
+	margin-top: 30px;
 }
 
 .artworks-menu
