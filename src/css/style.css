@@ -80,7 +80,7 @@ strong {
     header .menu, header .artworks-menu {
       display: none; } }
 
-.btn, .menu-btn, .nav-btn, .artwork-btn, .like-btn, .burger-btn, footer button, .command-btn, .comment-form button, .danger-btn {
+.btn, .menu-btn, .nav-btn, .artwork-btn, .like-btn, .burger-btn, .footer-container button, .command-btn, .comment-form button, .danger-btn {
   outline: none;
   border: none;
   border-radius: 4px;
@@ -90,21 +90,21 @@ strong {
   margin: 5px;
   color: white;
   background-color: #23cb1a; }
-  .btn:hover, .menu-btn:hover, .nav-btn:hover, .artwork-btn:hover, .like-btn:hover, .burger-btn:hover, footer button:hover, .command-btn:hover, .comment-form button:hover, .danger-btn:hover {
+  .btn:hover, .menu-btn:hover, .nav-btn:hover, .artwork-btn:hover, .like-btn:hover, .burger-btn:hover, .footer-container button:hover, .command-btn:hover, .comment-form button:hover, .danger-btn:hover {
     cursor: pointer;
     background-color: #1b9e14; }
-  .btn:active, .menu-btn:active, .nav-btn:active, .artwork-btn:active, .like-btn:active, .burger-btn:active, footer button:active, .command-btn:active, .comment-form button:active, .danger-btn:active {
+  .btn:active, .menu-btn:active, .nav-btn:active, .artwork-btn:active, .like-btn:active, .burger-btn:active, .footer-container button:active, .command-btn:active, .comment-form button:active, .danger-btn:active {
     transform: scale(0.95); }
 
-.menu-btn, .nav-btn, .artwork-btn, .like-btn, .burger-btn, footer button {
+.menu-btn, .nav-btn, .artwork-btn, .like-btn, .burger-btn, .footer-container button {
   color: #23cb1a;
   background-color: transparent;
   font-size: 0.9em;
   margin: 0; }
-  .menu-btn:hover, .nav-btn:hover, .artwork-btn:hover, .like-btn:hover, .burger-btn:hover, footer button:hover {
+  .menu-btn:hover, .nav-btn:hover, .artwork-btn:hover, .like-btn:hover, .burger-btn:hover, .footer-container button:hover {
     color: #1b9e14;
     background-color: transparent; }
-  .menu-btn:active, .nav-btn:active, .artwork-btn:active, .like-btn:active, .burger-btn:active, footer button:active {
+  .menu-btn:active, .nav-btn:active, .artwork-btn:active, .like-btn:active, .burger-btn:active, .footer-container button:active {
     transform: none; }
 
 .command-btn, .comment-form button {
@@ -217,6 +217,11 @@ strong {
     position: absolute;
     top: 0;
     right: 0; }
+
+.artworks-item-command {
+  display: flex;
+  flex-direction: column;
+  align-items: center; }
 
 .show_steps {
   width: 570px;
@@ -413,6 +418,31 @@ strong {
     transform: rotate(0deg); }
   to {
     transform: rotate(360deg); } }
+.footer-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  width: 100%; }
+  .footer-container .legal {
+    display: flex;
+    align-items: center; }
+  .footer-container * {
+    white-space: nowrap;
+    box-sizing: border-box; }
+  .footer-container .bottom {
+    width: 100%;
+    display: flex;
+    justify-content: space-between; }
+  .footer-container button {
+    font-weight: 400;
+    color: #ff680a;
+    align-self: flex-end; }
+    .footer-container button:hover {
+      color: #d65200; }
+  @media (max-width: 570px) {
+    .footer-container {
+      margin: 0; } }
+
 header {
   display: flex;
   align-items: center;
@@ -424,8 +454,8 @@ header {
 footer {
   background-color: #ffece0;
   border-top: solid 3px #ff680a;
-  font-size: 0.7em;
-  min-height: 30px;
+  font-size: 1em;
+  height: 70px;
   position: absolute;
   bottom: 0;
   width: 100%;
@@ -434,17 +464,8 @@ footer {
   align-items: center; }
   footer * {
     margin: 0 3px; }
-  footer button {
-    font-weight: 400;
-    color: #ff680a; }
-    footer button:hover {
-      color: #d65200; }
-
-@media (max-width: 570px) {
-  .footer-container {
-    margin: 0; } }
 
 main {
-  padding-bottom: 80px; }
+  padding-bottom: 120px; }
 
 /*# sourceMappingURL=style.css.map */

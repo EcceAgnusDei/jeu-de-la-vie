@@ -16,8 +16,8 @@ footer
 {
 	background-color: $backgroundSecondary;
 	border-top: solid 3px $danger;
-	font-size: 0.7em;
-	min-height: 30px;
+	font-size: 1em;
+	height: 70px;
 	position: absolute;
 	bottom: 0;
 	width: 100%;
@@ -28,27 +28,9 @@ footer
 	{
 		margin: 0 3px;
 	}
-	button
-	{
-		@extend .menu-btn;
-		font-weight: 400;
-		color: $danger;
-		&:hover
-		{
-			color: darken($danger, 10);
-		}
-	}
-}
-
-.footer-container
-{
-	@media #{$small}
-	{
-		margin: 0;
-	}
 }
 
 main
 {
-	padding-bottom: 80px;
+	padding-bottom: 120px;
 }

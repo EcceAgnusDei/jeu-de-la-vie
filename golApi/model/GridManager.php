@@ -70,7 +70,7 @@ class GridManager extends Manager
 	static function getGridById($id)
 	{
 		$dataBase = self::dbConnect();
-		$request = $dataBase->prepare('SELECT id, name,json, author_id, DATE_FORMAT(grid_date, \'%d/%m/%Y à %Hh%imin\') AS grid_date_fr FROM grids WHERE id = ?');
+		$request = $dataBase->prepare('SELECT id, name,json, client_visibility, author_id, DATE_FORMAT(grid_date, \'%d/%m/%Y à %Hh%imin\') AS grid_date_fr FROM grids WHERE id = ?');
 		$request->execute(array($id));
 
 		return $request;
@@ -158,6 +158,18 @@ class GridManager extends Manager
 	}
 
 	/**
+	 * Permet d'obtenir toutes les créations visibles coté client
+	 * @return PDOStatment Les créations visibles
+	 */
+	static function getClientVisible()
+	{
+		$dataBase = self::dbConnect();
+		$grids = $dataBase->query('SELECT * FROM grids WHERE client_visibility = 1 ORDER BY grid_date DESC');
+
+		return $grids;
+	}
+
+	/**
 	 * Permet de supprimer toutes les créations d'un même utilisateur
 	 * @param  Int $id id de l'utilisateur
 	 * @return Bool     Renvoie true si l'opération s'est bien effectuée
@@ -179,5 +191,19 @@ class GridManager extends Manager
 		$data = $request->fetch();
 
 		return $data['nb_likes'];
+	}
+
+	static function setClientVisible($id)
+	{
+		$dataBase = self::dbConnect();
+		$request = $dataBase->prepare('UPDATE grids SET client_visibility = 1 WHERE id = ?');
+		$request->execute(array($id));
+	}
+
+	static function setClientUnvisible($id)
+	{
+		$dataBase = self::dbConnect();
+		$request = $dataBase->prepare('UPDATE grids SET client_visibility = 0 WHERE id = ?');
+		$request->execute(array($id));
 	}
 }

@@ -11,13 +11,12 @@ class Artworks extends Component {
 			allIds: [],
 			visibleIds: [],
 			hasDbError: false,
-			loading: true
+			loading: true,
+			maxPage: 0
 		};
 
 		this.page = 0;
 		this.elementPerPage = 8;
-		this.navigationVisibility = {next: true, prev: false}
-		this.maxPage = 0;
 		this.menu = ['Les dernières création', 'Les plus populaires'];
 		this.sort = 'date'
 
@@ -104,9 +103,9 @@ class Artworks extends Component {
 				this.setState({
 					allIds: json, 
 					visibleIds: json.slice(0, this.elementPerPage),
-					loading: false
-					},
-					() => {this.maxPage = Math.floor(this.state.allIds.length / this.elementPerPage)}
+					loading: false,
+					maxPage: Math.floor(json.length / this.elementPerPage)
+					}
 				); //gérer le cas ou il y a moins de 8 créations
 			})
 			.catch(() => this.setState({hasDbError: true}));
@@ -130,9 +129,7 @@ class Artworks extends Component {
 	
 	next()
 	{
-		this.page++;
-		this.page === this.maxPage ? this.navigationVisibility.next = false : this.navigationVisibility.next = true;
-		this.navigationVisibility.prev = true;
+		this.page++;;
 		this.setState((prevState) => {
 			return {visibleIds: prevState.allIds.slice(this.page * this.elementPerPage, (this.page + 1) * this.elementPerPage)}
 		});
@@ -141,8 +138,6 @@ class Artworks extends Component {
 	prev()
 	{
 		this.page--;
-		this.page === 0 ? this.navigationVisibility.prev = false : this.navigationVisibility.prev = true
-		this.navigationVisibility.next = true;
 		this.setState((prevState) => {
 			return {visibleIds: prevState.allIds.slice(this.page * this.elementPerPage, (this.page + 1) * this.elementPerPage)}
 		});
@@ -184,11 +179,11 @@ class Artworks extends Component {
 				<div className="artworks">
 				{
 					this.state.loading ? 
-					<div className="loading"><i class="fas fa-spinner"></i></div> :
+					<div className="loading"><i className="fas fa-spinner"></i></div> :
 					<React.Fragment>{gridsJSX}</React.Fragment>
 				}
 				</div>
-				<ArtworksNav next={this.next} prev={this.prev} visibility={this.navigationVisibility}/>
+				<ArtworksNav next={this.next} prev={this.prev} currentPage={this.page} maxPage={this.state.maxPage}/>
 			</React.Fragment>
 		);
 	}

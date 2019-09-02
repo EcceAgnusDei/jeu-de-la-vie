@@ -3,7 +3,7 @@
 require('model/GridManager.php');
 
 $grids=[];
-$request = GridManager::getGridsByDate();
+$request = GridManager::getClientVisible();
 while($data = $request->fetch())
 {	
 	$likes = GridManager::countLikes($data['id']);

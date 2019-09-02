@@ -9,7 +9,6 @@ import Footer from './components/Footer';
 import SideDrawer from './components/SideDrawer';
 import Navbar from './components/Navbar';
 import ErrorBoundary from './components/ErrorBoundary';
-import { NavProvider } from './context/navContext';
 import { ArtworkProvider } from './context/artworkContext';
 import apiPath from './apiPath';
 import './css/style.css';
