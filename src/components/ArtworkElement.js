@@ -1,100 +1,117 @@
-import React, { Component } from 'react';
+import React, { useEffect, useReducer, useRef } from 'react';
 import GolCanvas from '../GolCanvas';
 import { ArtworkConsumer } from '../context/artworkContext'
 import apiPath from '../apiPath';
 import SwitchVisibility from './SwitchVisibility';
 
-class ArtworkElement extends Component {
-	constructor(props) {
-		super(props);
-		this.state = {
-			id: 0,
-			name: '',
-			author: '',
-			coords: [],
-			likes: 0,
-			loading: true,
-			clientVisibility: false
-		};
-	}
+const initialState = {
+	data: {
+		id: 0,
+		name: '',
+		author: '',
+		coords: [],
+		likes: 0,
+		clientVisibility: false
+	},
+	loading: true,
+	hasDbError: false
+};
 
-	componentDidMount()
-	{
+const reducer = (state, action) => {
+	switch (action.type) {
+		case 'FETCH_SUCCESS':
+			return {
+				...state,
+				loading: false,
+				hasDbError: false,
+				data: { 
+					...action.data,
+					coords: JSON.parse(action.data.json)
+				}
+			}
+			break;
+		case 'FETCH_ERROR':
+			return {
+				...state,
+				loading: false,
+				hasDbError: true	
+			}
+			break;
+	}
+}
+
+function ArtworkElement(props) {
+
+	const [state, dispatch] = useReducer(reducer, initialState);
+	const canvasRef = useRef(null);
+	
+	useEffect(() => {
 		fetch(`${apiPath}getGridById.php`, {
 			method: 'post',
-			body: JSON.stringify(this.props.id)
+			body: JSON.stringify(props.id)
 		})
 		.then(response => response.json())
 		.then(respjson => {
-			const {name, author, json, id, likes, client_visibility} = respjson;
-			this.setState({
-				id: id,
-				name: name,
-				author: author,
-				coords: JSON.parse(json),
-				likes: likes,
-				loading: false,
-				clientVisibility: client_visibility == 0 ? false : true
-			});
+			dispatch({ type: 'FETCH_SUCCESS', data: respjson})
 		})
-		.catch(() => this.setState({hasDbError: true}));
-	}
+		.catch(error => {dispatch({ type: 'FETCH_ERROR'})});
+	}, [])
 
-	componentDidUpdate()
+	useEffect(() => {
+		if(canvasRef.current)
+		{
+			let maxX = 0;
+			let maxY = 0;
+			const grid = new GolCanvas(`miniature${props.id}`);
+
+			for (let coord of state.data.coords)
+			{
+				if (coord[0] > maxX)
+				{
+					maxX = coord[0];
+				}
+				if (coord[1] > maxY)
+				{
+					maxY = coord[1];
+				}
+			}
+
+			grid.grid(7, maxX +5, maxY +5);
+			grid.load(state.data.coords);	
+		}
+	})
+	
+	if (state.hasDbError)
 	{
-		let maxX = 0;
-		let maxY = 0;
-		const grid = new GolCanvas(`miniature${this.props.id}`);
-
-		for (let coord of this.state.coords)
-		{
-			if (coord[0] > maxX)
-			{
-				maxX = coord[0];
-			}
-			if (coord[1] > maxY)
-			{
-				maxY = coord[1];
-			}
-		}
-
-		grid.grid(7, maxX +5, maxY +5);
-		grid.load(this.state.coords);
+		throw new Error('Impossible de se connecter à la base de données');
 	}
-
-	render() {
-		if (this.state.hasDbError)
-		{
-			throw new Error('Impossible de se connecter à la base de données');
-		}
-		return (
-			<div className="artwork-item">
-				{this.state.loading ? <div className="loading"><i className="fas fa-spinner"></i></div> :
-				<React.Fragment>
-					<canvas className="grid-miniature" id={`miniature${this.props.id}`} />
-					<div className="blue">
-						{this.state.likes} <i className="far fa-thumbs-up"></i>
-					</div>
-					<ArtworkConsumer>
-					{
-						(value) => {
-							return <div>
-								<button className="artwork-btn" onClick={() => value(this.state)}>
-								<em>{this.state.name}</em> de {this.state.author}
-								</button>
-							</div>
-						}
+	return (
+		<div className="artwork-item">
+			{state.loading ? <div className="loading"><i className="fas fa-spinner"></i></div> :
+			<React.Fragment>
+				<canvas ref={canvasRef} className="grid-miniature" id={`miniature${props.id}`} />
+				<div className="blue">
+					{state.data.likes} <i className="far fa-thumbs-up"></i>
+				</div>
+				<ArtworkConsumer>
+				{
+					(value) => {
+						return <div>
+							<button className="artwork-btn" onClick={() => value(state.data)}>
+							<em>{state.data.name}</em> de {state.data.author}
+							</button>
+						</div>
 					}
-					</ArtworkConsumer>
-					{this.props.userSpace && 
-					<div className="artworks-item-command">
-						<SwitchVisibility checked={this.state.clientVisibility} id={this.state.id}/>
-						<button className="danger-btn" onClick={() => this.props.deleteGrid(this.props.id)}>Supprimer</button>
-					</div>}
-				</React.Fragment>}
-			</div>
-		);
-	}
+				}
+				</ArtworkConsumer>
+				{props.userSpace && 
+				<div className="artworks-item-command">
+					<SwitchVisibility checked={state.data.clientVisibility} id={props.id}/>
+					<button className="danger-btn" onClick={() => props.deleteGrid(props.id)}>Supprimer</button>
+				</div>}
+			</React.Fragment>}
+		</div>
+	);
 }
 
 export default ArtworkElement

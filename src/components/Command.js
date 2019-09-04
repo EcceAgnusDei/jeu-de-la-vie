@@ -1,54 +1,40 @@
-import React, { Component } from 'react';
+import React, { useState } from 'react';
 
-class Command extends Component {
-	constructor(props) {
-		super(props);
-		this.state = {
-			playAction: 'play',
-			rubberDisplay: true
-		};
+function Command(props) {
+	const [play, setPlay] = useState(false);
+	const [rubber, setRubber] = useState(false);
 
-		this.handleClick = this.handleClick.bind(this);
-	}
-
-	handleClick(event)
+	function handleClick(event)
 	{	
-		if (event.target.name === 'play' || event.target.name === 'pause') {
-			this.setState((prevState) => {
-				return {playAction: prevState.playAction === 'pause' ? 'play' : 'pause'}
-			});
-		} else if (event.target.name === 'rubber') {
-			this.setState((prevState) => {
-				return {rubberDisplay: !prevState.rubberDisplay}
-			});
-		}
-		
-		this.props.handleCommand(event.target.name);
+		if (event.target.name === 'play' || event.target.name === 'pause') 
+			setPlay(prevState => !prevState);
+		else if (event.target.name === 'rubber') 
+			setRubber(prevState => !prevState);
+
+		props.handleCommand(event.target.name);
 	}
-	
-	render() {
-		const playJSX = this.state.playAction == 'play' ? <i className="fas fa-play"></i> : <i className="fas fa-pause"></i>;
-		const rubberJSX = this.state.rubberDisplay ? <i className="fas fa-eraser"></i> : <i className="fas fa-pencil-alt"></i>;
-		return (
-			<div className="command">
-				<div className="command-item">
-					<button className="command-btn" name={this.state.playAction} onClick={this.handleClick}>
-						{playJSX}
-					</button>
-					<button className="command-btn" name="next" onClick={this.handleClick}>
-						<i className="fas fa-step-forward"></i>
-					</button>
-					<button className="command-btn" name="rubber" onClick={this.handleClick}>
-						{rubberJSX}
-					</button>
-				</div>
-				<div className="command-item">
-					<button className="command-btn" name="save" onClick={this.handleClick}>Enregistrer</button>
-					<button className="command-btn" name="load" onClick={this.handleClick}>Charger</button>
-				</div>
+
+	const playJSX = play ? <i className="fas fa-pause"></i> : <i className="fas fa-play"></i>;
+	const rubberJSX = rubber ? <i className="fas fa-pencil-alt"></i> : <i className="fas fa-eraser"></i>;
+	return (
+		<div className="command">
+			<div className="command-item">
+				<button className="command-btn" name={play ? 'pause' : 'play'} onClick={handleClick}>
+					{playJSX}
+				</button>
+				<button className="command-btn" name="next" onClick={handleClick}>
+					<i className="fas fa-step-forward"></i>
+				</button>
+				<button className="command-btn" name="rubber" onClick={handleClick}>
+					{rubberJSX}
+				</button>
 			</div>
-		);
-	}
+			<div className="command-item">
+				<button className="command-btn" name="save" onClick={handleClick}>Enregistrer</button>
+				<button className="command-btn" name="load" onClick={handleClick}>Charger</button>
+			</div>
+		</div>
+	);
 }
 
 export default Command

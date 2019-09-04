@@ -3,7 +3,7 @@ import Header from './components/Header';
 import Home from './components/Home';
 import Play from './components/Play';
 import Artworks from './components/Artworks';
-import SignIn from './components/SignIn';
+import SignIn from './components/SignInForm';
 import UserSpace from './components/UserSpace';
 import Footer from './components/Footer';
 import SideDrawer from './components/SideDrawer';
@@ -47,7 +47,7 @@ class App extends Component {
     
   artworkLoad(artwork)
   {
-    this.setState({activePage: 'Jouer', artwork: artwork}, () => console.log(this.state.artwork));
+    this.setState({activePage: 'Jouer', artwork: artwork});
   }
 
   log(login, password)
