@@ -1,58 +1,44 @@
-import React, { Component } from 'react';
+import React, { useState } from 'react';
+import useInput from '../hooks/useInput';
 
-class GridSizeForm extends Component {
-	constructor(props) {
-		super(props);
-		this.state = {
-			cols: '70',
-			rows: '40',
-			squareSize: '20',
-			tooBig: false
-		};
+function GridSizeForm(props) {
+	const [cols, bindCols, resetCols] = useInput(70);
+	const [rows, bindRows, resetRows] = useInput(40);
+	const [squareSize, bindSquareSize, resetSquareSize] = useInput(20);
 
-		this.handleSubmit = this.handleSubmit.bind(this);
-		this.handleChange = this.handleChange.bind(this);
-	}
-	
-	handleSubmit(event)
+	const [tooBig, setTooBig] = useState(false);
+
+	function handleSubmit(event)
 	{
 		event.preventDefault();
 		
-		if (this.state.cols * this.state.rows > 20000)
+		if (cols * rows > 20000)
 		{
-			this.setState({tooBig: true});
+			setTooBig(true);
 		} else {
-			this.props.handleSizing(parseInt(this.state.squareSize), parseInt(this.state.cols), parseInt(this.state.rows));
+			props.handleSizing(parseInt(squareSize), parseInt(cols), parseInt(rows));
 		}
 	}
 
-	handleChange(event)
-	{
-		const {name, value} = event.target;
-		this.setState({[name]: value});
-	}
-
-	render() {
-		return (
-			<React.Fragment>
-				<form className="grid_size-form" onSubmit={this.handleSubmit}>
-					<label>Colonnes
-						<input type="text" name="cols" value={this.state.cols} onChange={this.handleChange}/>
-					</label>
-					<label>Lignes
-						<input type="text" name="rows" value={this.state.rows} onChange={this.handleChange}/>
-					</label>
-					<label>Taille des carrés
-						<input type="text" name="squareSize" value={this.state.squareSize} onChange={this.handleChange}/>
-					</label>
-					<button className="btn">Afficher la grille</button>
-				</form>
-				{this.state.tooBig &&
-				<div className="grid_size-error">La grille est trop grande!</div>
-				}
-			</React.Fragment>
-		);
-	}
+	return (
+		<React.Fragment>
+			<form className="grid_size-form" onSubmit={handleSubmit}>
+				<label>Colonnes
+					<input type="text" name="cols" {...bindCols}/>
+				</label>
+				<label>Lignes
+					<input type="text" name="rows" {...bindRows}/>
+				</label>
+				<label>Taille des carrés
+					<input type="text" name="squareSize" {...bindSquareSize}/>
+				</label>
+				<button className="btn">Afficher la grille</button>
+			</form>
+			{tooBig &&
+			<div className="grid_size-error">La grille est trop grande!</div>
+			}
+		</React.Fragment>
+	);
 }
 
 export default GridSizeForm

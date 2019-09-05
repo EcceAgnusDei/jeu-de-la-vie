@@ -153,7 +153,7 @@ class GolCanvas
 		}
 
 		let now = new Date()
-		console.log(now - temps);
+		// console.log(now - temps);
 	}
 
 	/**

@@ -1,90 +1,85 @@
-import React, { Component } from 'react';
+import React, { useEffect, useState } from 'react';
 import CommentForm from './CommentForm';
 import apiPath from '../apiPath';
 
-class Comments extends Component {
-	constructor(props) {
-		super(props);
-		this.state = {
-			comments: []
-		};
+function Comments(props) {
 
-		this.getComments = this.getComments.bind(this);
-		this.addComment = this.addComment.bind(this);
-	}
+	const [comments, setComments] = useState([]);
+	const [hasDbError, setHasDbError] = useState(false);
 
-	componentDidMount()
+	useEffect(() => {
+		getComments();
+	}, []);
+
+	function getComments()
 	{
-		this.getComments();
-	}
-
-	getComments()
-	{
-		if(this.props.userSpace) {
+		if(props.userSpace) {
 			fetch(`${apiPath}getUserComments.php`, {
 				method: 'POST',
-				body: this.props.userId
+				body: props.userId
 			})
 			.then(response => response.json())
 			.then(json => {
-				console.log(json);
-				this.setState({comments: json})
+				setComments(json)
 			})
-			.catch(() => {throw new Error('Impossible de se connecter à la base de données')});
+			.catch(() => { setHasDbError(true) });
 		} else {
 			fetch(`${apiPath}getGridComments.php`, {
 				method: 'post',
-				body: JSON.stringify([this.props.gridId, this.props.userId])
+				body: JSON.stringify([props.gridId, props.userId])
 			})
 			.then(response => response.json())
 			.then(json => {
-				console.log(json);
-				this.setState({comments: json})
+				setComments(json);
 			})
+			.catch(() => { setHasDbError(true) });
 		}
 	}
 
-	addComment(comment)
+	function addComment(comment)
 	{
 		fetch(`${apiPath}addComment.php`, {
 			method: 'POST',
-			body: JSON.stringify([this.props.gridId, this.props.userId, comment])
+			body: JSON.stringify([props.gridId, props.userId, comment])
 		})
 			.then(response => response.json())
 			.then(json => {
 				if(json === true) {
-					this.getComments();
+					getComments();
 				} else {
-					alert('erreur');
+					setHasDbError(true);
 				}
 			})
+			.catch(() => { setHasDbError(true) })
 	}
 
-	likeComment(commentId)
+	function likeComment(commentId)
 	{
 		fetch(`${apiPath}likeComment.php`, {
 			method: 'post',
-			body: JSON.stringify([commentId, this.props.userId])
+			body: JSON.stringify([commentId, props.userId])
 		})
 			.then(response => response.json())
 			.then(json => {
-				json ? this.getComments() : alert('Erreur');
+				json ? getComments() : setHasDbError(true);
 			})
+			.catch(() => { setHasDbError(true) })
 	}
 
-	dislikeComment(commentId)
+	function dislikeComment(commentId)
 	{
 		fetch(`${apiPath}dislikeComment.php`, {
 			method: 'post',
-			body: JSON.stringify([commentId, this.props.userId])
+			body: JSON.stringify([commentId, props.userId])
 		})
 			.then(response => response.json())
 			.then(json => {
-				json ? this.getComments() : alert('Erreur');
+				json ? getComments() : setHasDbError(true);
 			})
+			.catch(() => { setHasDbError(true) })
 	}
 
-	deleteComment(id)
+	function deleteComment(id)
 	{
 		if(window.confirm('Voulez-vous supprimer votre commentaire ?'))
 		{
@@ -94,60 +89,59 @@ class Comments extends Component {
 			})
 			.then(response=> response.json())
 			.then(json => {
-				json ? this.getComments() : alert('erreur');
+				json ? getComments() : setHasDbError(true);
 			})
+			.catch(() => { setHasDbError(true) })
 		}
 	}
-	
-	render() {
-		const commentsJSX = this.state.comments.map(
-			item => 
-			<div key={item.id} className="comment">
-				<div><strong>{!this.props.userSpace && item.author}</strong> le {item.date}</div>
-				<p>{item.comment}</p>
-				<div className="comment_action-container">
-					<div className="like-container">
-						<div className={item.likeState === 'liked' ? 'blue' : ''}>
-							{this.props.userId != 0 ?
-							<button 
-								title={item.likeState === 'liked' ? 'Je n\'aime plus' : 'J\'aime'}
-								onClick={() => this.likeComment(item.id)}
-								className="like-btn"
-							>
-								<i className="far fa-thumbs-up"></i>
-							</button> :
-							<i className="far fa-thumbs-up"></i>}
-							{item.nbLikes}
-						</div>
-						<div className={item.likeState === 'disliked' ? 'red' : ''}>
-							{this.props.userId != 0 ?
-							<button
-								title={item.likeState === 'disliked' ? 'Pas si mal finalement...' : 'Je n\'aime pas!'}
-								onClick={() => this.dislikeComment(item.id)}
-								className="like-btn"
-							><i className="far fa-thumbs-down"></i>
-							</button> :
-							<i className="far fa-thumbs-down"></i>}
-							{item.nbDislikes}
-						</div>
+
+	const commentsJSX = comments.map(
+		item => 
+		<div key={item.id} className="comment">
+			<div><strong>{!props.userSpace && item.author}</strong> le {item.date}</div>
+			<p>{item.comment}</p>
+			<div className="comment_action-container">
+				<div className="like-container">
+					<div className={item.likeState === 'liked' ? 'blue' : ''}>
+						{props.userId != 0 ?
+						<button 
+							title={item.likeState === 'liked' ? 'Je n\'aime plus' : 'J\'aime'}
+							onClick={() => likeComment(item.id)}
+							className="like-btn"
+						>
+							<i className="far fa-thumbs-up"></i>
+						</button> :
+						<i className="far fa-thumbs-up"></i>}
+						{item.nbLikes}
 					</div>
-					{(item.authorId === this.props.userId || this.props.userSpace) &&
-					<button 
-						className="danger-btn" 
-						onClick={() => this.deleteComment(item.id)}
-					>
-						Supprimer
-					</button>}
+					<div className={item.likeState === 'disliked' ? 'red' : ''}>
+						{props.userId != 0 ?
+						<button
+							title={item.likeState === 'disliked' ? 'Pas si mal finalement...' : 'Je n\'aime pas!'}
+							onClick={() => dislikeComment(item.id)}
+							className="like-btn"
+						><i className="far fa-thumbs-down"></i>
+						</button> :
+						<i className="far fa-thumbs-down"></i>}
+						{item.nbDislikes}
+					</div>
 				</div>
+				{(item.authorId === props.userId || props.userSpace) &&
+				<button 
+					className="danger-btn" 
+					onClick={() => deleteComment(item.id)}
+				>
+					Supprimer
+				</button>}
 			</div>
-		);
-		return (
-			<section className="comment-container">
-				{(this.props.userId != 0 && this.props.gridId) && <CommentForm addComment={this.addComment} userId={this.props.userId}/>}
-				{commentsJSX}
-			</section>
-		);
-	}
+		</div>
+	);
+	return (
+		<section className="comment-container">
+			{(props.userId != 0 && props.gridId) && <CommentForm addComment={addComment} userId={props.userId}/>}
+			{commentsJSX}
+		</section>
+	);
 }
 
-export default Comments
+export default Comments;

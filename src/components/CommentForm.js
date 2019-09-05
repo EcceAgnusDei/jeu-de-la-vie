@@ -1,37 +1,25 @@
-import React, { Component } from 'react';
+import React from 'react';
+import useInput from '../hooks/useInput';
 
-class CommentForm extends Component {
-	constructor(props) {
-		super(props);
-		this.state = {
-			comment: ''
-		};
+function CommentForm(props) {
 
-		this.handleChange = this.handleChange.bind(this);
-		this.handleSubmit = this.handleSubmit.bind(this);
-	}
+	const[comment, bindComment, resetComment] = useInput('');
 
-	handleChange(event) {
-		this.setState({comment: event.target.value});
-	}
-
-	handleSubmit(event) {
+	function handleSubmit(event) {
 		event.preventDefault();
-		this.props.addComment(event.target.comment.value);
-		this.setState({comment: ''});
+		props.addComment(comment);
+		resetComment();
 	}
-	
-	render() {
-		return (
-			<div>
-				<h2>Laissez un commentaire</h2>
-				<form className="comment-form" onSubmit={this.handleSubmit}>
-					<textarea name="comment" value={this.state.comment} onChange={this.handleChange}/>
-					<button className="btn">Envoyer</button>
-				</form>
-			</div>
-		);
-	}
+
+	return (
+		<div>
+			<h2>Laissez un commentaire</h2>
+			<form className="comment-form" onSubmit={handleSubmit}>
+				<textarea name="comment" {...bindComment}/>
+				<button className="btn">Envoyer</button>
+			</form>
+		</div>
+	);
 }
 
 export default CommentForm

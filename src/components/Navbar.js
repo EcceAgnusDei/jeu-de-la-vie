@@ -2,7 +2,6 @@ import React from 'react';
 import { NavConsumer } from '../context/navContext';
 
 function Navbar(props) {
-	console.log(props);
 	let className;
 	return (
 		<nav>
