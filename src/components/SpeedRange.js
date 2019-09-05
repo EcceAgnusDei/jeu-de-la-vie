@@ -1,37 +1,26 @@
-import React, { Component } from 'react';
+import React, { useState, useEffect } from 'react';
 
-class SpeedForm extends Component {
-	constructor() {
-		super();
-		this.state = {
-			speed: '1'
-		};
+function SpeedRange(props) {
+	const [speed, setSpeed] = useState('1');
 
-		this.handleChange = this.handleChange.bind(this);
+	useEffect(() => props.handleSpeed(parseFloat(speed)));
+
+	function handleChange(event) {
+		setSpeed(event.target.value);
 	}
 
-	handleChange(event) {
-		this.setState({
-			speed: event.target.value
-		},
-			() => this.props.handleSpeed(parseInt(this.state.speed))
-		);
-	}
-	
-	render() {
-		return (
-			<label className="speed_range">Vitesse
-				<input 
-					type="range" 
-					name="speed" 
-					min="0.5" 
-					max="50" 
-					value={this.state.speed}
-					onChange={this.handleChange}
-				/>
-			</label>
-		);
-	}
+	return (
+		<label className="speed_range">Vitesse
+			<input 
+				type="range" 
+				name="speed" 
+				min="0.5" 
+				max="50" 
+				value={speed}
+				onChange={handleChange}
+			/>
+		</label>
+	);
 }
 
-export default SpeedForm
+export default SpeedRange

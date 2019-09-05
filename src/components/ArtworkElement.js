@@ -1,6 +1,6 @@
-import React, { useEffect, useReducer, useRef } from 'react';
+import React, { useEffect, useReducer, useRef, useContext } from 'react';
 import GolCanvas from '../GolCanvas';
-import { ArtworkConsumer } from '../context/artworkContext'
+import ArtworkContext from '../context/artworkContext';
 import apiPath from '../apiPath';
 import SwitchVisibility from './SwitchVisibility';
 
@@ -11,7 +11,7 @@ const initialState = {
 		author: '',
 		coords: [],
 		likes: 0,
-		clientVisibility: false
+		client_visibility: false
 	},
 	loading: true,
 	hasDbError: false
@@ -20,6 +20,7 @@ const initialState = {
 const reducer = (state, action) => {
 	switch (action.type) {
 		case 'FETCH_SUCCESS':
+			console.log(action.data)
 			return {
 				...state,
 				loading: false,
@@ -44,6 +45,7 @@ function ArtworkElement(props) {
 
 	const [state, dispatch] = useReducer(reducer, initialState);
 	const canvasRef = useRef(null);
+	const artworkLoad = useContext(ArtworkContext);
 	
 	useEffect(() => {
 		fetch(`${apiPath}getGridById.php`, {
@@ -85,6 +87,7 @@ function ArtworkElement(props) {
 	{
 		throw new Error('Impossible de se connecter à la base de données');
 	}
+	console.log(state.data.client_visibility);
 	return (
 		<div className="artwork-item">
 			{state.loading ? <div className="loading"><i className="fas fa-spinner"></i></div> :
@@ -93,20 +96,14 @@ function ArtworkElement(props) {
 				<div className="blue">
 					{state.data.likes} <i className="far fa-thumbs-up"></i>
 				</div>
-				<ArtworkConsumer>
-				{
-					(value) => {
-						return <div>
-							<button className="artwork-btn" onClick={() => value(state.data)}>
-							<em>{state.data.name}</em> de {state.data.author}
-							</button>
-						</div>
-					}
-				}
-				</ArtworkConsumer>
+				<div>
+					<button className="artwork-btn" onClick={() => artworkLoad(state.data)}>
+					<em>{state.data.name}</em> de {state.data.author}
+					</button>
+				</div>
 				{props.userSpace && 
 				<div className="artworks-item-command">
-					<SwitchVisibility checked={state.data.clientVisibility} id={props.id}/>
+					<SwitchVisibility checked={state.data.client_visibility} id={props.id}/>
 					<button className="danger-btn" onClick={() => props.deleteGrid(props.id)}>Supprimer</button>
 				</div>}
 			</React.Fragment>}

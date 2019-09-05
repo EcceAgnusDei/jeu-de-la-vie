@@ -1,41 +1,34 @@
-import React, { Component } from 'react';
+import React, { useState } from 'react';
 import Switch from "react-switch";
 import apiPath from '../apiPath';
 
+function SwitchVisibility(props) {
 
-class SwitchVisibility extends Component {
-	constructor(props) {
-		super(props);
-		this.state = {
-			checked: props.checked
-		};
-		this.style = {
-			display: 'flex',
-			alignItems: 'center',
-			justifyContent: 'space-between',
-			width: 130
-		};
-	}
+	const [checked, setChecked] = useState(props.checked == 1 ? true : false)
+	const style = {
+		display: 'flex',
+		alignItems: 'center',
+		justifyContent: 'space-between',
+		width: 130
+	};
 
-	handleChange = (checked) => {
-		this.setState({checked: checked})
+	const handleChange = (checked) => {
+		setChecked(checked);
 		fetch(`${apiPath}switchVisibility.php`, {
 			method: 'POST',
-			body: this.props.id
+			body: props.id
 		})
 	};
-	
-	render() {
-		return (
-			<div className="switch_visibility-container" style={this.style}>
-				<span>Publier</span>
-				<Switch 
-					onChange={this.handleChange} 
-					checked={this.state.checked} 
-				/>
-			</div>
-		);
-	}
+
+	return (
+		<div className="switch_visibility-container" style={style}>
+			<span>Publier</span>
+			<Switch 
+				onChange={handleChange} 
+				checked={checked} 
+			/>
+		</div>
+	);
 }
 
 export default SwitchVisibility;
