@@ -38,6 +38,8 @@ const reducer = (state, action) => {
 				hasDbError: true	
 			}
 			break;
+		default:
+			return state;
 	}
 }
 

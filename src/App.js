@@ -28,6 +28,11 @@ function App() {
 
   function handleNav(link)
   {
+    if (link === 'Accueil') {
+      document.title = 'Le site du jeux de la vie'
+    } else {
+      document.title = link;
+    }
     setActivePage(link);
     setArtwork({});
   }
@@ -75,6 +80,7 @@ function App() {
   const navbar = <Navbar menu={menu} nav={handleNav} active={activePage}/>;
   return (
     <React.Fragment>
+
         <Header 
           loggedId={loggedId} 
           log={log} 
@@ -82,12 +88,15 @@ function App() {
           active={activePage}
           navbar={navbar}
         />
+
         <SideDrawer 
           open={sideDrawerOpen} 
           backdropClick={drawerClickHandler}
           navbar={navbar}
         />
+
         <main>
+          <ErrorBoundary>
           {activePage === 'Accueil' && 
             <Home handleNav={handleNav}/>}
           {activePage === 'Jouer' && 
@@ -100,7 +109,9 @@ function App() {
           </ArtworkProvider>
           {activePage === 'Inscription' && 
             <SignIn handleNav={handleNav} log={log}/>}
+          </ErrorBoundary>
         </main>
+
         <Footer userId={loggedId} logout={logout}/>
     </React.Fragment>
   );

@@ -49,6 +49,8 @@ const reducer = (state, action) => {
 				visibleIds: action.data.visibleIds
 			}
 			break;
+		default: 
+			return state;
 	}
 }
 
