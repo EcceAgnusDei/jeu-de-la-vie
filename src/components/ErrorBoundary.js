@@ -24,11 +24,11 @@ class ErrorBoundary extends Component {
 	
 	render() {
 		if (this.state.hasError) {
-			return <div className="error">
+			return <main className="error">
 				<img src={error}/>
 				<h1>Oups, une erreur est survenue:</h1>
 				<p>{this.state.error}</p>
-			</div>
+			</main>
 		}
 		return this.props.children;
 	}

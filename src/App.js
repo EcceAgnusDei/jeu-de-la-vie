@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from 'react';
+import { Switch, Route, Redirect, withRouter } from 'react-router-dom';
+
 import Header from './components/Header';
 import Home from './components/Home';
 import Play from './components/Play';
@@ -11,14 +13,14 @@ import Navbar from './components/Navbar';
 import ErrorBoundary from './components/ErrorBoundary';
 import { ArtworkProvider } from './context/artworkContext';
 import apiPath from './apiPath';
+
 import './css/style.css';
 
-function App() {
-  const [activePage, setActivePage] = useState('Accueil');
+function App(props) {
   const [loggedId, setLoggedId] = useState(0);
   const [artwork, setArtwork] = useState({});
   const [sideDrawerOpen, setSideDrawerOpen] = useState(false);
-  const menu = ['Accueil', 'Jouer', 'Créations', 'Inscription'];
+  const [redirection, setRedirection] = useState(false);
   
   useEffect(() => {
     if(sessionStorage.getItem('userId')) {
@@ -26,21 +28,11 @@ function App() {
     }
   },[])
 
-  function handleNav(link)
-  {
-    if (link === 'Accueil') {
-      document.title = 'Le site du jeux de la vie'
-    } else {
-      document.title = link;
-    }
-    setActivePage(link);
-    setArtwork({});
-  }
     
-  function artworkLoad(artwork)
+  function artworkLoad(artwork)//juste l'id en param, après on fetch
   {
-    setActivePage('Jouer');
     setArtwork(artwork);
+    props.history.push(`/jouer/${artwork.id}`);
   }
 
   function log(login, password)
@@ -54,6 +46,7 @@ function App() {
       if(json) {
         setLoggedId(json);
         sessionStorage.setItem('userId', json);
+        props.history.push('/espace-perso');
       } else {
         alert('Idenfiant ou mot de passe incorrect');
       }
@@ -63,8 +56,8 @@ function App() {
   function logout()
   {
     setLoggedId(0);
-    setActivePage('Accueil');
     sessionStorage.removeItem('userId');
+    props.history.push('/');
   }
 
   function drawerClickHandler()
@@ -72,52 +65,44 @@ function App() {
     setSideDrawerOpen(prev => !prev);
   }
 
-  if(loggedId) {
-    menu[3] = 'Espace perso';
-  } else {
-    menu[3] = 'Inscription';
-  }
-  const navbar = <Navbar menu={menu} nav={handleNav} active={activePage}/>;
+  const navbar = <Navbar loggedId={loggedId}/>;
   return (
     <React.Fragment>
+      <Header 
+        loggedId={loggedId} 
+        log={log} 
+        burgerClick={drawerClickHandler}
+        navbar={navbar}
+      />
 
-        <Header 
-          loggedId={loggedId} 
-          log={log} 
-          burgerClick={drawerClickHandler} 
-          active={activePage}
-          navbar={navbar}
-        />
+      <SideDrawer 
+        open={sideDrawerOpen} 
+        backdropClick={drawerClickHandler}
+        navbar={navbar}
+      />
 
-        <SideDrawer 
-          open={sideDrawerOpen} 
-          backdropClick={drawerClickHandler}
-          navbar={navbar}
-        />
+      <ErrorBoundary>
+        <Route exact path='/' component={Home} />
+        <Route path='/jouer' render={(props) => 
+          <Play {...props} artwork={artwork} userId={loggedId} />
+        }/>
+      <ArtworkProvider value={artworkLoad}>
+        <Route path='/creations' component={Artworks}/>
+        <Route path='/espace-perso' render={(props) => 
+          <UserSpace {...props} logout={logout} userId={loggedId}/>
+        }/>
+      </ArtworkProvider>
+        <Route path='/inscription' render={(props) =>
+          <SignIn {...props} log={log}/>
+        }/>
+      </ErrorBoundary>
 
-        <main>
-          <ErrorBoundary>
-          {activePage === 'Accueil' && 
-            <Home handleNav={handleNav}/>}
-          {activePage === 'Jouer' && 
-            <Play artwork={artwork} userId={loggedId} handleNav={handleNav}/>}
-          <ArtworkProvider value={artworkLoad}>
-          {activePage === 'Créations' && 
-            <Artworks />}
-          {activePage === 'Espace perso' && 
-            <UserSpace logout={logout} userId={loggedId}/>}
-          </ArtworkProvider>
-          {activePage === 'Inscription' && 
-            <SignIn handleNav={handleNav} log={log}/>}
-          </ErrorBoundary>
-        </main>
-
-        <Footer userId={loggedId} logout={logout}/>
+      <Footer userId={loggedId} logout={logout}/>
     </React.Fragment>
   );
 }
 
-export default App
+export default withRouter(App);
 
 // class Appy extends React.Component {
 //   constructor() {

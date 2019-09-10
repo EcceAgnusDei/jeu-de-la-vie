@@ -89,7 +89,6 @@ function ArtworkElement(props) {
 	{
 		throw new Error('Impossible de se connecter à la base de données');
 	}
-	console.log(state.data.client_visibility);
 	return (
 		<div className="artwork-item">
 			{state.loading ? <div className="loading"><i className="fas fa-spinner"></i></div> :

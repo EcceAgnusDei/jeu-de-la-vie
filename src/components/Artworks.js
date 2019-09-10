@@ -216,7 +216,7 @@ function Artworks(props) {
 		</li>
 	);
 	return (
-		<React.Fragment>
+		<main>
 			<nav>
 				<ul className="artworks-menu">
 					<li>
@@ -247,7 +247,7 @@ function Artworks(props) {
 			}
 			</div>
 			<ArtworksNav next={next} prev={prev} currentPage={pageRef.current} maxPage={state.maxPage}/>
-		</React.Fragment>
+		</main>
 	);
 }
 

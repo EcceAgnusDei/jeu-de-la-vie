@@ -1,29 +1,52 @@
 import React from 'react';
-import { NavConsumer } from '../context/navContext';
+import { NavLink } from 'react-router-dom';
 
 function Navbar(props) {
-	let className;
 	return (
 		<nav>
 			<ul className="menu">
-			{
-				props.menu.map(item => {
-					if(props.active === item)
-					{
-						className = 'menu-btn current_page';
-					} else {
-						className = 'menu-btn';
-					}
-					return  (
-						<li key={item}>
-							<button className={className} onClick={() => props.nav(item)}>{item}</button>
-						</li>
-					);
-				})
-			}
+				<li>
+					<NavLink 
+						className="menu-btn"
+						exact 
+						activeClassName="currentPage" 
+						to="/"
+					>
+						Accueil
+					</NavLink>
+					<NavLink 
+						className="menu-btn" 
+						activeClassName="currentPage" 
+						to="/jouer"
+					>
+						Jouer
+					</NavLink>
+					<NavLink 
+						className="menu-btn" 
+						activeClassName="currentPage" 
+						to="/creations"
+					>
+						Créations
+					</NavLink>
+					{props.loggedId === 0 ?
+					<NavLink 
+						className="menu-btn" 
+						activeClassName="currentPage" 
+						to="/inscription"
+					>
+						Inscription
+					</NavLink> :
+					<NavLink 
+						className="menu-btn" 
+						activeClassName="currentPage" 
+						to="/espace-perso"
+					>
+						Espace perso
+					</NavLink>}
+				</li>
 			</ul>
 		</nav>
 	);
 }
 
-export default Navbar
+export default Navbar;

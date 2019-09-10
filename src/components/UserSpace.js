@@ -12,8 +12,12 @@ function UserSpace(props) {
 	}
 
 	const menuJSX = menu.map(item => {return <li key={item}><button className="menu-btn" onClick={() => handleNav(item)}>{item}</button></li>});
+	if (props.userId === 0)
+	{
+		throw new Error('Veuillez vous connecter pour accéder à cette page');
+	}
 	return (
-		<React.Fragment>
+		<main>
 			<nav>
 				<ul className="menu">
 					{menuJSX}
@@ -22,7 +26,7 @@ function UserSpace(props) {
 			</nav>
 			{activePage === menu[0] && <Artworks userSpace={true} userId={props.userId}/>}
 			{activePage === menu[1] && <Comments userSpace={true} userId={props.userId}/>}
-		</React.Fragment>
+		</main>
 	);
 }
 
