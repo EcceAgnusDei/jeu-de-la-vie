@@ -10,9 +10,11 @@ import GolCanvas from '../GolCanvas';
 import apiPath from '../apiPath';
 
 function Play(props) {
+	console.log('Rendering play')
 	const [likes, setLikes] = useState(0);
 	const [likers, setLikers] = useState([]);
-	const [coords, setCoords] = useState([]);
+	const [artwork, setArtwork] = useState({});
+
 
 	const gameGridRef = useRef(null);
 	const intervalRef = useRef(1000);
@@ -20,13 +22,31 @@ function Play(props) {
 	useEffect(() => {
 		gameGridRef.current = new GolCanvas('game-grid');
 		gameGridRef.current.addEvents();
-
-		props.artwork.name ?
-		load() :
-		gameGridRef.current.grid(20, 70, 40);
-
-		loadLikes();
+		if (props.match.params.id) {
+			artworkFetch(props.match.params.id);
+			loadLikes();
+		} else {
+			gameGridRef.current.grid(20, 70, 40);
+		}
 	}, [])
+
+	useEffect(() => {
+		if (artwork.coords)
+		{
+			load();
+		}
+	}, [artwork])
+
+	function artworkFetch(id)
+  	{
+		fetch(`${apiPath}getGridById.php`, {
+		  method: 'post',
+		  body: JSON.stringify(id)
+		})
+		.then(response => response.json())
+		.then(json => setArtwork({...json, coords: JSON.parse(json.coords)}))
+		.catch(() => alert('Une erreur est survenue...'));
+  	}
 
 	function handleCommand(command) {
 		switch (command)
@@ -60,7 +80,6 @@ function Play(props) {
 
 	function handleSpeed(speed)
 	{
-		console.log(speed);
 		intervalRef.current = 1000 / speed;
 		if(gameGridRef.current && gameGridRef.current.isPlaying)
 		{
@@ -74,7 +93,7 @@ function Play(props) {
 		let maxX = 0;
 		let maxY = 0;
 
-		for (let coord of props.artwork.coords)
+		for (let coord of artwork.coords)
 		{
 			if (coord[0] > maxX)
 			{
@@ -87,7 +106,7 @@ function Play(props) {
 		}
 
 		gameGridRef.current.grid(20, maxX +10, maxY +10);
-		gameGridRef.current.saved = props.artwork.coords;
+		gameGridRef.current.saved = artwork.coords;
 		gameGridRef.current.load();
 	}
 
@@ -95,7 +114,7 @@ function Play(props) {
 	{
 		fetch(`${apiPath}likeGrid.php`, {
 			method: 'post',
-			body: JSON.stringify([props.artwork.id, props.userId])
+			body: JSON.stringify([props.match.params.id, props.userId])
 		})
 			.then(response => response.json())
 			.then(json => {
@@ -112,7 +131,7 @@ function Play(props) {
 	{
 		fetch(`${apiPath}getGridLikes.php`, {
 			method: 'post',
-			body: JSON.stringify(props.artwork.id)
+			body: JSON.stringify(props.match.params.id)
 		})
 			.then(response => response.json())
 			.then(json => {
@@ -149,11 +168,11 @@ function Play(props) {
 	}
 
 	return (
-		<main>
+		<React.Fragment>
 			{
-				props.artwork.name ?
+				props.match.params.id ?
 				<div>
-					<h1 className="load_grid-title">{props.artwork.name} de {props.artwork.author}</h1> 
+					<h1 className="load_grid-title">{artwork.name} de {artwork.author}</h1> 
 					<div className={isLiked() ? 'loaded_grid-like blue' : 'loaded_grid-like'}>
 						{props.userId != 0 ? 
 							<button 
@@ -174,9 +193,11 @@ function Play(props) {
 			<Command handleCommand={handleCommand} />
 			<GridSizeForm handleSizing={handleSizing} />
 			<SpeedRange handleSpeed={handleSpeed} />
-			{!props.artwork.name && props.userId != 0 && <SaveGridForm save={dbSave}/>}
-			{props.artwork.name && <Comments gridId={props.artwork.id} userId={props.userId} />}
-		</main>
+			{!props.match.params.id && props.userId != 0 &&
+			<SaveGridForm save={dbSave}/>}
+			{props.match.params.id && 
+			<Comments gridId={artwork.id} userId={props.userId} />}
+		</React.Fragment>
 	);
 }
 

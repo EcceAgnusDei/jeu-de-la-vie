@@ -1,4 +1,6 @@
 import React, { useEffect, useReducer, useRef, useContext } from 'react';
+import { withRouter } from 'react-router-dom';
+
 import GolCanvas from '../GolCanvas';
 import ArtworkContext from '../context/artworkContext';
 import apiPath from '../apiPath';
@@ -11,7 +13,8 @@ const initialState = {
 		author: '',
 		coords: [],
 		likes: 0,
-		client_visibility: false
+		client_visibility: false,
+		visibility: false
 	},
 	loading: true,
 	hasDbError: false
@@ -20,14 +23,13 @@ const initialState = {
 const reducer = (state, action) => {
 	switch (action.type) {
 		case 'FETCH_SUCCESS':
-			console.log(action.data)
 			return {
 				...state,
 				loading: false,
 				hasDbError: false,
 				data: { 
 					...action.data,
-					coords: JSON.parse(action.data.json)
+					coords: JSON.parse(action.data.coords)
 				}
 			}
 			break;
@@ -51,13 +53,11 @@ function ArtworkElement(props) {
 	
 	useEffect(() => {
 		fetch(`${apiPath}getGridById.php`, {
-			method: 'post',
-			body: JSON.stringify(props.id)
+		  method: 'post',
+		  body: JSON.stringify(props.id)
 		})
 		.then(response => response.json())
-		.then(respjson => {
-			dispatch({ type: 'FETCH_SUCCESS', data: respjson})
-		})
+		.then(json => dispatch({ type: 'FETCH_SUCCESS', data: json}))
 		.catch(error => {dispatch({ type: 'FETCH_ERROR'})});
 	}, [])
 
@@ -98,13 +98,15 @@ function ArtworkElement(props) {
 					{state.data.likes} <i className="far fa-thumbs-up"></i>
 				</div>
 				<div>
-					<button className="artwork-btn" onClick={() => artworkLoad(state.data)}>
+					<button className="artwork-btn" onClick={() => props.history.push(`/jouer/${props.id}`)}>
 					<em>{state.data.name}</em> de {state.data.author}
 					</button>
 				</div>
-				{props.userSpace && 
+				{(props.userSpace || props.admin) && 
 				<div className="artworks-item-command">
-					<SwitchVisibility checked={state.data.client_visibility} id={props.id}/>
+					<SwitchVisibility checked={state.data.client_visibility} span="Publier" id={props.id} />
+					{props.admin &&
+					<SwitchVisibility checked={state.data.visibility} id={props.id} span="Approuver" invert />}
 					<button className="danger-btn" onClick={() => props.deleteGrid(props.id)}>Supprimer</button>
 				</div>}
 			</React.Fragment>}
@@ -112,4 +114,4 @@ function ArtworkElement(props) {
 	);
 }
 
-export default ArtworkElement
+export default withRouter(ArtworkElement);

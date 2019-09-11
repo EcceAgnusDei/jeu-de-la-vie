@@ -3,13 +3,12 @@ import CommentForm from './CommentForm';
 import apiPath from '../apiPath';
 
 function Comments(props) {
-
 	const [comments, setComments] = useState([]);
 	const [hasDbError, setHasDbError] = useState(false);
 
 	useEffect(() => {
 		getComments();
-	}, []);
+	}, [props.gridId]);
 
 	function getComments()
 	{
@@ -23,7 +22,15 @@ function Comments(props) {
 				setComments(json)
 			})
 			.catch(() => { setHasDbError(true) });
-		} else {
+		} else if (props.admin) {
+			fetch(`${apiPath}adminGetAllComments.php`)
+			.then(response => response.json())
+			.then(json => {
+				setComments(json);
+			})
+			.catch(() => { setHasDbError(true) });
+		}
+		else {
 			fetch(`${apiPath}getGridComments.php`, {
 				method: 'post',
 				body: JSON.stringify([props.gridId, props.userId])

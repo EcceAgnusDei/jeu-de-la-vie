@@ -77,11 +77,13 @@ function Artworks(props) {
 		dispatch({ type: 'loading' });
 		let API = '';
 		let init = {};
-		if(props.userSpace)
+		if (props.userSpace)
 		{
 			API  = 'getUserGridsId';
 			init = {method: 'POST', body: props.userId};
-		} else {
+		} else if (props.admin) {
+			API = 'adminGetAllGridsId';
+		}else {
 			API = 'getAllGridsId';
 		}
 
@@ -202,7 +204,8 @@ function Artworks(props) {
 			deleteGrid={deleteGrid} 
 			key={item.id} id={item.id} 
 			userSpace={props.userSpace} 
-			elementPerPage={elementPerPage} 
+			elementPerPage={elementPerPage}
+			admin={props.admin ? true : false} 
 		/>);
 	const menuJSX = menu.map(item =>
 		<li key={item}>
@@ -216,7 +219,7 @@ function Artworks(props) {
 		</li>
 	);
 	return (
-		<main>
+		<React.Fragment>
 			<nav>
 				<ul className="artworks-menu">
 					<li>
@@ -247,7 +250,7 @@ function Artworks(props) {
 			}
 			</div>
 			<ArtworksNav next={next} prev={prev} currentPage={pageRef.current} maxPage={state.maxPage}/>
-		</main>
+		</React.Fragment>
 	);
 }
 

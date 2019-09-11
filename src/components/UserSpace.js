@@ -1,6 +1,10 @@
 import React, { useState } from 'react';
-import Artworks from './Artworks'
-import Comments from './Comments'
+import { Route, NavLink } from 'react-router-dom';
+
+import Artworks from './Artworks';
+import Comments from './Comments';
+import Navbar from './Navbar';
+import Home from './Home';
 
 function UserSpace(props) {
 
@@ -17,16 +21,32 @@ function UserSpace(props) {
 		throw new Error('Veuillez vous connecter pour accéder à cette page');
 	}
 	return (
-		<main>
-			<nav>
-				<ul className="menu">
-					{menuJSX}
-					<button className="danger-btn" onClick={props.logout}>Déconnexion</button>
-				</ul>
-			</nav>
-			{activePage === menu[0] && <Artworks userSpace={true} userId={props.userId}/>}
-			{activePage === menu[1] && <Comments userSpace={true} userId={props.userId}/>}
-		</main>
+		<React.Fragment>
+			<Navbar>
+				<NavLink 
+					className="menu-btn" 
+					to="/espace-perso/mes-creations"
+				>
+					Vos créations
+				</NavLink>
+				<NavLink 
+					className="menu-btn" 
+					to="/espace-perso/mes-commentaires"
+				>
+					Vos commentaires
+				</NavLink>
+				<button className="danger-btn" onClick={props.logout}>Déconnexion</button>
+			</Navbar>
+			<Route exact path="/espace-perso" render={(p) => 
+				<Artworks {...p} userSpace={true} userId={props.userId}/>
+			}/>
+			<Route path="/espace-perso/mes-creations" render={(p) => 
+				<Artworks {...p} userSpace={true} userId={props.userId}/>
+			}/>
+			<Route path="/espace-perso/mes-commentaires" render={(p) => 
+				<Comments {...p} userSpace={true} userId={props.userId}/>
+			}/>
+		</React.Fragment>
 	);
 }
 

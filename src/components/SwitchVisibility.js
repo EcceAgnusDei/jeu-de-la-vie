@@ -13,8 +13,14 @@ function SwitchVisibility(props) {
 	};
 
 	const handleChange = (checked) => {
-		setChecked(checked);
-		fetch(`${apiPath}switchVisibility.php`, {
+		let API;
+		setChecked(prev => !prev);
+		if (props.admin) {
+			API = 'adminSwitchVisibility'
+		} else {
+			API = 'switchVisibility'
+		}
+		fetch(`${apiPath}${API}.php`, {
 			method: 'POST',
 			body: props.id
 		})
@@ -22,10 +28,10 @@ function SwitchVisibility(props) {
 
 	return (
 		<div className="switch_visibility-container" style={style}>
-			<span>Publier</span>
+			<span>{props.span}</span>
 			<Switch 
 				onChange={handleChange} 
-				checked={checked} 
+				checked={props.invert ? !checked : checked} 
 			/>
 		</div>
 	);

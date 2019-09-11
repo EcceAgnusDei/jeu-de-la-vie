@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Switch, Route, Redirect, withRouter } from 'react-router-dom';
+import { Switch, Route, Redirect, withRouter, NavLink } from 'react-router-dom';
 
 import Header from './components/Header';
 import Home from './components/Home';
@@ -11,30 +11,17 @@ import Footer from './components/Footer';
 import SideDrawer from './components/SideDrawer';
 import Navbar from './components/Navbar';
 import ErrorBoundary from './components/ErrorBoundary';
+import Admin from './components/Admin';
 import { ArtworkProvider } from './context/artworkContext';
 import apiPath from './apiPath';
 
 import './css/style.css';
 
 function App(props) {
-  const [loggedId, setLoggedId] = useState(0);
-  const [artwork, setArtwork] = useState({});
+  const [loggedId, setLoggedId] = useState(sessionStorage.getItem('userId') || 0);
   const [sideDrawerOpen, setSideDrawerOpen] = useState(false);
   const [redirection, setRedirection] = useState(false);
   
-  useEffect(() => {
-    if(sessionStorage.getItem('userId')) {
-      setLoggedId(sessionStorage.getItem('userId'));
-    }
-  },[])
-
-    
-  function artworkLoad(artwork)//juste l'id en param, après on fetch
-  {
-    setArtwork(artwork);
-    props.history.push(`/jouer/${artwork.id}`);
-  }
-
   function log(login, password)
   {
     fetch(`${apiPath}logging.php`, {
@@ -65,7 +52,45 @@ function App(props) {
     setSideDrawerOpen(prev => !prev);
   }
 
-  const navbar = <Navbar loggedId={loggedId}/>;
+  const navbar = <Navbar loggedId={loggedId}>
+    <NavLink 
+      className="menu-btn"
+      exact 
+      activeClassName="currentPage" 
+      to="/"
+    >
+      Accueil
+    </NavLink>
+    <NavLink 
+      className="menu-btn" 
+      activeClassName="currentPage" 
+      to="/jouer"
+    >
+      Jouer
+    </NavLink>
+    <NavLink 
+      className="menu-btn" 
+      activeClassName="currentPage" 
+      to="/creations"
+    >
+      Créations
+    </NavLink>
+    {loggedId === 0 ?
+    <NavLink 
+      className="menu-btn" 
+      activeClassName="currentPage" 
+      to="/inscription"
+    >
+      Inscription
+    </NavLink> :
+    <NavLink 
+      className="menu-btn" 
+      activeClassName="currentPage" 
+      to="/espace-perso"
+    >
+      Espace perso
+    </NavLink>}
+  </Navbar>;
   return (
     <React.Fragment>
       <Header 
@@ -82,19 +107,27 @@ function App(props) {
       />
 
       <ErrorBoundary>
-        <Route exact path='/' component={Home} />
-        <Route path='/jouer' render={(props) => 
-          <Play {...props} artwork={artwork} userId={loggedId} />
-        }/>
-      <ArtworkProvider value={artworkLoad}>
-        <Route path='/creations' component={Artworks}/>
-        <Route path='/espace-perso' render={(props) => 
-          <UserSpace {...props} logout={logout} userId={loggedId}/>
-        }/>
-      </ArtworkProvider>
-        <Route path='/inscription' render={(props) =>
-          <SignIn {...props} log={log}/>
-        }/>
+        <main>
+          <Route exact path='/' component={Home} />
+          <Route exact path='/jouer' render={(props) => 
+            <Play {...props} userId={loggedId} />
+          }/>
+          <Route path='/jouer/:id' render={(props) => 
+            <Play {...props} userId={loggedId} />
+          }/>
+        <ArtworkProvider>
+          <Route path='/creations' component={Artworks}/>
+          <Route path='/espace-perso' render={(props) => 
+            <UserSpace {...props} logout={logout} userId={loggedId}/>
+          }/>
+        </ArtworkProvider>
+          <Route path='/inscription' render={(props) =>
+            <SignIn {...props} log={log}/>
+          }/>
+          <Route path='/admin' render={(props) => 
+            <Admin {...props} userId={loggedId} />
+          }/>
+        </main>
       </ErrorBoundary>
 
       <Footer userId={loggedId} logout={logout}/>
