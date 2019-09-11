@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Switch, Route, Redirect, withRouter, NavLink } from 'react-router-dom';
+import { Switch, Route, withRouter, NavLink } from 'react-router-dom';
 
 import Header from './components/Header';
 import Home from './components/Home';
@@ -33,7 +33,7 @@ function App(props) {
       if(json) {
         setLoggedId(json);
         sessionStorage.setItem('userId', json);
-        props.history.push('/espace-perso');
+        props.history.push('/');
       } else {
         alert('Idenfiant ou mot de passe incorrect');
       }

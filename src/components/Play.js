@@ -160,7 +160,7 @@ function Play(props) {
 		.then(response => response.json())
 		.then(json => {
 			if(json) {
-				props.handleNav('Espace perso');
+				props.history.push('/espace-perso');
 			} else {
 				alert('Erreur');
 			}

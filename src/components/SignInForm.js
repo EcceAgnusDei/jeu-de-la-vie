@@ -34,7 +34,6 @@ function SignInForm(props) {
 				.then(json => {
 					if(json === true) {
 						props.log(login, password);
-						props.handleNav('Accueil');
 					} else {
 						alert('erreur');
 					}
