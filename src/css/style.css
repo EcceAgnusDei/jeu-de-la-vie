@@ -443,6 +443,9 @@ strong {
     .footer-container {
       margin: 0; } }
 
+#game-grid {
+  flex-shrink: 0; }
+
 header {
   display: flex;
   align-items: center;
