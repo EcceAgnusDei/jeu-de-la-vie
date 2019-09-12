@@ -30,7 +30,6 @@ class ErrorBoundary extends Component {
 				<img src={error}/>
 				<h1>Oups, une erreur est survenue...</h1>
 				<p>{this.state.error}</p>
-				<Link to="/" className="menu-btn">Retour à l'accueil</Link>
 			</main>
 		}
 		return this.props.children;

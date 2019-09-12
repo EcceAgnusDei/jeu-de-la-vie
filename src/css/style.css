@@ -37,7 +37,7 @@ label {
   align-items: center;
   color: #23cb1a; }
 
-input {
+input, textarea {
   border: #ff680a 1px solid;
   border-radius: 3px;
   font-size: 0.8em; }
@@ -257,6 +257,7 @@ strong {
 
 .comment-form {
   width: 100%;
+  min-width: 310px;
   display: flex;
   flex-direction: column; }
   .comment-form button {
@@ -265,7 +266,8 @@ strong {
   .comment-form textarea {
     border: #ff680a 2px solid;
     background-color: rgba(35, 203, 26, 0.3);
-    font-size: 1em; }
+    font-size: 1em;
+    resize: none; }
 
 .like-container {
   display: flex; }
@@ -351,15 +353,28 @@ strong {
 .grid-miniature {
   margin-bottom: 12px; }
 
-.signin-form {
+.signin-form, .contact-form {
   width: 300px;
   height: 300px;
   margin: 33px auto;
   display: flex;
   flex-direction: column;
   justify-content: space-between; }
-  .signin-form input {
+  .signin-form input, .contact-form input {
     width: 90%; }
+
+.contact-form {
+  width: 50%; }
+  .contact-form textarea {
+    height: 200px;
+    font-size: 1.1em;
+    resize: none; }
+  .contact-form .btn, .contact-form .menu-btn, .contact-form .nav-btn, .contact-form .artwork-btn, .contact-form .like-btn, .contact-form .burger-btn, .contact-form .footer-container button, .footer-container .contact-form button, .contact-form .command-btn, .contact-form .comment-form button, .comment-form .contact-form button, .contact-form .danger-btn {
+    align-self: center;
+    font-size: 1em; }
+  @media (max-width: 940px) {
+    .contact-form {
+      width: 80%; } }
 
 .signin-error_message {
   color: #ff680a;

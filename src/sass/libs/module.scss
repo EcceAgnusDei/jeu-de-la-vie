@@ -292,6 +292,7 @@
 .comment-form
 {
 	width: 100%;
+	min-width: 310px;
 	display: flex;
 	flex-direction: column;
 	button
@@ -305,6 +306,7 @@
 		border: $danger 2px solid;
 		background-color: rgba($primary, 0.3);
 		font-size: 1em;
+		resize: none;
 	}
 }
 
@@ -443,6 +445,27 @@
 	input
 	{
 		width: 90%;
+	}
+}
+
+.contact-form
+{
+	@extend .signin-form;
+	width: 50%;
+	textarea
+	{
+		height: 200px;
+		font-size: 1.1em;
+		resize: none;
+	}
+	.btn
+	{
+		align-self: center;
+		font-size: 1em;
+	}
+	@media #{$large}
+	{
+		width: 80%;
 	}
 }
 

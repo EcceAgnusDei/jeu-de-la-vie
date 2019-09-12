@@ -10,6 +10,7 @@ import UserSpace from './components/UserSpace';
 import Footer from './components/Footer';
 import SideDrawer from './components/SideDrawer';
 import Navbar from './components/Navbar';
+import Contact from './components/Contact';
 import ErrorBoundary from './components/ErrorBoundary';
 import Admin from './components/Admin';
 import { ArtworkProvider } from './context/artworkContext';
@@ -83,13 +84,22 @@ function App(props) {
     >
       Inscription
     </NavLink> :
-    <NavLink 
-      className="menu-btn" 
-      activeClassName="currentPage" 
-      to="/espace-perso"
-    >
-      Espace perso
-    </NavLink>}
+    <React.Fragment>
+      <NavLink 
+        className="menu-btn" 
+        activeClassName="currentPage" 
+        to="/espace-perso"
+      >
+        Espace perso
+      </NavLink>
+      <NavLink 
+        className="menu-btn" 
+        activeClassName="currentPage" 
+        to="/contact"
+      >
+        Contact
+      </NavLink>
+    </React.Fragment>}
   </Navbar>;
   return (
     <React.Fragment>
@@ -126,6 +136,9 @@ function App(props) {
           }/>
           <Route path='/admin' render={(props) => 
             <Admin {...props} userId={loggedId} />
+          }/>
+          <Route path='/contact' render={(props) => 
+            <Contact {...props} userId={loggedId} />
           }/>
         </main>
       </ErrorBoundary>

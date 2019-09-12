@@ -37,7 +37,7 @@ label {
   align-items: center;
   color: #23cb1a; }
 
-input {
+input, textarea {
   border: #ff680a 1px solid;
   border-radius: 3px;
   font-size: 0.8em; }
@@ -58,7 +58,7 @@ strong {
   color: #23cb1a;
   font-size: 1.2em; }
 
-.current_page {
-  border-bottom: 3px solid #23cb1a; }
+.currentPage {
+  color: #1b9e14 !important; }
 
 /*# sourceMappingURL=base.css.map */
