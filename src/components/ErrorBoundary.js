@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
+
 import error from '../img/error.png';
 
 class ErrorBoundary extends Component {
@@ -26,8 +28,9 @@ class ErrorBoundary extends Component {
 		if (this.state.hasError) {
 			return <main className="error">
 				<img src={error}/>
-				<h1>Oups, une erreur est survenue:</h1>
+				<h1>Oups, une erreur est survenue...</h1>
 				<p>{this.state.error}</p>
+				<Link to="/" className="menu-btn">Retour à l'accueil</Link>
 			</main>
 		}
 		return this.props.children;

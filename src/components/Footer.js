@@ -1,4 +1,6 @@
 import React from 'react';
+import { withRouter } from 'react-router-dom'
+
 import apiPath from '../apiPath';
 
 function Footer(props) {
@@ -26,7 +28,8 @@ function Footer(props) {
 	return (
 		<footer>
 			<div className="footer-container">
-				{props.userId !== 0 && <button onClick={delAccount}>Supprimer votre compte</button>}
+				{props.userId > 1 && <button onClick={delAccount}>Supprimer votre compte</button>}
+				{props.userId == 1 && <button onClick={() => props.history.push('/admin')}>Admin</button>}
 				<div className="bottom">
 					<a target="_blank" href="http://mondoloni-dev.fr">&copy; Antoine Mondoloni </a> 
 					<div className="legal">
@@ -39,4 +42,4 @@ function Footer(props) {
 	);
 }
 
-export default Footer
+export default withRouter(Footer)
