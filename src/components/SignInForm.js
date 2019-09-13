@@ -18,7 +18,9 @@ function SignInForm(props) {
 	useEffect(() => {
 		fetch(`${apiPath}getLogins.php`)
 			.then(response => response.json())
-			.then(json => {loginsRef.current = json})
+			.then(json => {
+				loginsRef.current = json.map(item => item.toUpperCase())
+			})
 	}, []);
 
 	function handleSubmit(event) {
@@ -46,9 +48,8 @@ function SignInForm(props) {
 		switch (name)
 		{
 			case 'login':
-				console.log("Changin login")
 				bindLogin.onChange(event);
-				loginsRef.current.indexOf(value) === -1 ?
+				loginsRef.current.indexOf(value.toUpperCase()) === -1 ?
 				setLoginState(true) :
 				setLoginState(false);
 				break;
