@@ -9,6 +9,10 @@ ul {
 button {
   font-family: 'Cabin', sans-serif; }
 
+p {
+  text-align: justify;
+  text-justify: auto; }
+
 body {
   margin: 0;
   font-size: 1.5em;
@@ -238,14 +242,16 @@ strong {
       width: 100%; } }
 
 .comment {
-  margin: 30px auto;
+  margin: 30px;
   padding: 10px;
   border-radius: 3px;
   border: 2px #ff680a solid; }
 
 .comment-container {
   width: 50%;
-  margin: auto; }
+  margin: auto;
+  display: flex;
+  flex-direction: column; }
   @media (max-width: 940px) {
     .comment-container {
       width: 90%; } }
@@ -447,7 +453,8 @@ strong {
   .footer-container .bottom {
     width: 100%;
     display: flex;
-    justify-content: space-between; }
+    justify-content: space-between;
+    flex-wrap: wrap; }
   .footer-container button {
     font-weight: 400;
     color: #ff680a;

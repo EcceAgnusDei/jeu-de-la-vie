@@ -218,6 +218,11 @@ function Artworks(props) {
 			</button>
 		</li>
 	);
+
+	if (state.allIds.length === 0 && props.userSpace) {
+		return <h4>Vous n'avez pas de créations</h4>
+	}
+
 	return (
 		<React.Fragment>
 			<nav>
@@ -254,4 +259,12 @@ function Artworks(props) {
 	);
 }
 
-export default Artworks
+function ErrorBoundedArtworks(props) {
+	return (
+		<ErrorBoundary>
+			<Artworks {...props} />
+		</ErrorBoundary>
+	);
+}
+
+export default ErrorBoundedArtworks

@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import CommentForm from './CommentForm';
 import apiPath from '../apiPath';
+import ErrorBoundary from './ErrorBoundary'; 
 
 function Comments(props) {
 	const [comments, setComments] = useState([]);
 	const [hasDbError, setHasDbError] = useState(false);
+	const [loading, setLoading] = useState(true)
 
 	useEffect(() => {
 		getComments();
@@ -19,16 +21,18 @@ function Comments(props) {
 			})
 			.then(response => response.json())
 			.then(json => {
-				setComments(json)
+				setComments(json);
+				setLoading(false);
 			})
-			.catch(() => { setHasDbError(true) });
+			.catch(() => { setDataBaseError() });
 		} else if (props.admin) {
 			fetch(`${apiPath}adminGetAllComments.php`)
 			.then(response => response.json())
 			.then(json => {
 				setComments(json);
+				setLoading(false);
 			})
-			.catch(() => { setHasDbError(true) });
+			.catch(() => { setDataBaseError() });
 		}
 		else {
 			fetch(`${apiPath}getGridComments.php`, {
@@ -38,9 +42,17 @@ function Comments(props) {
 			.then(response => response.json())
 			.then(json => {
 				setComments(json);
+				setLoading(false);
 			})
-			.catch(() => { setHasDbError(true) });
+			.catch(() => { setDataBaseError() });
 		}
+	}
+
+	function setDataBaseError()
+	{
+		console.log('dberror')
+		setHasDbError(true);
+		setLoading(false);
 	}
 
 	function addComment(comment)
@@ -54,10 +66,10 @@ function Comments(props) {
 				if(json === true) {
 					getComments();
 				} else {
-					setHasDbError(true);
+					setDataBaseError();
 				}
 			})
-			.catch(() => { setHasDbError(true) })
+			.catch(() => { setDataBaseError() })
 	}
 
 	function likeComment(commentId)
@@ -68,9 +80,9 @@ function Comments(props) {
 		})
 			.then(response => response.json())
 			.then(json => {
-				json ? getComments() : setHasDbError(true);
+				json ? getComments() : setDataBaseError();
 			})
-			.catch(() => { setHasDbError(true) })
+			.catch(() => { setDataBaseError() })
 	}
 
 	function dislikeComment(commentId)
@@ -81,9 +93,9 @@ function Comments(props) {
 		})
 			.then(response => response.json())
 			.then(json => {
-				json ? getComments() : setHasDbError(true);
+				json ? getComments() : setDataBaseError();
 			})
-			.catch(() => { setHasDbError(true) })
+			.catch(() => { setDataBaseError() })
 	}
 
 	function deleteComment(id)
@@ -96,10 +108,15 @@ function Comments(props) {
 			})
 			.then(response=> response.json())
 			.then(json => {
-				json ? getComments() : setHasDbError(true);
+				json ? getComments() : setDataBaseError();
 			})
-			.catch(() => { setHasDbError(true) })
+			.catch(() => { setDataBaseError() })
 		}
+	}
+
+	if (hasDbError) 
+	{
+		throw new Error('Erreur lors de la connexion à la base de données');
 	}
 
 	const commentsJSX = comments.map(
@@ -145,10 +162,24 @@ function Comments(props) {
 	);
 	return (
 		<section className="comment-container">
-			{(props.userId != 0 && props.gridId) && <CommentForm addComment={addComment} userId={props.userId}/>}
+			{(props.userId != 0 && props.gridId) && 
+			<CommentForm addComment={addComment} userId={props.userId}/>}
+			{!props.gridId && comments.length === 0 && !loading &&
+			<h4>Vous n'avez pas publié de commentaires</h4>}
+			{loading && 
+			<div className="artworks"><div className="loading"><i className="fas fa-spinner"></i></div></div>}
 			{commentsJSX}
 		</section>
 	);
 }
 
-export default Comments;
+function ErrorBoundedComments(props) {
+	return (
+		<ErrorBoundary>
+			<Comments {...props} />
+		</ErrorBoundary>
+	);
+}
+
+export default ErrorBoundedComments;
+

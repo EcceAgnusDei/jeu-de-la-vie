@@ -116,32 +116,30 @@ function App(props) {
         navbar={navbar}
       />
 
-      <ErrorBoundary>
-        <main>
-          <Route exact path='/' component={Home} />
-          <Route exact path='/jouer' render={(props) => 
-            <Play {...props} userId={loggedId} />
-          }/>
-          <Route path='/jouer/:id' render={(props) => 
-            <Play {...props} userId={loggedId} />
-          }/>
-        <ArtworkProvider>
-          <Route path='/creations' component={Artworks}/>
-          <Route path='/espace-perso' render={(props) => 
-            <UserSpace {...props} logout={logout} userId={loggedId}/>
-          }/>
-        </ArtworkProvider>
-          <Route path='/inscription' render={(props) =>
-            <SignIn {...props} log={log}/>
-          }/>
-          <Route path='/admin' render={(props) => 
-            <Admin {...props} userId={loggedId} />
-          }/>
-          <Route path='/contact' render={(props) => 
-            <Contact {...props} userId={loggedId} />
-          }/>
-        </main>
-      </ErrorBoundary>
+      <main>
+        <Route exact path='/' component={Home} />
+        <Route exact path='/jouer' render={(props) => 
+          <Play {...props} userId={loggedId} />
+        }/>
+        <Route path='/jouer/:id' render={(props) => 
+          <Play {...props} userId={loggedId} />
+        }/>
+      <ArtworkProvider>
+        <Route path='/creations' component={Artworks}/>
+        <Route path='/espace-perso' render={(props) => 
+          <UserSpace {...props} logout={logout} userId={loggedId}/>
+        }/>
+      </ArtworkProvider>
+        <Route path='/inscription' render={(props) =>
+          <SignIn {...props} log={log}/>
+        }/>
+        <Route path='/admin' render={(props) => 
+          <Admin {...props} userId={loggedId} />
+        }/>
+        <Route path='/contact' render={(props) => 
+          <Contact {...props} userId={loggedId} />
+        }/>
+      </main>
 
       <Footer userId={loggedId} logout={logout}/>
     </React.Fragment>
