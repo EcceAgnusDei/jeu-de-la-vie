@@ -20,34 +20,8 @@ import apiPath from './apiPath';
 import './css/style.css';
 
 function App(props) {
-  //const [loggedId, setLoggedId] = useState(sessionStorage.getItem('userId') || 0);
   const [sideDrawerOpen, setSideDrawerOpen] = useState(false);
   
-  // function log(login, password)
-  // {
-  //   fetch(`${apiPath}logging.php`, {
-  //     method: 'post',
-  //     body: JSON.stringify([login, password])
-  //   })
-  //   .then(response => response.json())
-  //   .then(json => {
-  //     if(json) {
-  //       setLoggedId(json);
-  //       sessionStorage.setItem('userId', json);
-  //       props.history.push('/');
-  //     } else {
-  //       alert('Idenfiant ou mot de passe incorrect');
-  //     }
-  //   })
-  // }
-
-  // function logout()
-  // {
-  //   setLoggedId(0);
-  //   sessionStorage.removeItem('userId');
-  //   props.history.push('/');
-  // }
-
   function drawerClickHandler()
   {
     setSideDrawerOpen(prev => !prev);
