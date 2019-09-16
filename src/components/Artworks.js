@@ -130,7 +130,7 @@ function Artworks(props) {
 	    	})
 			.then(response => response.json())
 			.then(json => {
-				json ? getIds() : alert('erreur');
+				json ? getIds() : dispatch({ type: 'FETCHING_ERROR' });
 			})
 			.catch(() => dispatch({ type: 'FETCHING_ERROR' }));
 		}

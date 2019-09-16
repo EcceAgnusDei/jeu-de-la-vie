@@ -59,6 +59,7 @@
 	background-color: transparent;
 	font-size: 0.9em;
 	margin: 0;
+	text-transform: capitalize;
 	&:hover
 	{
 		color: darken($primary, 10);

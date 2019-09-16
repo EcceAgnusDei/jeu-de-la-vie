@@ -19,7 +19,7 @@ function Footer(props) {
 						props.logout();
 						alert('Compte supprimé');
 					} else {
-						alert('Erreur');
+						alert('Une erreur est survenue');
 					}
 				})
 		}

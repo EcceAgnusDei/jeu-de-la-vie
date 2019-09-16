@@ -104,7 +104,8 @@ strong {
   color: #23cb1a;
   background-color: transparent;
   font-size: 0.9em;
-  margin: 0; }
+  margin: 0;
+  text-transform: capitalize; }
   .menu-btn:hover, .nav-btn:hover, .artwork-btn:hover, .like-btn:hover, .burger-btn:hover, .footer-container button:hover {
     color: #1b9e14;
     background-color: transparent; }

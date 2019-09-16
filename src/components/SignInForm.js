@@ -19,7 +19,7 @@ function SignInForm(props) {
 		fetch(`${apiPath}getLogins.php`)
 			.then(response => response.json())
 			.then(json => {
-				loginsRef.current = json.map(item => item.toUpperCase())
+				loginsRef.current = json.map(item => item.toUpperCase());
 			})
 	}, []);
 
@@ -37,7 +37,7 @@ function SignInForm(props) {
 					if(json === true) {
 						props.log(login, password);
 					} else {
-						alert('erreur');
+						alert('Une erreur est survenue');
 					}
 				})
 		}
