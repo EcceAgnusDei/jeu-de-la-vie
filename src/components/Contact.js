@@ -1,4 +1,6 @@
 import React from 'react';
+import { connect } from 'react-redux';
+
 import ContactForm from './ContactForm';
 
 function Contact(props) {
@@ -14,4 +16,10 @@ function Contact(props) {
 	);
 }
 
-export default Contact
+const mapStateToProps = (state) => {
+	return {
+		userId: state.user
+	}
+}
+
+export default connect(mapStateToProps, null)(Contact);

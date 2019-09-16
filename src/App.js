@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Switch, Route, withRouter, NavLink } from 'react-router-dom';
+import { connect } from 'react-redux';
 
 import Header from './components/Header';
 import Home from './components/Home';
@@ -19,40 +20,40 @@ import apiPath from './apiPath';
 import './css/style.css';
 
 function App(props) {
-  const [loggedId, setLoggedId] = useState(sessionStorage.getItem('userId') || 0);
+  //const [loggedId, setLoggedId] = useState(sessionStorage.getItem('userId') || 0);
   const [sideDrawerOpen, setSideDrawerOpen] = useState(false);
   
-  function log(login, password)
-  {
-    fetch(`${apiPath}logging.php`, {
-      method: 'post',
-      body: JSON.stringify([login, password])
-    })
-    .then(response => response.json())
-    .then(json => {
-      if(json) {
-        setLoggedId(json);
-        sessionStorage.setItem('userId', json);
-        props.history.push('/');
-      } else {
-        alert('Idenfiant ou mot de passe incorrect');
-      }
-    })
-  }
+  // function log(login, password)
+  // {
+  //   fetch(`${apiPath}logging.php`, {
+  //     method: 'post',
+  //     body: JSON.stringify([login, password])
+  //   })
+  //   .then(response => response.json())
+  //   .then(json => {
+  //     if(json) {
+  //       setLoggedId(json);
+  //       sessionStorage.setItem('userId', json);
+  //       props.history.push('/');
+  //     } else {
+  //       alert('Idenfiant ou mot de passe incorrect');
+  //     }
+  //   })
+  // }
 
-  function logout()
-  {
-    setLoggedId(0);
-    sessionStorage.removeItem('userId');
-    props.history.push('/');
-  }
+  // function logout()
+  // {
+  //   setLoggedId(0);
+  //   sessionStorage.removeItem('userId');
+  //   props.history.push('/');
+  // }
 
   function drawerClickHandler()
   {
     setSideDrawerOpen(prev => !prev);
   }
 
-  const navbar = <Navbar loggedId={loggedId}>
+  const navbar = <Navbar loggedId={props.userId}>
     <NavLink 
       className="menu-btn"
       exact 
@@ -75,7 +76,7 @@ function App(props) {
     >
       Créations
     </NavLink>
-    {loggedId === 0 ?
+    {props.userId === 0 ?
     <NavLink 
       className="menu-btn" 
       activeClassName="currentPage" 
@@ -103,8 +104,7 @@ function App(props) {
   return (
     <React.Fragment>
       <Header 
-        loggedId={loggedId} 
-        log={log} 
+        loggedId={props.userId}
         burgerClick={drawerClickHandler}
         navbar={navbar}
       />
@@ -118,31 +118,37 @@ function App(props) {
       <main>
         <Route exact path='/' component={Home} />
         <Route exact path='/jouer' render={(props) => 
-          <Play {...props} userId={loggedId} />
+          <Play {...props} />
         }/>
         <Route path='/jouer/:id' render={(props) => 
-          <Play {...props} userId={loggedId} />
+          <Play {...props} />
         }/>
       <ArtworkProvider>
         <Route path='/creations' component={Artworks}/>
         <Route path='/espace-perso' render={(props) => 
-          <UserSpace {...props} logout={logout} userId={loggedId}/>
+          <UserSpace {...props}/>
         }/>
       </ArtworkProvider>
         <Route path='/inscription' render={(props) =>
-          <SignIn {...props} log={log}/>
+          <SignIn {...props} />
         }/>
         <Route path='/admin' render={(props) => 
-          <Admin {...props} userId={loggedId} />
+          <Admin {...props} />
         }/>
         <Route path='/contact' render={(props) => 
-          <Contact {...props} userId={loggedId} />
+          <Contact {...props} />
         }/>
       </main>
 
-      <Footer userId={loggedId} logout={logout}/>
+      <Footer />
     </React.Fragment>
   );
 }
 
-export default withRouter(App);
+const mapStateToProps = state => {
+  return {
+    userId: state.user
+  }
+}
+
+export default withRouter(connect(mapStateToProps, null)(App));

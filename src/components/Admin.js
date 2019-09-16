@@ -1,5 +1,6 @@
 import React from 'react';
 import { NavLink, Route } from 'react-router-dom';
+import { connect } from 'react-redux';
 
 import Navbar from './Navbar';
 import Comments from './Comments';
@@ -33,4 +34,10 @@ function Admin(props) {
 	);
 }
 
-export default Admin
+const mapStateToProps = (state) => {
+	return {
+		userId: state.user
+	}
+}
+
+export default connect(mapStateToProps, null)(Admin);

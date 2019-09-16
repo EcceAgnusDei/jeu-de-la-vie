@@ -1,14 +1,17 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+
 import useInput from '../hooks/useInput';
+import { login } from '../actions/userActions'
 
 function LogForm(props) {
-	const [login, bindLogin, resetLogin] = useInput('');
+	const [pseudo, bindPseudo, resetPseudo] = useInput('');
  	const [password, bindPassword, resetPassword] = useInput('');
 
 	function handleSubmit(event)
 	{
 		event.preventDefault();
-		props.log(login, password);
+		props.login(pseudo, password);
 	}
 
 	return (
@@ -18,7 +21,7 @@ function LogForm(props) {
 					<input 
 						type="text" 
 						name="login" 
-						{...bindLogin} 
+						{...bindPseudo} 
 						required
 					/>
 				</label>
@@ -31,9 +34,16 @@ function LogForm(props) {
 					/>
 				</label>
 			</div>	
-		<button className="danger-btn">Go</button>
+			<button className="danger-btn">Go</button>
 		</form>
 	);
 }
 
-export default LogForm
+
+const mapDispatchToProps = (dispatch) => {
+	return {
+		login: (pseudo, password) => dispatch(login(pseudo, password))
+	}
+}
+
+export default connect(null, mapDispatchToProps)(LogForm);

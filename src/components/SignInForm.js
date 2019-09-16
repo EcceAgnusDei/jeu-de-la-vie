@@ -1,6 +1,11 @@
 import React, { Component, useEffect, useState, useRef } from 'react';
+import { withRouter } from 'react-router-dom';
+import { connect } from 'react-redux';
+
+import LOGIN from '../actions/types';
 import apiPath from '../apiPath';
 import useInput from '../hooks/useInput';
+import { login } from '../actions/userActions';
 
 function SignInForm(props) {
 	console.log('rendering form')
@@ -35,7 +40,8 @@ function SignInForm(props) {
 				.then(response => response.json())
 				.then(json => {
 					if(json === true) {
-						props.log(login, password);
+						props.login(login, password);
+						props.history.push('/');
 					} else {
 						alert('Une erreur est survenue');
 					}
@@ -124,4 +130,16 @@ function SignInForm(props) {
 	);
 }
 
-export default SignInForm
+const mapDispatchToProps = (dispatch) => {
+	return {
+		login: (pseudo, password) => dispatch(login(pseudo, password))
+	}
+}
+
+const mapStateToProps = (state) => {
+	return {
+		userId: state.user
+	}
+}
+
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(SignInForm));

@@ -1,7 +1,9 @@
 import React from 'react';
 import { withRouter } from 'react-router-dom'
+import { connect } from 'react-redux';
 
 import apiPath from '../apiPath';
+import { LOGOUT } from '../actions/types';
 
 function Footer(props) {
 
@@ -13,15 +15,15 @@ function Footer(props) {
 			method: 'post',
 			body: JSON.stringify(props.userId)
 		})
-				.then(response => response.json())
-				.then(json => {
-					if(json) {
-						props.logout();
-						alert('Compte supprimé');
-					} else {
-						alert('Une erreur est survenue');
-					}
-				})
+			.then(response => response.json())
+			.then(json => {
+				if(json) {
+					props.history.push('/');
+					props.logout();
+				} else {
+					alert('Une erreur est survenue');
+				}
+			});
 		}
 	}
 
@@ -42,4 +44,16 @@ function Footer(props) {
 	);
 }
 
-export default withRouter(Footer)
+const mapStateToProps = (state) => {
+	return {
+		userId: state.user
+	}
+}
+
+const mapDispatchToProps = dispatch => {
+	return {
+		logout: () => dispatch({type: LOGOUT})
+	}
+}
+
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Footer));
