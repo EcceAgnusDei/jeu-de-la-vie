@@ -1,4 +1,4 @@
-const onlineApiPath = 'http://jeu-de-la-vie.mondoloni-dev.fr/golApi/';
+const onlineApiPath = 'https://jeu-de-la-vie.mondoloni-dev.fr/golApi/';
 const localApiPath = 'http://localhost/jeu-de-la-vie/golApi/';
 
-export default localApiPath;
+export default onlineApiPath;

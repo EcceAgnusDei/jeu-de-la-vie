@@ -7,7 +7,7 @@ function ContactForm(props) {
 
 	const handlesubmit = (e) => {
 		e.preventDefault();
-		fetch(`http://jeu-de-la-vie.mondoloni-dev.fr/golApi/contactMail.php`,
+		fetch(`https://jeu-de-la-vie.mondoloni-dev.fr/golApi/contactMail.php`,
 		{
 			method: 'post',
 			body: JSON.stringify([props.userId, message])
