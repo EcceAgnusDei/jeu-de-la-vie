@@ -59,6 +59,7 @@
 	background-color: transparent;
 	font-size: 0.9em;
 	margin: 0;
+	text-transform: capitalize;
 	&:hover
 	{
 		color: darken($primary, 10);
@@ -265,7 +266,7 @@
 
 .comment
 {
-	margin: 30px auto;
+	margin: 30px;
 	padding: 10px;
 	border-radius: 3px;
 	border: 2px $danger solid;
@@ -275,6 +276,8 @@
 {
 	width: 50%;
 	margin: auto;
+	display: flex;
+	flex-direction: column;
 	@media #{$large}
 	{
 		width: 90%;
@@ -292,6 +295,7 @@
 .comment-form
 {
 	width: 100%;
+	min-width: 310px;
 	display: flex;
 	flex-direction: column;
 	button
@@ -305,6 +309,7 @@
 		border: $danger 2px solid;
 		background-color: rgba($primary, 0.3);
 		font-size: 1em;
+		resize: none;
 	}
 }
 
@@ -446,6 +451,27 @@
 	}
 }
 
+.contact-form
+{
+	@extend .signin-form;
+	width: 50%;
+	textarea
+	{
+		height: 200px;
+		font-size: 1.1em;
+		resize: none;
+	}
+	.btn
+	{
+		align-self: center;
+		font-size: 1em;
+	}
+	@media #{$large}
+	{
+		width: 80%;
+	}
+}
+
 .signin-error_message
 {
 	color: $danger;
@@ -555,6 +581,7 @@
 		width: 100%;
 		display: flex;
 		justify-content: space-between;
+		flex-wrap: wrap;
 	}
 
 	button
@@ -573,4 +600,9 @@
 	{
 		margin: 0;
 	}
+}
+
+#game-grid
+{
+	flex-shrink: 0;
 }

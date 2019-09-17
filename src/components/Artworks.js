@@ -49,6 +49,8 @@ const reducer = (state, action) => {
 				visibleIds: action.data.visibleIds
 			}
 			break;
+		default: 
+			return state;
 	}
 }
 
@@ -75,11 +77,13 @@ function Artworks(props) {
 		dispatch({ type: 'loading' });
 		let API = '';
 		let init = {};
-		if(props.userSpace)
+		if (props.userSpace)
 		{
 			API  = 'getUserGridsId';
 			init = {method: 'POST', body: props.userId};
-		} else {
+		} else if (props.admin) {
+			API = 'adminGetAllGridsId';
+		}else {
 			API = 'getAllGridsId';
 		}
 
@@ -126,7 +130,7 @@ function Artworks(props) {
 	    	})
 			.then(response => response.json())
 			.then(json => {
-				json ? getIds() : alert('erreur');
+				json ? getIds() : dispatch({ type: 'FETCHING_ERROR' });
 			})
 			.catch(() => dispatch({ type: 'FETCHING_ERROR' }));
 		}
@@ -200,7 +204,8 @@ function Artworks(props) {
 			deleteGrid={deleteGrid} 
 			key={item.id} id={item.id} 
 			userSpace={props.userSpace} 
-			elementPerPage={elementPerPage} 
+			elementPerPage={elementPerPage}
+			admin={props.admin ? true : false} 
 		/>);
 	const menuJSX = menu.map(item =>
 		<li key={item}>
@@ -213,6 +218,11 @@ function Artworks(props) {
 			</button>
 		</li>
 	);
+
+	if (state.allIds.length === 0 && props.userSpace) {
+		return <h4>Vous n'avez pas de créations</h4>
+	}
+
 	return (
 		<React.Fragment>
 			<nav>
@@ -249,4 +259,12 @@ function Artworks(props) {
 	);
 }
 
-export default Artworks
+function ErrorBoundedArtworks(props) {
+	return (
+		<ErrorBoundary>
+			<Artworks {...props} />
+		</ErrorBoundary>
+	);
+}
+
+export default ErrorBoundedArtworks

@@ -1,4 +1,7 @@
 import React, { useState, useEffect } from 'react';
+import { Switch, Route, withRouter, NavLink } from 'react-router-dom';
+import { connect } from 'react-redux';
+
 import Header from './components/Header';
 import Home from './components/Home';
 import Play from './components/Play';
@@ -8,211 +11,118 @@ import UserSpace from './components/UserSpace';
 import Footer from './components/Footer';
 import SideDrawer from './components/SideDrawer';
 import Navbar from './components/Navbar';
+import Contact from './components/Contact';
 import ErrorBoundary from './components/ErrorBoundary';
+import Admin from './components/Admin';
 import { ArtworkProvider } from './context/artworkContext';
 import apiPath from './apiPath';
+
 import './css/style.css';
 
-function App() {
-  const [activePage, setActivePage] = useState('Accueil');
-  const [loggedId, setLoggedId] = useState(0);
-  const [artwork, setArtwork] = useState({});
+function App(props) {
   const [sideDrawerOpen, setSideDrawerOpen] = useState(false);
-  const menu = ['Accueil', 'Jouer', 'Créations', 'Inscription'];
   
-  useEffect(() => {
-    if(sessionStorage.getItem('userId')) {
-      setLoggedId(sessionStorage.getItem('userId'));
-    }
-  },[])
-
-  function handleNav(link)
-  {
-    setActivePage(link);
-    setArtwork({});
-  }
-    
-  function artworkLoad(artwork)
-  {
-    setActivePage('Jouer');
-    setArtwork(artwork);
-  }
-
-  function log(login, password)
-  {
-    fetch(`${apiPath}logging.php`, {
-      method: 'post',
-      body: JSON.stringify([login, password])
-    })
-    .then(response => response.json())
-    .then(json => {
-      if(json) {
-        setLoggedId(json);
-        sessionStorage.setItem('userId', json);
-      } else {
-        alert('Idenfiant ou mot de passe incorrect');
-      }
-    })
-  }
-
-  function logout()
-  {
-    setLoggedId(0);
-    setActivePage('Accueil');
-    sessionStorage.removeItem('userId');
-  }
-
   function drawerClickHandler()
   {
     setSideDrawerOpen(prev => !prev);
   }
 
-  if(loggedId) {
-    menu[3] = 'Espace perso';
-  } else {
-    menu[3] = 'Inscription';
-  }
-  const navbar = <Navbar menu={menu} nav={handleNav} active={activePage}/>;
+  const navbar = <Navbar loggedId={props.userId}>
+    <NavLink 
+      className="menu-btn"
+      exact 
+      activeClassName="currentPage" 
+      to="/"
+    >
+      Accueil
+    </NavLink>
+    <NavLink 
+      className="menu-btn" 
+      activeClassName="currentPage" 
+      to="/jouer"
+    >
+      Jouer
+    </NavLink>
+    <NavLink 
+      className="menu-btn" 
+      activeClassName="currentPage" 
+      to="/creations"
+    >
+      Créations
+    </NavLink>
+    {props.userId === 0 ?
+    <NavLink 
+      className="menu-btn" 
+      activeClassName="currentPage" 
+      to="/inscription"
+    >
+      Inscription
+    </NavLink> :
+    <React.Fragment>
+      <NavLink 
+        className="menu-btn" 
+        activeClassName="currentPage" 
+        to="/espace-perso"
+      >
+        Espace perso
+      </NavLink>
+      <NavLink 
+        className="menu-btn" 
+        activeClassName="currentPage" 
+        to="/contact"
+      >
+        Contact
+      </NavLink>
+    </React.Fragment>}
+  </Navbar>;
   return (
     <React.Fragment>
-        <Header 
-          loggedId={loggedId} 
-          log={log} 
-          burgerClick={drawerClickHandler} 
-          active={activePage}
-          navbar={navbar}
-        />
-        <SideDrawer 
-          open={sideDrawerOpen} 
-          backdropClick={drawerClickHandler}
-          navbar={navbar}
-        />
-        <main>
-          {activePage === 'Accueil' && 
-            <Home handleNav={handleNav}/>}
-          {activePage === 'Jouer' && 
-            <Play artwork={artwork} userId={loggedId} handleNav={handleNav}/>}
-          <ArtworkProvider value={artworkLoad}>
-          {activePage === 'Créations' && 
-            <Artworks />}
-          {activePage === 'Espace perso' && 
-            <UserSpace logout={logout} userId={loggedId}/>}
-          </ArtworkProvider>
-          {activePage === 'Inscription' && 
-            <SignIn handleNav={handleNav} log={log}/>}
-        </main>
-        <Footer userId={loggedId} logout={logout}/>
+      <Header 
+        loggedId={props.userId}
+        burgerClick={drawerClickHandler}
+        navbar={navbar}
+      />
+
+      <SideDrawer 
+        open={sideDrawerOpen} 
+        backdropClick={drawerClickHandler}
+        navbar={navbar}
+      />
+
+      <main>
+        <Route exact path='/' component={Home} />
+        <Route exact path='/jouer' render={(props) => 
+          <Play {...props} />
+        }/>
+        <Route path='/jouer/:id' render={(props) => 
+          <Play {...props} />
+        }/>
+      <ArtworkProvider>
+        <Route path='/creations' component={Artworks}/>
+        <Route path='/espace-perso' render={(props) => 
+          <UserSpace {...props}/>
+        }/>
+      </ArtworkProvider>
+        <Route path='/inscription' render={(props) =>
+          <SignIn {...props} />
+        }/>
+        <Route path='/admin' render={(props) => 
+          <Admin {...props} />
+        }/>
+        <Route path='/contact' render={(props) => 
+          <Contact {...props} />
+        }/>
+      </main>
+
+      <Footer />
     </React.Fragment>
   );
 }
 
-export default App
+const mapStateToProps = state => {
+  return {
+    userId: state.user
+  }
+}
 
-// class Appy extends React.Component {
-//   constructor() {
-//     super();
-//     this.state = {
-//       activePage: 'Accueil',
-//       artwork: {},
-//       loggedId: 0,
-//       sideDrawerOpen: false
-//     };
-
-//     this.menu = ['Accueil', 'Jouer', 'Créations', 'Inscription'];
-//     this.handleNav = this.handleNav.bind(this);
-//     this.artworkLoad = this.artworkLoad.bind(this);
-//     this.log = this.log.bind(this);
-//     this.logout = this.logout.bind(this);
-//     this.drawerClickHandler = this.drawerClickHandler.bind(this);
-//   }
-
-//   componentDidMount()
-//   {
-//     if(sessionStorage.getItem('userId')) {
-//       this.setState({
-//         loggedId: sessionStorage.getItem('userId')
-//       });
-//     }
-//   }
-
-//   handleNav(link)
-//   {
-//     this.setState({activePage: link, artwork: {}});
-//   }
-    
-//   artworkLoad(artwork)
-//   {
-//     this.setState({activePage: 'Jouer', artwork: artwork});
-//   }
-
-//   log(login, password)
-//   {
-//     fetch(`${apiPath}logging.php`, {
-//       method: 'post',
-//       body: JSON.stringify([login, password])
-//     })
-//     .then(response => response.json())
-//     .then(json => {
-//       if(json) {
-//         this.setState({
-//           loggedId: json,
-//           menu: ['Accueil', 'Jouer', 'Créations', 'Déconnexion']
-//         });
-//         sessionStorage.setItem('userId', json);
-//       } else {
-//         alert('Idenfiant ou mot de passe incorrect');
-//       }
-//     })
-//   }
-
-//   logout()
-//   {
-//     this.setState({loggedId: 0, activePage: 'Accueil'});
-//     sessionStorage.removeItem('userId');
-//   }
-
-//   drawerClickHandler()
-//   {
-//     this.setState((prevState) => { return {sideDrawerOpen: !prevState.sideDrawerOpen} })
-//   }
-  
-//   render() {
-//     if(this.state.loggedId) {
-//       this.menu[3] = 'Espace perso';
-//     } else {
-//       this.menu[3] = 'Inscription';
-//     }
-//     const navbar = <Navbar menu={this.menu} nav={this.handleNav} active={this.state.activePage}/>;
-//     return (
-//       <React.Fragment>
-//           <Header 
-//             loggedId={this.state.loggedId} 
-//             log={this.log} 
-//             burgerClick={this.drawerClickHandler} 
-//             active={this.state.activePage}
-//             navbar={navbar}
-//           />
-//           <SideDrawer 
-//             open={this.state.sideDrawerOpen} 
-//             backdropClick={this.drawerClickHandler}
-//             navbar={navbar}
-//           />
-//           <main>
-//             {this.state.activePage === 'Accueil' && 
-//               <Home handleNav={this.handleNav}/>}
-//             {this.state.activePage === 'Jouer' && 
-//               <Play artwork={this.state.artwork} userId={this.state.loggedId} handleNav={this.handleNav}/>}
-//             <ArtworkProvider value={this.artworkLoad}>
-//             {this.state.activePage === 'Créations' && 
-//               <Artworks />}
-//             {this.state.activePage === 'Espace perso' && 
-//               <UserSpace logout={this.logout} userId={this.state.loggedId}/>}
-//             </ArtworkProvider>
-//             {this.state.activePage === 'Inscription' && 
-//               <SignIn handleNav={this.handleNav} log={this.log}/>}
-//           </main>
-//           <Footer userId={this.state.loggedId} logout={this.logout}/>
-//       </React.Fragment>
-//     );
-//   }
-// }
+export default withRouter(connect(mapStateToProps, null)(App));

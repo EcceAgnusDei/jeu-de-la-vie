@@ -9,16 +9,16 @@ class GridManager extends Manager
 {
 	/**
 	 * Permet de Sauvegarder une création dans la base de données
-	 * @param  String $json Version littérale d'un array comportant les coordonnées des carrés noirs
+	 * @param  String $coords Version littérale d'un array comportant les coordonnées des carrés noirs
 	 * @param  Int $id   Id de l'auteur
 	 * @param  String $name Nom de l'oeuvre
 	 * @return Bool       Renvoie true si l'enregistrement s'est bien effectué
 	 */
-	static function save($json, $id, $name)
+	static function save($coords, $id, $name)
 	{
 		$dataBase = self::dbConnect();
-		$request = $dataBase->prepare('INSERT INTO grids(json,author_id, name,grid_date) VALUES (?,?,?, NOW())');
-		$succes = $request->execute(array($json, $id, $name));
+		$request = $dataBase->prepare('INSERT INTO grids(coords,author_id, name,grid_date) VALUES (?,?,?, NOW())');
+		$succes = $request->execute(array($coords, $id, $name));
 
 		return $succes;
 	}
@@ -45,7 +45,7 @@ class GridManager extends Manager
 	static function getGridsByDate()
 	{
 		$dataBase = self::dbConnect();
-		$request = $dataBase->query('SELECT id, name,json, author_id, DATE_FORMAT(grid_date, \'%d/%m/%Y à %Hh%imin\') AS grid_date_fr FROM grids ORDER BY grid_date DESC');
+		$request = $dataBase->query('SELECT id, name,coords, author_id, DATE_FORMAT(grid_date, \'%d/%m/%Y à %Hh%imin\') AS grid_date_fr FROM grids ORDER BY grid_date DESC');
 
 		return $request;
 	}
@@ -57,7 +57,7 @@ class GridManager extends Manager
 	static function getGridsByLikes()
 	{
 		$dataBase = self::dbConnect();
-		$request = $dataBase->query('SELECT id, name,json, author_id, DATE_FORMAT(grid_date, \'%d/%m/%Y à %Hh%imin\') AS grid_date_fr FROM grids ORDER BY likes DESC');
+		$request = $dataBase->query('SELECT id, name,coords, author_id, DATE_FORMAT(grid_date, \'%d/%m/%Y à %Hh%imin\') AS grid_date_fr FROM grids ORDER BY likes DESC');
 
 		return $request;
 	}
@@ -70,7 +70,7 @@ class GridManager extends Manager
 	static function getGridById($id)
 	{
 		$dataBase = self::dbConnect();
-		$request = $dataBase->prepare('SELECT id, name,json, client_visibility, author_id, DATE_FORMAT(grid_date, \'%d/%m/%Y à %Hh%imin\') AS grid_date_fr FROM grids WHERE id = ?');
+		$request = $dataBase->prepare('SELECT id, name,coords, client_visibility, visibility, author_id, DATE_FORMAT(grid_date, \'%d/%m/%Y à %Hh%imin\') AS grid_date_fr FROM grids WHERE id = ?');
 		$request->execute(array($id));
 
 		return $request;
@@ -84,7 +84,7 @@ class GridManager extends Manager
 	static function getGridsByAuthorId($id)
 	{
 		$dataBase = self::dbConnect();
-		$request = $dataBase->prepare('SELECT id, name, json, DATE_FORMAT(grid_date, \'%d/%m/%Y à %Hh%imin\') AS grid_date_fr FROM grids WHERE author_id = ? ORDER BY id DESC');
+		$request = $dataBase->prepare('SELECT id, name, coords, DATE_FORMAT(grid_date, \'%d/%m/%Y à %Hh%imin\') AS grid_date_fr FROM grids WHERE author_id = ? ORDER BY id DESC');
 		$request->execute(array($id));
 
 		return $request;
@@ -138,10 +138,17 @@ class GridManager extends Manager
 	 * Rend la création invisible pour le dashbord de l'administrateur
 	 * @param  Int $id Id de la création
 	 */
-	static function invisible($id)
+	static function setInvisible($id)
 	{
 		$dataBase = self::dbConnect();
 		$request = $dataBase->prepare('UPDATE grids SET visibility = 0 WHERE id = ?');
+		$request->execute(array($id));
+	}
+
+	static function setVisible($id)
+	{
+		$dataBase = self::dbConnect();
+		$request = $dataBase->prepare('UPDATE grids SET visibility = 1 WHERE id = ?');
 		$request->execute(array($id));
 	}
 

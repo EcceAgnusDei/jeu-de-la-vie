@@ -9,6 +9,10 @@ ul {
 button {
   font-family: 'Cabin', sans-serif; }
 
+p {
+  text-align: justify;
+  text-justify: auto; }
+
 body {
   margin: 0;
   font-size: 1.5em;
@@ -37,7 +41,7 @@ label {
   align-items: center;
   color: #23cb1a; }
 
-input {
+input, textarea {
   border: #ff680a 1px solid;
   border-radius: 3px;
   font-size: 0.8em; }
@@ -58,7 +62,7 @@ strong {
   color: #23cb1a;
   font-size: 1.2em; }
 
-.current_page {
+.currentPage {
   color: #1b9e14 !important; }
 
 .blue {
@@ -100,7 +104,8 @@ strong {
   color: #23cb1a;
   background-color: transparent;
   font-size: 0.9em;
-  margin: 0; }
+  margin: 0;
+  text-transform: capitalize; }
   .menu-btn:hover, .nav-btn:hover, .artwork-btn:hover, .like-btn:hover, .burger-btn:hover, .footer-container button:hover {
     color: #1b9e14;
     background-color: transparent; }
@@ -238,14 +243,16 @@ strong {
       width: 100%; } }
 
 .comment {
-  margin: 30px auto;
+  margin: 30px;
   padding: 10px;
   border-radius: 3px;
   border: 2px #ff680a solid; }
 
 .comment-container {
   width: 50%;
-  margin: auto; }
+  margin: auto;
+  display: flex;
+  flex-direction: column; }
   @media (max-width: 940px) {
     .comment-container {
       width: 90%; } }
@@ -257,6 +264,7 @@ strong {
 
 .comment-form {
   width: 100%;
+  min-width: 310px;
   display: flex;
   flex-direction: column; }
   .comment-form button {
@@ -265,7 +273,8 @@ strong {
   .comment-form textarea {
     border: #ff680a 2px solid;
     background-color: rgba(35, 203, 26, 0.3);
-    font-size: 1em; }
+    font-size: 1em;
+    resize: none; }
 
 .like-container {
   display: flex; }
@@ -351,15 +360,28 @@ strong {
 .grid-miniature {
   margin-bottom: 12px; }
 
-.signin-form {
+.signin-form, .contact-form {
   width: 300px;
   height: 300px;
   margin: 33px auto;
   display: flex;
   flex-direction: column;
   justify-content: space-between; }
-  .signin-form input {
+  .signin-form input, .contact-form input {
     width: 90%; }
+
+.contact-form {
+  width: 50%; }
+  .contact-form textarea {
+    height: 200px;
+    font-size: 1.1em;
+    resize: none; }
+  .contact-form .btn, .contact-form .menu-btn, .contact-form .nav-btn, .contact-form .artwork-btn, .contact-form .like-btn, .contact-form .burger-btn, .contact-form .footer-container button, .footer-container .contact-form button, .contact-form .command-btn, .contact-form .comment-form button, .comment-form .contact-form button, .contact-form .danger-btn {
+    align-self: center;
+    font-size: 1em; }
+  @media (max-width: 940px) {
+    .contact-form {
+      width: 80%; } }
 
 .signin-error_message {
   color: #ff680a;
@@ -432,7 +454,8 @@ strong {
   .footer-container .bottom {
     width: 100%;
     display: flex;
-    justify-content: space-between; }
+    justify-content: space-between;
+    flex-wrap: wrap; }
   .footer-container button {
     font-weight: 400;
     color: #ff680a;
@@ -442,6 +465,9 @@ strong {
   @media (max-width: 570px) {
     .footer-container {
       margin: 0; } }
+
+#game-grid {
+  flex-shrink: 0; }
 
 header {
   display: flex;

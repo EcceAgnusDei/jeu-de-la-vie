@@ -22,12 +22,12 @@ function Home(props) {
 			<p>
 				Ce site est dédié aux curieux avides de satisfaire leur esprit ingénieux et 
 				créatifs en concevant des automates cellulaires de <strong><a target="_blank" href="https://fr.wikipedia.org/wiki/Jeu_de_la_vie">John Conway</a></strong>
-				. Pour cela rien de plus simple, il vous suffit de cliquer sur <span tabIndex="0" className="link" onClick={() => props.handleNav('Jouer')}>
+				. Pour cela rien de plus simple, il vous suffit de cliquer sur <span tabIndex="0" className="link" onClick={() => props.history.push('/jouer')}>
 				Jouer</span> !
 			</p>
 			<h2>Inscrivez-vous pour pouvoir sauvegarder vos chefs-d'oeuvre.</h2>
 			<p>Vous pourrez également partager vos créations avec les autres utilisateurs, les commenter et les liker !</p>
-			<p>Vous trouverez même un classement des créations les plus appréciées dans la rubrique <span tabIndex="0" className="link" onClick={() => props.handleNav('Créations')}>
+			<p>Vous trouverez même un classement des créations les plus appréciées dans la rubrique <span tabIndex="0" className="link" onClick={() => props.history.push('/creations')}>
 			Les créations</span>. Il ne vous reste plus qu'à redoubler d'ingéniosité pour créer la population de cellules la plus ludique.</p>
 			<h2>Comment cela fonctionne ?</h2>
 			<div className="show_steps">

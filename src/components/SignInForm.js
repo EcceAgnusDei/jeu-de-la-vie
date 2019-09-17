@@ -1,6 +1,11 @@
 import React, { Component, useEffect, useState, useRef } from 'react';
+import { withRouter } from 'react-router-dom';
+import { connect } from 'react-redux';
+
+import LOGIN from '../actions/types';
 import apiPath from '../apiPath';
 import useInput from '../hooks/useInput';
+import { login } from '../actions/userActions';
 
 function SignInForm(props) {
 	console.log('rendering form')
@@ -18,7 +23,9 @@ function SignInForm(props) {
 	useEffect(() => {
 		fetch(`${apiPath}getLogins.php`)
 			.then(response => response.json())
-			.then(json => {loginsRef.current = json})
+			.then(json => {
+				loginsRef.current = json.map(item => item.toUpperCase());
+			})
 	}, []);
 
 	function handleSubmit(event) {
@@ -33,10 +40,10 @@ function SignInForm(props) {
 				.then(response => response.json())
 				.then(json => {
 					if(json === true) {
-						props.log(login, password);
-						props.handleNav('Accueil');
+						props.login(login, password);
+						props.history.push('/');
 					} else {
-						alert('erreur');
+						alert('Une erreur est survenue');
 					}
 				})
 		}
@@ -47,9 +54,8 @@ function SignInForm(props) {
 		switch (name)
 		{
 			case 'login':
-				console.log("Changin login")
 				bindLogin.onChange(event);
-				loginsRef.current.indexOf(value) === -1 ?
+				loginsRef.current.indexOf(value.toUpperCase()) === -1 ?
 				setLoginState(true) :
 				setLoginState(false);
 				break;
@@ -124,4 +130,16 @@ function SignInForm(props) {
 	);
 }
 
-export default SignInForm
+const mapDispatchToProps = (dispatch) => {
+	return {
+		login: (pseudo, password) => dispatch(login(pseudo, password))
+	}
+}
+
+const mapStateToProps = (state) => {
+	return {
+		userId: state.user
+	}
+}
+
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(SignInForm));

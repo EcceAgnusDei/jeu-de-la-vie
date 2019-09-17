@@ -28,6 +28,12 @@ button
 	font-family: 'Cabin', sans-serif;
 }
 
+p
+{
+	text-align: justify;
+	text-justify: auto;
+}
+
 body
 {
 	margin: 0;
@@ -68,7 +74,7 @@ label
 	color: $primary;
 }
 
-input
+input, textarea
 {
 	border: $danger 1px solid;
 	border-radius: 3px;
@@ -102,7 +108,7 @@ strong
 	font-size: 1.2em;
 }
 
-.current_page
+.currentPage
 {
 	color: darken($primary, 10) !important;
 }
