@@ -11,7 +11,8 @@ import GolCanvas from '../GolCanvas';
 import apiPath from '../apiPath';
 
 function Play(props) {
-	console.log('Rendering play')
+	document.title = "Jouez au jeu de la vie";
+
 	const [likes, setLikes] = useState(0);
 	const [likers, setLikers] = useState([]);
 	const [artwork, setArtwork] = useState({});

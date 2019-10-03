@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import ContactForm from './ContactForm';
 
 function Contact(props) {
+	document.title = "Me contacter";
 	if (!props.userId)
 	{
 		throw new Error(`Vous ne pouvez pas accéder à cette page`);

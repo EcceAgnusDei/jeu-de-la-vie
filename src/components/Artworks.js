@@ -55,6 +55,7 @@ const reducer = (state, action) => {
 }
 
 function Artworks(props) {
+	document.title = props.userSpace ? "Votre espace" : "Les créations";
 
 	const elementPerPage = 8;
 	const menu = ['Les dernières création', 'Les plus populaires'];

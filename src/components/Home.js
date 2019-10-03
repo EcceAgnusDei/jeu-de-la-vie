@@ -1,8 +1,10 @@
-import React, { useEffect } from 'react'
+import React, { useEffect } from 'react';
+
 import step1 from '../img/step1.png'
 import step2 from '../img/step2.png'
 
 function Home(props) {
+	document.title = "Le site du jeu de la vie";
 
 	useEffect(() => {
 		const arrow = document.getElementById('show_steps-arrow');

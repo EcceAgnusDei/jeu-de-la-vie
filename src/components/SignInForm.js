@@ -8,7 +8,7 @@ import useInput from '../hooks/useInput';
 import { login } from '../actions/userActions';
 
 function SignInForm(props) {
-	console.log('rendering form')
+	document.title = "Vous inscrire"
 	const loginsRef = useRef([]);
 
 	const [loginState, setLoginState] = useState(false);

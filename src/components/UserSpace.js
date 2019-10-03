@@ -9,7 +9,7 @@ import Home from './Home';
 import { LOGOUT } from '../actions/types'
 
 function UserSpace(props) {
-
+	document.title = "Votre espace"
 	if (props.userId === 0)
 	{
 		throw new Error('Veuillez vous connecter pour accéder à cette page');

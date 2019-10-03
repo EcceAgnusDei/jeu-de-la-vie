@@ -35,7 +35,6 @@ function Footer(props) {
 				<div className="bottom">
 					<a target="_blank" href="http://mondoloni-dev.fr">&copy; Antoine Mondoloni </a> 
 					<div className="legal">
-						<a target="_blank" href="http://mondoloni-dev.fr/legal/rgpd.html">RGPD </a>
 						<a target="_blank" href="http://mondoloni-dev.fr/legal/legalNotice.html">Mentions légales</a>
 					</div>
 				</div>
